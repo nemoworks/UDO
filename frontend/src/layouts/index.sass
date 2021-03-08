@@ -1,0 +1,36 @@
+#root,.page.container,.ant-layout
+    height: 100%
+    width: 100%
+
+.page.container
+    padding: 15px
+    gap: 7px
+
+#root
+    &>.ant-layout
+        .ant-layout-sider
+            .logo
+                width: 100%
+                background-color: rgba(213, 214, 213, 0.726)
+                height: 40px
+                display: flex
+                align-items: center
+                font-size: 22px
+                padding-left: 19px
+                .text
+                    font-size: 16px
+                    font-family: Forte
+                    margin-left: 8px
+
+            .ant-menu-inline-collapsed
+                width: 100%
+
+        .ant-layout-sider-collapsed
+            .logo
+                justify-content: center
+                padding: 0px
+                .text
+                    display: none
+
+    .anticon:hover
+        filter: drop-shadow(0px 0px 1px rgba(23, 51, 65, 0.438))
