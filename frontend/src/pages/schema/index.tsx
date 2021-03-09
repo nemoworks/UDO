@@ -12,7 +12,7 @@ export default function Page() {
     title: '设备信息',
     properties: {
       DOI: {
-        type: 'string',
+        $ref: '/api/schema/test',
       },
       FirstAuthor: {
         type: 'string',

@@ -14,21 +14,31 @@ const containerMap = {
 }
 
 const parser = {
-  object: schema => {
+  object: async schema => {
     const { properties } = schema
-    Object.keys(properties).forEach(
-      k => (properties[k] = transformer(properties[k])),
+    let result = {}
+    await Promise.all(
+      Object.keys(properties).map(
+        async key => (result[key] = await transformer(properties[key])),
+      ),
     )
+    schema.properties = result
     return schema
   },
-  array: schema => {
-    schema.template = transformer(schema.template)
+  array: async schema => {
+    schema.template = await transformer(schema.template)
     return schema
   },
   default: schema => schema,
 }
 
-function transformer(schema) {
+async function transformer(schema) {
+  if (schema['$ref']) {
+    const response = await fetch(schema['$ref'])
+    const json = await response.json()
+    return transformer(json)
+  }
+
   if (schema['type'] === undefined) return schema
 
   const type = schema['type']
@@ -41,9 +51,5 @@ function transformer(schema) {
     })
   return (parser[type] || parser['default'])(schema)
 }
-
-// export default async function asyncTransformer() {
-//   return {}
-// }
 
 export default transformer
