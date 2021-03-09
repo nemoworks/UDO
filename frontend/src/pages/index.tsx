@@ -1,34 +1,27 @@
-import XForm, { __render__, wrapAsDependency as $ } from '@xform/react'
-import {
-  Info,
-  Input,
-  XObject,
-  XArray,
-} from '@xform/react/dist/transformer/render'
+import XForm, { wrapAsDependency as $ } from '@xform/react'
+import transformer from '@xform/react/dist/transformer/sync'
 import './index.sass'
 
 export default () => {
   return (
     <div className="page home container">
-      {/* <input type="text" className="search" /> */}
-      {/* <div className="slogan">HOME</div> */}
       <XForm
         schema={{
-          [__render__]: [XObject],
+          type: 'object',
           properties: {
             sum: {
-              [__render__]: [Info],
-              data: $((node: any) => {
-                const { inputs } = node.$
-                let sum = 0
-                inputs.items.forEach((item: any) => (sum += Number(item.data)))
-                return sum
-              }),
+              type: 'info',
+              data: $(node =>
+                node.$.values.items.reduce(
+                  (sum, item) => sum + Number(item.data),
+                  0,
+                ),
+              ),
             },
-            inputs: {
-              [__render__]: [XArray],
+            values: {
+              type: 'array',
               template: {
-                [__render__]: [Input],
+                type: 'number',
               },
               items: Array(30)
                 .fill(null)
@@ -38,6 +31,7 @@ export default () => {
             },
           },
         }}
+        transformer={transformer}
       />
     </div>
   )
