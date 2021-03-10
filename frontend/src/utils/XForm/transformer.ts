@@ -1,4 +1,4 @@
-import { __render__, wrapAsDependency as $ } from '@xform/react'
+import { __render__, wrapAsDependency as $ } from '@perish/react-xform'
 import { Info, Input, Card, XObject, XArray, Validator, Label } from './renders'
 import validatorRules from './renders/Validator/parser'
 

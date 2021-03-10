@@ -1,4 +1,4 @@
-import { Factory, __fragment__ } from '@xform/react'
+import { Factory, __fragment__ } from '@perish/react-xform'
 
 function XArray({ schema }) {
   return (schema.items as any[]).map((item, index) =>

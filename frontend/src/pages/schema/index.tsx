@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import XForm from '@xform/react'
+import XForm from '@perish/react-xform'
 import { extractor, transformer } from '@/utils/XForm'
 import { JSONEditor, Card } from '@/components'
 import './index.sass'

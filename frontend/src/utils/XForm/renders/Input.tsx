@@ -1,5 +1,5 @@
 import { Input as Antd_Input } from 'antd'
-import { aggregatedOperation } from '@xform/react'
+import { aggregatedOperation } from '@perish/react-xform'
 
 function Input({ schema }) {
   return (
