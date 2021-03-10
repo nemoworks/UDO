@@ -1,32 +1,19 @@
 package com.udo.demo;
 
 import com.alibaba.fastjson.JSONObject;
-import com.udo.demo.model.Schema;
-import com.udo.demo.service.SchemaService;
-import org.dizitart.no2.Document;
+import com.udo.demo.model.UDOSchema;
+import com.udo.demo.service.UDOSchemaService;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.NitriteCollection;
-import org.dizitart.no2.NitriteId;
-import org.dizitart.no2.internals.NitriteService;
-import org.dizitart.no2.mapper.NitriteMapper;
-import org.dizitart.no2.objects.ObjectFilter;
-import org.dizitart.no2.objects.ObjectRepository;
-import org.dizitart.no2.store.NitriteMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Set;
-
-import static org.dizitart.no2.Document.createDocument;
 import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 
 @Component
 public class MyRunner implements CommandLineRunner {
     @Autowired
-    SchemaService schemaService;
+    UDOSchemaService UDOSchemaService;
     @Override
     public void run(String... args) throws Exception {
         Nitrite db = Nitrite.builder()
@@ -35,9 +22,9 @@ public class MyRunner implements CommandLineRunner {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("speed", "Integer");
         jsonObject.put("temperature", "Double");
-        Schema airPurifier = new Schema("1", jsonObject, "air-purifier");
-        schemaService.insertSchema(airPurifier);
-        Schema example = schemaService.getSchemaRepository()
+        UDOSchema airPurifier = new UDOSchema("1", jsonObject);
+        UDOSchemaService.insertSchema(airPurifier);
+        UDOSchema example = UDOSchemaService.getSchemaRepository()
                 .find(eq("id", "1"))
                 .firstOrDefault();
         System.out.println(example.toString());

@@ -1,35 +1,35 @@
 package com.udo.demo.service;
 
-import com.udo.demo.model.Document;
+import com.udo.demo.model.UDO;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public class DocumentService {
-    private static DocumentService documentService = new DocumentService();
+public class UDOService {
+    private static UDOService UDOService = new UDOService();
     @Autowired
     Nitrite db;
 
     @Autowired
-    ObjectRepository<Document> docRepository;
+    ObjectRepository<UDO> docRepository;
 
-    public ObjectRepository<Document> getDocRepository() {
+    public ObjectRepository<UDO> getDocRepository() {
         return docRepository;
     }
 
-    public static DocumentService getDocumentService() {
-        return documentService;
+    public static UDOService getUDOService() {
+        return UDOService;
     }
 
-    public DocumentService() {
+    public UDOService() {
         db = Nitrite.builder()
                 .openOrCreate();
-        docRepository = db.getRepository(Document.class);
+        docRepository = db.getRepository(UDO.class);
     }
 
-    public void insertDocument(Document doc) {
+    public void insertDocument(UDO doc) {
         docRepository.insert(doc);
     }
 
@@ -37,7 +37,7 @@ public class DocumentService {
         docRepository.remove(filter);
     }
 
-    public void updateDocument(ObjectFilter filter, Document update) {
+    public void updateDocument(ObjectFilter filter, UDO update) {
         docRepository.update(filter, update);
     }
 }
