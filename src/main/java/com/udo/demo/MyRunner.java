@@ -25,18 +25,20 @@ import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 
 @Component
 public class MyRunner implements CommandLineRunner {
+    @Autowired
+    SchemaService schemaService;
     @Override
     public void run(String... args) throws Exception {
         Nitrite db = Nitrite.builder()
                 .openOrCreate();
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Data of Production", "2021-3-9");
-        jsonObject.put("Type", "I2EC-1");
+        jsonObject.put("speed", "Integer");
+        jsonObject.put("temperature", "Double");
         Schema airPurifier = new Schema("1", jsonObject, "air-purifier");
-        SchemaService.getSchemaService().insertSchema(airPurifier);
-        Schema example = SchemaService.getSchemaService().getSchemaRepository()
-                .find(eq("Type", "I2EC-1"))
+        schemaService.insertSchema(airPurifier);
+        Schema example = schemaService.getSchemaRepository()
+                .find(eq("id", "1"))
                 .firstOrDefault();
         System.out.println(example.toString());
 // Create a Nitrite Collection
