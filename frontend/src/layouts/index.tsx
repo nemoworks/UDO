@@ -15,8 +15,8 @@ export default function DefaultLayout({ children }: any) {
         collapsible
         trigger={null}
         collapsed={collapse}
-        width="170px"
-        collapsedWidth="50px"
+        width="140px"
+        collapsedWidth="40px"
       >
         <div className="logo" onClick={() => setCollapse(!collapse)}>
           <Icon type="iconIoT" />

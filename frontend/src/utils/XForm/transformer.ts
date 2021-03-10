@@ -1,5 +1,6 @@
 import { __render__, wrapAsDependency as $ } from '@xform/react'
-import { Info, Input, Card, XObject, XArray } from './renders'
+import { Info, Input, Card, XObject, XArray, Validator, Label } from './renders'
+import validatorRules from './renders/Validator/parser'
 
 const defaultRender = {
   object: () => [XObject],
@@ -11,18 +12,15 @@ const defaultRender = {
 
 const containerMap = {
   Card: Card,
+  Validator: Validator,
+  Label: Label,
 }
 
 const parser = {
   object: async schema => {
     const { properties } = schema
-    let result = {}
-    await Promise.all(
-      Object.keys(properties).map(
-        async key => (result[key] = await transformer(properties[key])),
-      ),
-    )
-    schema.properties = result
+    for (const key in properties)
+      properties[key] = await transformer(properties[key])
     return schema
   },
   array: async schema => {
@@ -36,19 +34,42 @@ async function transformer(schema) {
   if (schema['$ref']) {
     const response = await fetch(schema['$ref'])
     const json = await response.json()
-    return transformer(json)
+    const result = Object.assign(json, schema)
+    delete result['$ref']
+    return transformer(result)
   }
 
   if (schema['type'] === undefined) return schema
 
   const type = schema['type']
   schema[__render__] = defaultRender[type]()
+
   if (schema['containers'])
     schema['containers'].forEach((container: any) => {
       if (typeof container === 'string')
         schema[__render__].push(containerMap[container])
-      else schema[__render__].push(container)
+      else
+        schema[__render__].push({
+          ...container,
+          type: containerMap[container.type],
+        })
     })
+  else {
+    if (schema['title'])
+      schema[__render__].push(type === 'object' ? Card : Label)
+
+    const rules = {} as any
+
+    Object.keys(schema).forEach(key => {
+      if (validatorRules[key] !== undefined) rules[key] = schema[key]
+    })
+
+    if (Object.keys(rules).length) {
+      rules.type = Validator
+      schema[__render__].push(rules)
+    }
+  }
+
   return (parser[type] || parser['default'])(schema)
 }
 

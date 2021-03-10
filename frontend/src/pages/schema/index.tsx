@@ -8,21 +8,23 @@ export default function Page() {
   const [formData, setFormData] = useState(null)
   const [schema, setSchema] = useState({
     type: 'object',
-    containers: ['Card'],
     title: '设备信息',
     properties: {
       DOI: {
         $ref: '/api/schema/test',
+        title: 'DOI',
       },
       FirstAuthor: {
         type: 'string',
+        title: '第一作者',
+        'max-length': 5,
       },
     },
   })
 
   return (
     <div className="page schema-new container">
-      <Card title="Yeah" className="editor">
+      <Card title="表单设计" className="editor">
         <JSONEditor
           mode="code"
           json={schema}
@@ -33,14 +35,6 @@ export default function Page() {
       <Card title="表单数据预览" className="preview-formdata">
         <JSONEditor mode="view" json={formData} />
       </Card>
-      {/* <Card title="表单预览" className="preview-form">
-        <XForm
-          schema={schema}
-          onChange={setFormData}
-          transformer={transformer}
-          extractor={extractor}
-        />
-      </Card> */}
       <div className="preview-form">
         <XForm
           schema={schema}

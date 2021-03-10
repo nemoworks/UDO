@@ -4,6 +4,7 @@ import Card from './Card'
 import XArray from './XArray'
 import XObject from './XObject'
 import Validator from './Validator'
+import Label from './Label'
 import './index.sass'
 
-export { Input, Info, Card, XArray, XObject, Validator }
+export { Input, Info, Card, XArray, XObject, Validator, Label }

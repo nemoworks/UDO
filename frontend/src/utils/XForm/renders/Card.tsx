@@ -5,7 +5,7 @@ function Card({ schema, children }) {
     <Antd_Card
       className="xform-component__Card__container"
       size="small"
-      title={schema.title || schema.label}
+      title={schema.title}
     >
       {children}
     </Antd_Card>
