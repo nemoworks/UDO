@@ -12,9 +12,9 @@ public class UDOSchemaService {
 //    private  Nitrite db;
     private ObjectRepository<UDOSchema> schemaRepository;
 
-//    public ObjectRepository<UDOSchema> getSchemaRepository() {
-//        return schemaRepository;
-//    }
+    public ObjectRepository<UDOSchema> getSchemaRepository() {
+        return schemaRepository;
+    }
 
     public UDOSchemaService() {
         schemaRepository = UDOSchemaRepository.getSchemaRepository();
