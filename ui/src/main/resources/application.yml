@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: UDO-ui
+server:
+  port: 7799
