@@ -1,25 +1,23 @@
 import { useState } from 'react'
 import XForm from '@perish/react-xform'
-import { extractor, transformer } from '@/utils/XForm'
 import { JSONEditor, Card } from '@/components'
+import { extractor, transformer } from '@/utils/XForm'
 import './index.sass'
 
 export default function Page() {
   const [formData, setFormData] = useState(null)
   const [schema, setSchema] = useState({
-    type: 'object',
-    title: '设备信息',
-    properties: {
-      DOI: {
-        $ref: '/api/schema/test',
-        title: 'DOI',
-      },
-      FirstAuthor: {
-        type: 'string',
-        title: '第一作者',
-        'max-length': 5,
+    type: 'array',
+    template: {
+      type: 'object',
+      properties: {
+        a: {
+          type: 'string',
+          title: 'item',
+        },
       },
     },
+    items: [{}, {}],
   })
 
   return (

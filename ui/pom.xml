@@ -6,15 +6,7 @@
         <artifactId>project</artifactId>
         <version>0.0.1</version>
     </parent>
-    <artifactId>service</artifactId>
+    <artifactId>ui</artifactId>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

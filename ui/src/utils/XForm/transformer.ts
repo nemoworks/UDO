@@ -1,5 +1,14 @@
 import { __render__, wrapAsDependency as $ } from '@perish/react-xform'
-import { Info, Input, Card, XObject, XArray, Validator, Label } from './renders'
+import {
+  Info,
+  Input,
+  Card,
+  XObject,
+  XArray,
+  Validator,
+  Label,
+  Table,
+} from './renders'
 import validatorRules from './renders/Validator/parser'
 
 const defaultRender = {
@@ -8,6 +17,7 @@ const defaultRender = {
   string: () => [Input],
   number: () => [Input],
   info: () => [Info],
+  none: () => [],
 }
 
 const containerMap = {
@@ -24,7 +34,8 @@ const parser = {
     return schema
   },
   array: async schema => {
-    schema.template = await transformer(schema.template)
+    schema.template = await transformer(schema.template || {})
+    if (schema.mode === 'table') schema[__render__].push(Table)
     return schema
   },
   default: schema => schema,
@@ -42,7 +53,7 @@ async function transformer(schema) {
   if (schema['type'] === undefined) return schema
 
   const type = schema['type']
-  schema[__render__] = defaultRender[type]()
+  schema[__render__] = (defaultRender[type] || defaultRender['none'])()
 
   if (schema['containers'])
     schema['containers'].forEach((container: any) => {

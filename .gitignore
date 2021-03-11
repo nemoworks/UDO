@@ -279,4 +279,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Perish
+target
+
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,vscode,intellij+all,macos,windows,eclipse
