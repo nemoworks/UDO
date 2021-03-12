@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
-    "@perish/react-xform": "^0.0.2",
+    "@perish/react-xform": "^0.0.3",
     "@perish/reactive": "^0.0.2",
     "@umijs/preset-react": "1.x",
     "jsoneditor": "^9.2.0",

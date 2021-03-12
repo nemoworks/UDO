@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import XForm from '@perish/react-xform'
 import { JSONEditor, Card } from '@/components'
-import { extractor, transformer } from '@/utils/XForm'
+import { composer, extractor, transformer } from '@/utils/XForm'
 import './index.sass'
 
 export default function Page() {
@@ -9,15 +9,9 @@ export default function Page() {
   const [schema, setSchema] = useState({
     type: 'array',
     template: {
-      type: 'object',
-      properties: {
-        a: {
-          type: 'string',
-          title: 'item',
-        },
-      },
+      type: 'string',
+      title: 'item',
     },
-    items: [{}, {}],
   })
 
   return (
@@ -36,9 +30,11 @@ export default function Page() {
       <div className="preview-form">
         <XForm
           schema={schema}
-          onChange={setFormData}
+          onChange={console.log}
+          formData={['123', '456']}
           transformer={transformer}
           extractor={extractor}
+          composer={composer}
         />
       </div>
     </div>
