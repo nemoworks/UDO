@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import JE, { JSONEditorOptions } from 'jsoneditor'
 import 'jsoneditor/dist/jsoneditor.css'
 import './index.sass'
@@ -17,6 +17,7 @@ export default function JSONEditor(props: Props) {
   const options = {
     mode: props.mode,
     mainMenuBar: props.hideMenu === undefined || props.hideMenu === false,
+
     onChange: function () {
       try {
         const json = editor.current.get()

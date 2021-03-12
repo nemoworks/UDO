@@ -13,7 +13,7 @@ export default function Page() {
       width: 8,
       height: 15,
     },
-    DeviceList: ['净化器', '小太阳'],
+    DeviceList: ['净化器', 'bilibili', 'alibaba'],
   })
   const [formData, setFormData] = useState(null)
   const [schema, setSchema] = useState({
@@ -52,6 +52,7 @@ export default function Page() {
       },
       DeviceList: {
         type: 'array',
+        mode: 'list',
         template: {
           // type: "link",
           // url: "/schemas",

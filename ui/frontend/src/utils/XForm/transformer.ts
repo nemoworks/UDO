@@ -8,6 +8,8 @@ import {
   Validator,
   Label,
   Table,
+  Options,
+  List,
 } from './renders'
 import validatorRules from './renders/Validator/parser'
 
@@ -35,7 +37,17 @@ const parser = {
   },
   array: async schema => {
     schema.template = await transformer(schema.template || {})
-    if (schema.mode === 'table') schema[__render__].push(Table)
+    schema[__render__].push(Options)
+
+    switch (schema.mode) {
+      case 'table':
+        schema[__render__].push(Table)
+        break
+      case 'list':
+        schema[__render__].push(List)
+        break
+    }
+
     return schema
   },
   default: schema => schema,
