@@ -1,23 +1,23 @@
-package com.udo.demo.service;
+package info.nemoworks.udo.service;
 
-import com.udo.demo.model.UDOSchema;
-import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.stereotype.Service;
 
+import info.nemoworks.udo.model.UDOSchema;
+import info.nemoworks.udo.repository.UDORepository;
+
 @Service
 public class UDOSchemaService {
 
-//    private  Nitrite db;
-    private ObjectRepository<UDOSchema> schemaRepository;
+    // private ObjectRepository<UDOSchema> schemaRepository;
 
-    public ObjectRepository<UDOSchema> getSchemaRepository() {
-        return schemaRepository;
-    }
+    // public ObjectRepository<UDOSchema> getSchemaRepository() {
+    //     return schemaRepository;
+    // }
 
     public UDOSchemaService() {
-        schemaRepository = UDOSchemaRepository.getSchemaRepository();
+        // schemaRepository = UDOSchemaRepository.getSchemaRepository();
     }
 
     public void insertSchema(UDOSchema schema) {

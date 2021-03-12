@@ -1,23 +1,22 @@
-package com.udo.demo.service;
+package info.nemoworks.udo.service;
 
-import com.udo.demo.model.UDO;
-import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectFilter;
 import org.dizitart.no2.objects.ObjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import info.nemoworks.udo.model.UDO;
 
 
 public class UDOService {
 
-    private ObjectRepository<UDO> docRepository;
+    // private ObjectRepository<UDO> docRepository;
 
-    public ObjectRepository<UDO> getDocRepository() {
-        return docRepository;
-    }
+    // public ObjectRepository<UDO> getDocRepository() {
+    //     return docRepository;
+    // }
 
 
     public UDOService() {
-        docRepository = UDORepository.getRepository();
+        // docRepository = UDORepository.getRepository();
     }
 
     public void insertDocument(UDO doc) {
