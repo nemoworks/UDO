@@ -20,14 +20,14 @@ public class UDOService {
     }
 
     public void insertDocument(UDO doc) {
-        docRepository.insert(doc);
+        // docRepository.insert(doc);
     }
 
     public void deleteDocument(ObjectFilter filter) {
-        docRepository.remove(filter);
+        // docRepository.remove(filter);
     }
 
     public void updateDocument(ObjectFilter filter, UDO update) {
-        docRepository.update(filter, update);
+        // docRepository.update(filter, update);
     }
 }
