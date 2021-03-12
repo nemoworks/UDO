@@ -8,25 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class UDOService {
-    private static UDOService UDOService = new UDOService();
-    @Autowired
-    Nitrite db;
 
-    @Autowired
-    ObjectRepository<UDO> docRepository;
+    private ObjectRepository<UDO> docRepository;
 
     public ObjectRepository<UDO> getDocRepository() {
         return docRepository;
     }
 
-    public static UDOService getUDOService() {
-        return UDOService;
-    }
 
     public UDOService() {
-        db = Nitrite.builder()
-                .openOrCreate();
-        docRepository = db.getRepository(UDO.class);
+        docRepository = UDORepository.getRepository();
     }
 
     public void insertDocument(UDO doc) {

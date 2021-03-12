@@ -1,12 +1,22 @@
 package com.udo.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import com.udo.demo.model.UDOSchema;
 import com.udo.demo.service.UDOSchemaService;
+import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.apache.commons.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 
@@ -14,14 +24,18 @@ import static org.dizitart.no2.objects.filters.ObjectFilters.eq;
 public class MyRunner implements CommandLineRunner {
     @Autowired
     UDOSchemaService UDOSchemaService;
+
     @Override
     public void run(String... args) throws Exception {
         Nitrite db = Nitrite.builder()
                 .openOrCreate();
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("speed", "Integer");
-        jsonObject.put("temperature", "Double");
+        String jsonTxt = Resources.toString(Resources.getResource("air_purifier.json"), Charsets.UTF_8);
+        JSONObject jsonObject = JSON.parseObject(jsonTxt);
+//        System.out.println(test);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("speed", "Integer");
+//        jsonObject.put("temperature", "Double");
         UDOSchema airPurifier = new UDOSchema("1", jsonObject);
         UDOSchemaService.insertSchema(airPurifier);
         UDOSchema example = UDOSchemaService.getSchemaRepository()
