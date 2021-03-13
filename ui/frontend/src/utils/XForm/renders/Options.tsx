@@ -1,4 +1,3 @@
-import { Button } from 'antd'
 import { __fragment__, aggregatedOperation as Q } from '@perish/react-xform'
 
 function Options({ schema, children }) {
@@ -7,19 +6,19 @@ function Options({ schema, children }) {
   return children.map((line, index) => {
     const operators = (
       <div className="xform-component__Options__container" key="operator">
-        <Button
+        <button
           className="xform-component__Options__operator"
           onClick={_ => Q(() => items.splice(index + 1, 0, {}))}
         >
           +
-        </Button>
-        <Button
+        </button>
+        <button
           className="xform-component__Options__operator"
           onClick={_ => Q(() => items.splice(index, 1))}
         >
           -
-        </Button>
-        <Button
+        </button>
+        <button
           className="xform-component__Options__operator"
           onClick={_ =>
             Q(() => {
@@ -32,8 +31,8 @@ function Options({ schema, children }) {
           disabled={index === 0}
         >
           ↑
-        </Button>
-        <Button
+        </button>
+        <button
           className="xform-component__Options__operator"
           onClick={_ =>
             Q(() => {
@@ -46,7 +45,7 @@ function Options({ schema, children }) {
           disabled={index + 1 === items.length}
         >
           ↓
-        </Button>
+        </button>
       </div>
     )
     return Array.isArray(line)

@@ -8,6 +8,7 @@ import Validator from './Validator'
 import Label from './Label'
 import Table from './Table'
 import List from './List'
+import Frame from './Frame'
 import './index.sass'
 
 export {
@@ -21,4 +22,5 @@ export {
   Table,
   Options,
   List,
+  Frame,
 }

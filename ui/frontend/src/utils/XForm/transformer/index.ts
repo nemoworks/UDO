@@ -1,4 +1,5 @@
-import { __render__, wrapAsDependency as $ } from '@perish/react-xform'
+import { __render__ } from '@perish/react-xform'
+import validatorRules from '../renders/Validator/parser'
 import {
   Info,
   Input,
@@ -10,8 +11,8 @@ import {
   Table,
   Options,
   List,
-} from './renders'
-import validatorRules from './renders/Validator/parser'
+  Frame,
+} from '../renders'
 
 const defaultRender = {
   object: () => [XObject],
@@ -29,14 +30,17 @@ const containerMap = {
 }
 
 const parser = {
-  object: async schema => {
+  object: async (schema, depth = 0) => {
     const { properties } = schema
     for (const key in properties)
-      properties[key] = await transformer(properties[key])
+      properties[key] = await transformer(properties[key], depth + 1)
+
+    depth === 0 && schema[__render__].push(Card)
+
     return schema
   },
-  array: async schema => {
-    schema.template = await transformer(schema.template || {})
+  array: async (schema, depth = 0) => {
+    schema.template = await transformer(schema.template || {}, depth + 1)
     schema[__render__].push(Options)
 
     switch (schema.mode) {
@@ -48,18 +52,23 @@ const parser = {
         break
     }
 
+    depth === 1 && schema[__render__].push(Frame)
+
     return schema
   },
-  default: schema => schema,
+  default: (schema, depth = 0) => {
+    depth === 1 && schema[__render__].push(Label)
+    return schema
+  },
 }
 
-async function transformer(schema) {
+async function transformer(schema, depth = 0) {
   if (schema['$ref']) {
     const response = await fetch(schema['$ref'])
     const json = await response.json()
     const result = Object.assign(json, schema)
     delete result['$ref']
-    return transformer(result)
+    return transformer(result, depth)
   }
 
   if (schema['type'] === undefined) return schema
@@ -78,9 +87,6 @@ async function transformer(schema) {
         })
     })
   else {
-    if (schema['title'])
-      schema[__render__].push(type === 'object' ? Card : Label)
-
     const rules = {} as any
 
     Object.keys(schema).forEach(key => {
@@ -93,7 +99,7 @@ async function transformer(schema) {
     }
   }
 
-  return (parser[type] || parser['default'])(schema)
+  return (parser[type] || parser['default'])(schema, depth)
 }
 
 export default transformer

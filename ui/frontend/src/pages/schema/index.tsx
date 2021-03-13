@@ -1,70 +1,15 @@
 import { useState } from 'react'
-import XForm from '@perish/react-xform'
+import XForm, { wrapAsDependency as $ } from '@perish/react-xform'
 import { JSONEditor, Card } from '@/components'
+import { initialSchema, initialFormData } from '@/utils/examples/roomNdevice'
 import { composer, extractor, transformer } from '@/utils/XForm'
 import './index.sass'
 
 export default function Page() {
-  const [initialFormData] = useState({
-    Name: '一个房间',
-    Area: 15,
-    Size: {
-      length: 10,
-      width: 8,
-      height: 15,
-    },
-    DeviceList: ['净化器', 'bilibili', 'alibaba'],
-  })
+  // defaultFormData 用于处理 XForm 在 formData 变更机制上的 BUG
+  const [defaultFormData] = useState(initialFormData)
   const [formData, setFormData] = useState(null)
-  const [schema, setSchema] = useState({
-    type: 'object',
-    title: '房间信息',
-    properties: {
-      Name: {
-        type: 'string',
-        title: '房间名',
-        description: '房间名',
-      },
-      Area: {
-        type: 'number',
-        title: '房间面积',
-        description: '房间面积(平方米)',
-      },
-      Size: {
-        type: 'object',
-        properties: {
-          length: {
-            type: 'number',
-            title: '长',
-            description: '长',
-          },
-          width: {
-            type: 'number',
-            title: '宽',
-            description: '宽',
-          },
-          height: {
-            type: 'number',
-            title: '高',
-            description: '高',
-          },
-        },
-      },
-      DeviceList: {
-        type: 'array',
-        mode: 'list',
-        template: {
-          // type: "link",
-          // url: "/schemas",
-          // params: {
-          //     kind: "device",
-          // },
-          type: 'string',
-          title: 'Device',
-        },
-      },
-    },
-  })
+  const [schema, setSchema] = useState(initialSchema)
 
   return (
     <div className="page schema-new container">
@@ -82,7 +27,7 @@ export default function Page() {
       <div className="preview-form">
         <XForm
           schema={schema}
-          formData={initialFormData}
+          formData={defaultFormData}
           onChange={setFormData}
           transformer={transformer}
           extractor={extractor}
