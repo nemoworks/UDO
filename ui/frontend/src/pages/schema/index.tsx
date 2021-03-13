@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import XForm, { wrapAsDependency as $ } from '@perish/react-xform'
+import XForm from '@perish/react-xform'
 import { JSONEditor, Card } from '@/components'
-import { initialSchema, initialFormData } from '@/utils/examples/roomNdevice'
+import { initialSchema, initialFormData } from '@/utils/examples/link'
 import { composer, extractor, transformer } from '@/utils/XForm'
 import './index.sass'
 

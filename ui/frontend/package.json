@@ -24,6 +24,7 @@
     "@perish/react-xform": "^0.0.3",
     "@perish/reactive": "^0.0.2",
     "@umijs/preset-react": "1.x",
+    "axios": "^0.21.1",
     "jsoneditor": "^9.2.0",
     "umi": "^3.3.9"
   },

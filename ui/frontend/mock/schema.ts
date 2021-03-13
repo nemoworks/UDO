@@ -1,3 +1,21 @@
+const objects = [
+  {
+    id: 'aaaa',
+    schema: '/api/schema/device',
+    content: {
+      Name: '净化器',
+    },
+  },
+
+  {
+    id: 'bbbb',
+    schema: '/api/schema/device',
+    content: {
+      Name: '净化器',
+    },
+  },
+]
+
 export default {
   'GET /api/schema/test': (req, res) =>
     res.send({
@@ -16,8 +34,13 @@ export default {
       },
     }),
 
-  'GET /api/object/': (req, res) =>
-    res.send({
-      Name: '净化器',
-    }),
+  'GET /api/object/*': ({ originalUrl }, res) => {
+    const path = originalUrl.replace(/\/api\/object\//, '')
+
+    res.send(objects.find(o => o.id === path))
+  },
+
+  'GET /api/object': (req, res) => {
+    res.send(objects)
+  },
 }
