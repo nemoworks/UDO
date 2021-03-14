@@ -1,11 +1,9 @@
 package info.nemoworks.udo.service;
 
 import org.dizitart.no2.objects.ObjectFilter;
-import org.dizitart.no2.objects.ObjectRepository;
 import org.springframework.stereotype.Service;
 
 import info.nemoworks.udo.model.UDOSchema;
-import info.nemoworks.udo.repository.UDORepository;
 
 @Service
 public class UDOSchemaService {

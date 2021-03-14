@@ -1,7 +1,6 @@
 package info.nemoworks.udo.service;
 
 import org.dizitart.no2.objects.ObjectFilter;
-import org.dizitart.no2.objects.ObjectRepository;
 
 import info.nemoworks.udo.model.UDO;
 
