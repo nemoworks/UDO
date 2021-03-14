@@ -21,6 +21,12 @@
             <version>3.4.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>info.nemoworks</groupId>
+            <artifactId>udo-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
 
     </dependencies>
 

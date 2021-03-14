@@ -10,13 +10,18 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>restapi</artifactId>
+    <artifactId>udo-rest</artifactId>
 
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>info.nemoworks</groupId>
+            <artifactId>udo-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

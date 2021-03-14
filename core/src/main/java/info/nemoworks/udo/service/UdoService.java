@@ -1,6 +1,6 @@
 package info.nemoworks.udo.service;
 
-import info.nemoworks.udo.model.UDO;
+import info.nemoworks.udo.model.Udo;
 
 
 public class UdoService {
@@ -16,7 +16,7 @@ public class UdoService {
         // docRepository = UDORepository.getRepository();
     }
 
-    public void insertDocument(UDO doc) {
+    public void insertDocument(Udo doc) {
         // docRepository.insert(doc);
     }
 

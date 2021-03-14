@@ -2,9 +2,13 @@ package info.nemoworks.udo.model;
 
 import com.alibaba.fastjson.JSONObject;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+
 @Data
 @AllArgsConstructor
-public class Udo  implements IUdo{
+public class Udo implements IUdo {
 
     private String udoi;
 
@@ -12,16 +16,16 @@ public class Udo  implements IUdo{
 
     private JSONObject content;
 
-    public UDO(UDOI udoi, UDOSchema schema) {
-        this.udoi = udoi;
-        this.schema = schema;
+    @Override
+    public String getUdoi() {
+        return this.udoi;
     }
 
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("udoi", this.getUdoi());
         jsonObject.put("schema", this.getSchema().getUdoi());
-        jsonObject.put("data", data);
+        jsonObject.put("data", content);
         return jsonObject;
     }
 }

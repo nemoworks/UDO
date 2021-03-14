@@ -1,17 +1,17 @@
 package info.nemoworks.udo.repository;
 
-import info.nemoworks.udo.exception.UDOPersistException;
-import info.nemoworks.udo.model.UDO;
-import info.nemoworks.udo.model.UDOSchema;
+import info.nemoworks.udo.exception.UdoPersistException;
+import info.nemoworks.udo.model.Udo;
+import info.nemoworks.udo.model.UdoSchema;
 
 public interface UdoRepository {
 
-    public void saveUDO(UDO udo) throws UDOPersistException;
+    public void saveUdo(Udo udo) throws UdoPersistException;
 
-    public UDO findUDO(String oid);
+    public Udo findUdo(String oid);
 
-    public UDOSchema findSchema(UDO udo);
+    public UdoSchema findSchemaOfUdo(Udo udo);
 
-    public void saveSchema(UDOSchema schema) throws UDOPersistException;
+    public void saveSchema(UdoSchema schema) throws UdoPersistException;
 
 }

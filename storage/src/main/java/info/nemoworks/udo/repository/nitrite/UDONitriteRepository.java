@@ -4,35 +4,35 @@ import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import info.nemoworks.udo.exception.UDOPersistException;
-import info.nemoworks.udo.model.UDO;
-import info.nemoworks.udo.model.UDOSchema;
-import info.nemoworks.udo.repository.UDORepository;
+import info.nemoworks.udo.exception.UdoPersistException;
+import info.nemoworks.udo.model.Udo;
+import info.nemoworks.udo.model.UdoSchema;
+import info.nemoworks.udo.repository.UdoRepository;
 
-public class UDONitriteRepository implements UDORepository {
+public class UDONitriteRepository implements UdoRepository {
 
     @Autowired
     private Nitrite db;
 
     @Override
-    public void saveUDO(UDO udo) throws UDOPersistException {
-        db.getRepository(UDO.class).insert(udo);
+    public void saveUdo(Udo udo) throws UdoPersistException {
+        db.getRepository(Udo.class).insert(udo);
     }
 
     @Override
-    public UDO findUDO(String udoi) {
-        return db.getRepository(UDO.class).find(ObjectFilters.eq("udoi", udoi)).firstOrDefault();
+    public Udo findUdo(String udoi) {
+        return db.getRepository(Udo.class).find(ObjectFilters.eq("udoi", udoi)).firstOrDefault();
     }
 
     @Override
-    public UDOSchema findSchema(UDO udo) {
-        return db.getRepository(UDOSchema.class).find(ObjectFilters.eq("udoi", udo.getSchema().getUdoi()))
+    public void saveSchema(UdoSchema schema) throws UdoPersistException {
+        db.getRepository(UdoSchema.class).insert(schema);
+    }
+
+    @Override
+    public UdoSchema findSchemaOfUdo(Udo udo) {
+        return db.getRepository(UdoSchema.class).find(ObjectFilters.eq("udoi", udo.getSchema().getUdoi()))
                 .firstOrDefault();
-    }
-
-    @Override
-    public void saveSchema(UDOSchema schema) throws UDOPersistException {
-        db.getRepository(UDOSchema.class).insert(schema);
     }
 
 }

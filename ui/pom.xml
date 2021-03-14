@@ -7,7 +7,7 @@
         <version>0.0.1</version>
         <relativePath>..</relativePath>
     </parent>
-    <artifactId>ui</artifactId>
+    <artifactId>udo-ui</artifactId>
 
     <build>
         <plugins>
