@@ -16,25 +16,28 @@ import {
 const defaultRender = {
   object: () => [XObject],
   array: () => [XArray],
-  string: () => [Input],
-  number: () => [Input],
+  string: readOnly => (readOnly ? [Info] : [Input]),
+  number: readOnly => (readOnly ? [Info] : [Input]),
   link: () => [Link],
   info: () => [Info],
   none: () => [],
 }
 
 const parser = {
-  object: async (schema, depth = 0) => {
+  object: async (schema, depth = 0, readOnly = false) => {
     const { properties } = schema
     for (const key in properties)
-      properties[key] = await transformer(properties[key], depth + 1)
+      properties[key] = await transformer(properties[key], depth + 1, readOnly)
 
-    depth === 0 && schema[__render__].push(Card)
-
+    depth === 0 && !readOnly && schema[__render__].push(Card)
     return schema
   },
-  array: async (schema, depth = 0) => {
-    schema.template = await transformer(schema.template || {}, depth + 1)
+  array: async (schema, depth = 0, readOnly = false) => {
+    schema.template = await transformer(
+      schema.template || {},
+      depth + 1,
+      readOnly,
+    )
     schema[__render__].push(Options)
 
     depth === 1 && schema[__render__].push(Frame)
@@ -43,24 +46,23 @@ const parser = {
   },
   default: (schema, depth = 0) => {
     depth === 1 && schema[__render__].push(Label)
-
     return schema
   },
 }
 
-async function transformer(schema, depth = 0) {
+async function transformer(schema, depth = 0, readOnly = false) {
   if (schema['$ref']) {
     const response = await fetch(schema['$ref'])
     const json = await response.json()
     const result = Object.assign(json, schema)
     delete result['$ref']
-    return transformer(result, depth)
+    return transformer(result, depth, readOnly)
   }
 
   if (schema['type'] === undefined) return schema
 
   const type = schema['type']
-  schema[__render__] = (defaultRender[type] || defaultRender['none'])()
+  schema[__render__] = (defaultRender[type] || defaultRender['none'])(readOnly)
 
   const rules = {} as any
 
@@ -73,7 +75,7 @@ async function transformer(schema, depth = 0) {
     schema[__render__].push(rules)
   }
 
-  return (parser[type] || parser['default'])(schema, depth)
+  return (parser[type] || parser['default'])(schema, depth, readOnly)
 }
 
 export default transformer

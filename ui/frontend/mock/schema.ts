@@ -11,7 +11,7 @@ const objects = [
     id: 'bbbb',
     schema: '/api/schema/device',
     content: {
-      Name: '净化器',
+      Name: '小太阳',
     },
   },
 ]

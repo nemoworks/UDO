@@ -10,28 +10,26 @@ import axios from 'axios'
 export default function Link({ schema }) {
   const [options, setOptions] = useState([])
   const [subSchema, setSubSchema] = useState({ [__render__]: [] } as any)
-
-  function renderSubForm(url, uid) {
-    axios
-      .get(url + '/' + uid)
-      .then(({ data: { schema: schemaUrl, content } }) =>
-        axios.get(schemaUrl).then(({ data: initialSchema }) =>
-          transformer(initialSchema)
-            .then(s => composer(s, content))
-            .then(setSubSchema),
-        ),
-      )
-  }
+  const { url, uid } = schema
 
   useEffect(() => {
-    const { url, uid } = schema
-
     fetch(url)
       .then(res => res.json())
       .then(setOptions)
+  }, [url])
 
-    uid && renderSubForm(url, uid)
-  }, [])
+  useEffect(() => {
+    uid &&
+      axios
+        .get(url + '/' + uid)
+        .then(({ data: { schema: schemaUrl, content } }) =>
+          axios.get(schemaUrl).then(({ data: initialSchema }) =>
+            transformer(initialSchema, 0, true)
+              .then(s => composer(s, content))
+              .then(setSubSchema),
+          ),
+        )
+  }, [url, uid])
 
   return schema.uid === undefined ? (
     <select
@@ -41,6 +39,7 @@ export default function Link({ schema }) {
         })
       }
     >
+      <option>Empty</option>
       {options.map((o: any) => (
         <option value={o.id} key={o.id}>
           {o.id}
