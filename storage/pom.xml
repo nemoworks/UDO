@@ -10,14 +10,18 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>restapi</artifactId>
+    <artifactId>udo-storage</artifactId>
 
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.dizitart/nitrite -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.dizitart</groupId>
+            <artifactId>nitrite</artifactId>
+            <version>3.4.3</version>
         </dependency>
+
+
     </dependencies>
 
 </project>
