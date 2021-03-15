@@ -15,7 +15,8 @@ const parser = {
 }
 
 export default function extractor(schema) {
-  if (schema['type'] === undefined) return schema
-  const type = schema['type']
-  return (parser[type] || parser['default'])(schema)
+  const { type } = schema
+  return type === undefined
+    ? schema
+    : (parser[type] || parser['default'])(schema)
 }

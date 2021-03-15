@@ -1,18 +1,14 @@
 import { combine } from '../utils'
 
 const parserMap = {
-  object: (schema, formData) => {
-    const { properties } = schema
-
+  object: ({ properties }, formData) =>
     Object.keys(formData).forEach(key => {
       composer(properties[key], formData[key])
-    })
-  },
+    }),
   array: (schema, formData = []) =>
     (schema.items = formData.map(data => {
       const auxiliary = {}
-      const combination = combine(schema.template, auxiliary)
-      composer(combination, data)
+      composer(combine(schema.template, auxiliary), data)
       return auxiliary
     })),
   link: (schema, formData) => (schema['uid'] = formData),
