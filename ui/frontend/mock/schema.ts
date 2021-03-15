@@ -1,9 +1,25 @@
+const schema = {
+  type: 'object',
+  title: '设备信息',
+  properties: {
+    Name: {
+      type: 'string',
+      title: '产品名称',
+    },
+    Brand: {
+      type: 'string',
+      title: '品牌',
+    },
+  },
+}
+
 const objects = [
   {
     id: 'aaaa',
     schema: '/api/schema/device',
     content: {
       Name: '净化器',
+      Brand: '小米',
     },
   },
 
@@ -12,6 +28,7 @@ const objects = [
     schema: '/api/schema/device',
     content: {
       Name: '小太阳',
+      Brand: '美的',
     },
   },
 ]
@@ -22,22 +39,12 @@ export default {
       type: 'string',
     }),
 
-  'GET /api/schema/device': (req, res) =>
-    res.send({
-      type: 'object',
-      title: '设备信息',
-      properties: {
-        Name: {
-          type: 'string',
-          title: '产品名称',
-        },
-      },
-    }),
+  'GET /api/schema/device': (req, res) => res.send(schema),
 
   'GET /api/object/*': ({ originalUrl }, res) => {
-    const path = originalUrl.replace(/\/api\/object\//, '')
-
-    res.send(objects.find(o => o.id === path))
+    res.send(
+      objects.find(o => o.id === originalUrl.replace(/\/api\/object\//, '')),
+    )
   },
 
   'GET /api/object': (req, res) => {

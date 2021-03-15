@@ -21,10 +21,6 @@ const initialSchema = {
         title: '设备描述',
       },
     },
-
-    // type: 'link',
-    // title: '设备',
-    // url: '/api/object',
   },
 }
 

@@ -1,4 +1,4 @@
-import { combine } from '@perish/react-xform'
+import { combine } from '../utils'
 
 const parser = {
   object: schema => {

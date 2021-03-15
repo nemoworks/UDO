@@ -1,4 +1,4 @@
-import { combine } from '@perish/react-xform'
+import { combine } from '../utils'
 
 const parserMap = {
   object: (schema, formData) => {
@@ -7,8 +7,6 @@ const parserMap = {
     Object.keys(formData).forEach(key => {
       composer(properties[key], formData[key])
     })
-
-    // return schema
   },
   array: (schema, formData = []) =>
     (schema.items = formData.map(data => {

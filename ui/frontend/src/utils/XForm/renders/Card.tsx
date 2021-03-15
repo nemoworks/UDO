@@ -1,8 +1,8 @@
 function Card({ schema, children }) {
   return (
-    <div className="xform-component__Card__container">
-      <div className="xform-component__Card__title">{schema.title}</div>
-      <div className="xform-component__Card__content">{children}</div>
+    <div className="Card container">
+      <div className="title">{schema.title}</div>
+      <div className="content">{children}</div>
     </div>
   )
 }
