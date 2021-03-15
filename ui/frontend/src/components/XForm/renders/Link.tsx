@@ -4,7 +4,7 @@ import {
   Factory,
   __render__,
 } from '@perish/react-xform'
-import { transformer, composer } from '@/utils/XForm'
+import { transformer, composer } from '@/components/XForm'
 import axios from 'axios'
 
 export default function Link({ schema }) {

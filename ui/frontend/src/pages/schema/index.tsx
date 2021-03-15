@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import XForm from '@perish/react-xform'
 import { JSONEditor, Card } from '@/components'
-import { initialSchema, initialFormData } from '@/utils/examples/link'
-import { composer, extractor, transformer } from '@/utils/XForm'
+import {
+  initialSchema,
+  initialFormData,
+} from '@/components/XForm/examples/link'
+import { composer, extractor, transformer } from '@/components/XForm'
 import './index.sass'
 
 export default function Page() {

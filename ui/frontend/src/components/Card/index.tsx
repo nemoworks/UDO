@@ -13,13 +13,10 @@ export default function Card({
   className = '',
   options = null,
 }: Props) {
-  const Title = title && <div className="title">{title}</div>
-  const Options = title && options && <div className="options">{options}</div>
-
   return (
     <div className={'card ' + className}>
-      {Title}
-      {Options}
+      {title && <div className="title">{title}</div>}
+      {options && <div className="options">{options}</div>}
       <div className="body">{children}</div>
     </div>
   )
