@@ -7,15 +7,8 @@
         <version>0.0.1</version>
         <relativePath>..</relativePath>
     </parent>
-    <artifactId>udo-ui</artifactId>
+    <artifactId>udo-core</artifactId>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>
