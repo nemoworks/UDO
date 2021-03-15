@@ -1,24 +1,18 @@
-const initialFormData = [{ a: { aa: 'aaaa' }, b: '一个简单的设备' }]
+const initialFormData = []
 
 const initialSchema = {
   type: 'array',
+  title: 'Link 类型三维数组',
   template: {
-    type: 'object',
-    title: 'Link 类型测试',
-    properties: {
-      a: {
-        type: 'object',
-        properties: {
-          aa: {
-            type: 'link',
-            title: '设备',
-            url: '/api/object',
-          },
-        },
-      },
-      b: {
-        type: 'string',
-        title: '设备描述',
+    type: 'array',
+    title: 'Link 类型二维数组',
+    template: {
+      type: 'array',
+      title: 'Link 类型一维数组',
+      template: {
+        type: 'link',
+        title: '设备',
+        url: '/api/object',
       },
     },
   },

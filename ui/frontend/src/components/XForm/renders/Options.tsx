@@ -1,36 +1,28 @@
 import { __fragment__, aggregatedOperation as Q } from '@perish/react-xform'
 
-function Options({ schema, children }) {
+function Options({ schema, children, index }) {
   const { items } = schema
 
   return children.length === 0 ? (
     <button
       onClick={() =>
         Q(() => {
+          if (schema.items === undefined) schema.items = []
           schema.items.push({})
         })
       }
     >
-      new
+      {schema.title}初始化子项
     </button>
   ) : (
     children.map((line, index) => {
       const operators = (
-        <div className="xform-component__Options__container" key="operator">
-          <button
-            className="xform-component__Options__operator"
-            onClick={_ => Q(() => items.splice(index + 1, 0, {}))}
-          >
+        <div className={'Options container ' + index} key="operator">
+          <button onClick={_ => Q(() => items.splice(index + 1, 0, {}))}>
             +
           </button>
+          <button onClick={_ => Q(() => items.splice(index, 1))}>-</button>
           <button
-            className="xform-component__Options__operator"
-            onClick={_ => Q(() => items.splice(index, 1))}
-          >
-            -
-          </button>
-          <button
-            className="xform-component__Options__operator"
             onClick={_ =>
               Q(() => {
                 ;[items[index], items[index - 1]] = [
@@ -44,7 +36,6 @@ function Options({ schema, children }) {
             ↑
           </button>
           <button
-            className="xform-component__Options__operator"
             onClick={_ =>
               Q(() => {
                 ;[items[index], items[index + 1]] = [
