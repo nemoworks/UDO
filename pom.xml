@@ -19,6 +19,7 @@
         <module>restapi</module>
         <module>storage</module>
         <module>ui</module>
+        <module>service</module>
     </modules>
 
     <description>Universal Digital Object</description>

@@ -1,8 +1,7 @@
-package info.nemoworks.udo.service;
-
 import org.springframework.stereotype.Service;
 
 import info.nemoworks.udo.model.UdoSchema;
+import info.nemoworks.udo.repository.nitrite.UDONitriteRepository;
 
 @Service
 public class UdoSchemaService {

@@ -1,7 +1,4 @@
-package info.nemoworks.udo.service;
-
 import info.nemoworks.udo.model.Udo;
-
 
 public class UdoService {
 
