@@ -1,3 +1,4 @@
+import info.nemoworks.udo.exception.UdoPersistException;
 import org.springframework.stereotype.Service;
 
 import info.nemoworks.udo.model.UdoSchema;
@@ -12,12 +13,20 @@ public class UdoSchemaService {
     // return schemaRepository;
     // }
 
+    private UDONitriteRepository udoNitriteRepository;
+
     public UdoSchemaService() {
         // schemaRepository = UDOSchemaRepository.getSchemaRepository();
+        udoNitriteRepository = new UDONitriteRepository();
     }
 
-    public void insertSchema(UdoSchema schema) {
+    public void insertSchema(UdoSchema schema) throws UdoPersistException {
         // schemaRepository.insert(schema);
+        udoNitriteRepository.saveSchema(schema);
+    }
+
+    public UdoSchema findSchemaByI(String udoi) {
+        return udoNitriteRepository.findSchemaByI(udoi);
     }
 
     // // 关于使用ObjectFilter来作为查询条件还需要查文档及测试

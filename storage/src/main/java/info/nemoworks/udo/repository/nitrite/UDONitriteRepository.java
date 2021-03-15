@@ -12,7 +12,10 @@ import info.nemoworks.udo.repository.UdoRepository;
 public class UDONitriteRepository implements UdoRepository {
 
     @Autowired
-    private Nitrite db;
+    private static Nitrite db = Nitrite.builder()
+            .openOrCreate();
+
+
 
     @Override
     public void saveUdo(Udo udo) throws UdoPersistException {
@@ -32,6 +35,11 @@ public class UDONitriteRepository implements UdoRepository {
     @Override
     public UdoSchema findSchemaOfUdo(Udo udo) {
         return db.getRepository(UdoSchema.class).find(ObjectFilters.eq("udoi", udo.getSchema().getUdoi()))
+                .firstOrDefault();
+    }
+
+    public UdoSchema findSchemaByI(String udoi) {
+        return db.getRepository(UdoSchema.class).find(ObjectFilters.eq("udoi", udoi))
                 .firstOrDefault();
     }
 
