@@ -15,8 +15,6 @@ public class UDONitriteRepository implements UdoRepository {
     private static Nitrite db = Nitrite.builder()
             .openOrCreate();
 
-
-
     @Override
     public void saveUdo(Udo udo) throws UdoPersistException {
         db.getRepository(Udo.class).insert(udo);
@@ -38,7 +36,8 @@ public class UDONitriteRepository implements UdoRepository {
                 .firstOrDefault();
     }
 
-    public UdoSchema findSchemaByI(String udoi) {
+    @Override
+    public UdoSchema findSchemaById(String udoi) {
         return db.getRepository(UdoSchema.class).find(ObjectFilters.eq("udoi", udoi))
                 .firstOrDefault();
     }

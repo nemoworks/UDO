@@ -1,3 +1,5 @@
+package info.nemoworks.udo.service;
+
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;

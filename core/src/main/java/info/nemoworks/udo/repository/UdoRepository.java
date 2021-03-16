@@ -3,7 +3,9 @@ package info.nemoworks.udo.repository;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UdoRepository {
 
     public void saveUdo(Udo udo) throws UdoPersistException;
@@ -14,4 +16,5 @@ public interface UdoRepository {
 
     public void saveSchema(UdoSchema schema) throws UdoPersistException;
 
+    public UdoSchema findSchemaById(String udoi);
 }
