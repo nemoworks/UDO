@@ -2,6 +2,8 @@ import { __render__ } from '@perish/react-xform'
 import { reactive } from '@perish/reactive'
 import { reaction2raw } from '@perish/reactive/dist/global'
 
+const __depth__ = Symbol('mark depth of data item')
+
 function isObject(source) {
   return source !== null && typeof source === 'object'
 }
@@ -41,4 +43,4 @@ function combine(source: any, auxiliary: any): any {
   )
 }
 
-export { isObject, combine }
+export { isObject, combine, __depth__ }

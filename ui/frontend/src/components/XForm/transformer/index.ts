@@ -12,8 +12,7 @@ import {
   Options,
   Link,
 } from '../renders'
-
-const __depth__ = Symbol('mark depth of data item')
+import { __depth__ } from '../utils'
 
 const defaultRender = {
   object: () => [XObject],
@@ -39,18 +38,17 @@ const parser = {
       readOnly,
     )
     schema[__render__].push(Options)
-    depth === 1 && schema[__render__].push(Card)
-
+    schema[__render__].push(Card)
     return schema
   },
   default: (schema, depth = 0) => {
-    schema[__depth__] = depth
-    depth === 1 && schema[__render__].push(Label)
+    schema[__render__].push(Label)
     return schema
   },
 }
 
 async function transformer(schema, depth = 0, readOnly = false) {
+  // deal with $ref type
   if (schema['$ref']) {
     const { data } = await axios.get(schema['$ref'])
     const result = Object.assign(data, schema)
@@ -58,11 +56,17 @@ async function transformer(schema, depth = 0, readOnly = false) {
     return transformer(result, depth, readOnly)
   }
 
+  // non-type object
   if (schema['type'] === undefined) return schema
 
+  // default render of target type
   const type = schema['type']
   schema[__render__] = (defaultRender[type] || defaultRender['none'])(readOnly)
 
+  // schema's depth
+  schema[__depth__] = depth
+
+  // schema's validator
   const rules = {} as any
 
   Object.keys(schema).forEach(key => {
@@ -74,6 +78,7 @@ async function transformer(schema, depth = 0, readOnly = false) {
     schema[__render__].push(rules)
   }
 
+  // return
   return (parser[type] || parser['default'])(schema, depth, readOnly)
 }
 

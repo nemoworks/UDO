@@ -5,12 +5,13 @@ import {
   __render__,
 } from '@perish/react-xform'
 import { transformer, composer } from '@/components/XForm'
+import { __depth__ } from '../utils'
 import axios from 'axios'
 
 export default function Link({ schema, index }) {
   const [options, setOptions] = useState([])
   const [subSchema, setSubSchema] = useState({ [__render__]: [] } as any)
-  const { url, uid } = schema
+  const { url, uid, [__depth__]: depth } = schema
 
   useEffect(() => {
     fetch(url)
@@ -24,7 +25,7 @@ export default function Link({ schema, index }) {
         .get(url + '/' + uid)
         .then(({ data: { schema: schemaUrl, content } }) =>
           axios.get(schemaUrl).then(({ data: initialSchema }) =>
-            transformer(initialSchema, 0, true)
+            transformer(initialSchema, depth, true)
               .then(s => composer(s, content))
               .then(setSubSchema),
           ),
@@ -33,13 +34,16 @@ export default function Link({ schema, index }) {
 
   return schema.uid === undefined ? (
     <select
+      className="Link selector"
+      data-index={index}
+      data-depth={depth}
       onChange={e =>
         O(() => {
           schema.uid = e.target.value
         })
       }
     >
-      <option>Empty</option>
+      <option>取消选中</option>
       {options.map((o: any) => (
         <option value={o.id} key={o.id}>
           {o.id}
@@ -47,7 +51,7 @@ export default function Link({ schema, index }) {
       ))}
     </select>
   ) : (
-    <div className={'Link container ' + index}>
+    <div className="Link container" data-index={index} data-depth={depth}>
       <Factory schema={subSchema} />
       <button
         onClick={() =>

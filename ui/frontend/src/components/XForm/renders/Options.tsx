@@ -1,7 +1,8 @@
 import { __fragment__, aggregatedOperation as Q } from '@perish/react-xform'
+import { __depth__ } from '../utils'
 
 function Options({ schema, children, index }) {
-  const { items } = schema
+  const { items, [__depth__]: depth } = schema
 
   return children.length === 0 ? (
     <button
@@ -17,7 +18,12 @@ function Options({ schema, children, index }) {
   ) : (
     children.map((line, index) => {
       const operators = (
-        <div className={'Options container ' + index} key="operator">
+        <div
+          className="Options container"
+          data-index={index}
+          data-depth={depth}
+          key="operator"
+        >
           <button onClick={_ => Q(() => items.splice(index + 1, 0, {}))}>
             +
           </button>

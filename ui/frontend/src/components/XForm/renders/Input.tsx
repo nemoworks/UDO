@@ -1,9 +1,14 @@
 import { aggregatedOperation } from '@perish/react-xform'
+import { __depth__ } from '../utils'
 
-function Input({ schema }) {
+function Input({ schema, index }) {
+  const { [__depth__]: depth } = schema
+
   return (
     <input
-      className="Input"
+      className="Info"
+      data-index={index}
+      data-depth={depth}
       value={schema.data || ''}
       onChange={e =>
         aggregatedOperation(() => {
