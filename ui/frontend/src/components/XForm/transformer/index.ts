@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { __render__ } from '@perish/react-xform'
 import validatorRules from '../renders/Validator/parser'
 import {
@@ -9,7 +10,6 @@ import {
   Validator,
   Label,
   Options,
-  Frame,
   Link,
 } from '../renders'
 
@@ -30,8 +30,6 @@ const parser = {
     const { properties } = schema
     for (const key in properties)
       properties[key] = await transformer(properties[key], depth + 1, readOnly)
-
-    depth === 0 && !readOnly && schema[__render__].push(Card)
     return schema
   },
   array: async (schema, depth = 0, readOnly = false) => {
@@ -41,7 +39,7 @@ const parser = {
       readOnly,
     )
     schema[__render__].push(Options)
-    depth === 1 && schema[__render__].push(Frame)
+    depth === 1 && schema[__render__].push(Card)
 
     return schema
   },
@@ -54,9 +52,8 @@ const parser = {
 
 async function transformer(schema, depth = 0, readOnly = false) {
   if (schema['$ref']) {
-    const response = await fetch(schema['$ref'])
-    const json = await response.json()
-    const result = Object.assign(json, schema)
+    const { data } = await axios.get(schema['$ref'])
+    const result = Object.assign(data, schema)
     delete result['$ref']
     return transformer(result, depth, readOnly)
   }

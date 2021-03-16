@@ -3,7 +3,7 @@ import { aggregatedOperation } from '@perish/react-xform'
 function Input({ schema }) {
   return (
     <input
-      className="xform-component__Input"
+      className="Input"
       value={schema.data || ''}
       onChange={e =>
         aggregatedOperation(() => {

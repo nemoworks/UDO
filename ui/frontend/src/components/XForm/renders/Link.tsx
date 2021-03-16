@@ -7,7 +7,7 @@ import {
 import { transformer, composer } from '@/components/XForm'
 import axios from 'axios'
 
-export default function Link({ schema }) {
+export default function Link({ schema, index }) {
   const [options, setOptions] = useState([])
   const [subSchema, setSubSchema] = useState({ [__render__]: [] } as any)
   const { url, uid } = schema
@@ -47,7 +47,7 @@ export default function Link({ schema }) {
       ))}
     </select>
   ) : (
-    <div>
+    <div className={'Link container ' + index}>
       <Factory schema={subSchema} />
       <button
         onClick={() =>

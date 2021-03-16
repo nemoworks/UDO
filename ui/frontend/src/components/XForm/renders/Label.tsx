@@ -1,10 +1,8 @@
-function Label({ schema, children }) {
+export default function Label({ schema, children, index }) {
   return (
-    <div className="xform-component__Label__container">
-      <div className="xform-component__Label__title">{schema.title}</div>
-      <div className="xform-component__Label__content">{children}</div>
+    <div className={'Label container ' + index}>
+      <div className="title">{schema.title}</div>
+      <div className="content">{children}</div>
     </div>
   )
 }
-
-export default Label
