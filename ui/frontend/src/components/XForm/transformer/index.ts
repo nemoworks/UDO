@@ -13,6 +13,8 @@ import {
   Link,
 } from '../renders'
 
+const __depth__ = Symbol('mark depth of data item')
+
 const defaultRender = {
   object: () => [XObject],
   array: () => [XArray],
@@ -39,12 +41,12 @@ const parser = {
       readOnly,
     )
     schema[__render__].push(Options)
-
     depth === 1 && schema[__render__].push(Frame)
 
     return schema
   },
   default: (schema, depth = 0) => {
+    schema[__depth__] = depth
     depth === 1 && schema[__render__].push(Label)
     return schema
   },
