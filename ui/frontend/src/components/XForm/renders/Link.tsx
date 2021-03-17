@@ -4,6 +4,7 @@ import {
   Factory,
   __render__,
 } from '@perish/react-xform'
+import { Icon } from '@/components'
 import { transformer, composer } from '@/components/XForm'
 import { __depth__ } from '../utils'
 import axios from 'axios'
@@ -43,25 +44,25 @@ export default function Link({ schema, index }) {
         })
       }
     >
-      <option>取消选中</option>
+      <option>--------</option>
       {options.map((o: any) => (
         <option value={o.id} key={o.id}>
-          {o.id}
+          {o.content.Name || o.id}
         </option>
       ))}
     </select>
   ) : (
     <div className="Link container" data-index={index} data-depth={depth}>
       <Factory schema={subSchema} />
-      <button
+      <Icon
+        type="iconclear"
+        className="clear"
         onClick={() =>
           O(() => {
             schema.uid = undefined
           })
         }
-      >
-        clear
-      </button>
+      />
     </div>
   )
 }
