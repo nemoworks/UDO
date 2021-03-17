@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>info.nemoworks</groupId>
-            <artifactId>udo-core</artifactId>
+            <artifactId>udo-service</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

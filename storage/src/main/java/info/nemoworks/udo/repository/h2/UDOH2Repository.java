@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UDOH2Repository extends JpaRepository<Udo, String> {
     Udo findByUdoi(String udoi);
+
     List<Udo> findAll();
+
     void deleteByUdoi(String udoi);
 }
