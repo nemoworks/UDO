@@ -10,6 +10,13 @@ const schema = {
       type: 'string',
       title: '品牌',
     },
+    Operations: {
+      type: 'array',
+      title: '操作记录',
+      template: {
+        type: 'string',
+      },
+    },
   },
 }
 
@@ -20,6 +27,7 @@ const objects = [
     content: {
       Name: '净化器',
       Brand: '小米',
+      Operations: ['write', 'read'],
     },
   },
 
@@ -29,6 +37,7 @@ const objects = [
     content: {
       Name: '小太阳',
       Brand: '美的',
+      Operations: ['switch on', 'switch off'],
     },
   },
 ]

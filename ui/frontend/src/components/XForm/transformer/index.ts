@@ -11,6 +11,7 @@ import {
   Label,
   Options,
   Link,
+  List,
 } from '../renders'
 import { __depth__ } from '../utils'
 
@@ -37,12 +38,13 @@ const parser = {
       depth + 1,
       readOnly,
     )
-    schema[__render__].push(Options)
+    !readOnly && schema[__render__].push(Options)
+    schema[__render__].push(List)
     schema[__render__].push(Card)
     return schema
   },
-  default: (schema, depth = 0) => {
-    schema[__render__].push(Label)
+  default: schema => {
+    schema.title && schema[__render__].push(Label)
     return schema
   },
 }
