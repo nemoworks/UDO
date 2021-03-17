@@ -40,6 +40,24 @@ const objects = [
       Operations: ['switch on', 'switch off'],
     },
   },
+  {
+    id: 'cccc',
+    schema: '/api/schema/device',
+    content: {
+      Name: 'iPhone 12 Pro Max',
+      Brand: 'Apple',
+      Operations: [],
+    },
+  },
+  {
+    id: 'dddd',
+    schema: '/api/schema/device',
+    content: {
+      Name: '台灯',
+      Brand: '小米',
+      Operations: ['turn red', 'turn green'],
+    },
+  },
 ]
 
 export default {

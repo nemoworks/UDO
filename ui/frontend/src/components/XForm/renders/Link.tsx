@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import {
   aggregatedOperation as O,
   Factory,
@@ -7,9 +8,9 @@ import {
 import { Icon } from '@/components'
 import { transformer, composer } from '@/components/XForm'
 import { __depth__ } from '../utils'
-import axios from 'axios'
+import HOC from './HOC'
 
-export default function Link({ schema, index }) {
+function Link({ schema }) {
   const [options, setOptions] = useState([])
   const [subSchema, setSubSchema] = useState({ [__render__]: [] } as any)
   const { url, uid, [__depth__]: depth } = schema
@@ -36,8 +37,6 @@ export default function Link({ schema, index }) {
   return schema.uid === undefined ? (
     <select
       className="Link selector"
-      data-index={index}
-      data-depth={depth}
       onChange={e =>
         O(() => {
           schema.uid = e.target.value
@@ -52,7 +51,7 @@ export default function Link({ schema, index }) {
       ))}
     </select>
   ) : (
-    <div className="Link container" data-index={index} data-depth={depth}>
+    <div className="Link container">
       <Factory schema={subSchema} />
       <Icon
         type="iconclear"
@@ -66,3 +65,5 @@ export default function Link({ schema, index }) {
     </div>
   )
 }
+
+export default HOC(Link)

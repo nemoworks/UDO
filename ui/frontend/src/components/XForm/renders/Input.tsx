@@ -1,14 +1,10 @@
 import { aggregatedOperation } from '@perish/react-xform'
-import { __depth__ } from '../utils'
+import HOC from './HOC'
 
-function Input({ schema, index }) {
-  const { [__depth__]: depth } = schema
-
+function Input({ schema }) {
   return (
     <input
-      className="Info"
-      data-index={index}
-      data-depth={depth}
+      className="Input"
       value={schema.data || ''}
       onChange={e =>
         aggregatedOperation(() => {
@@ -19,4 +15,4 @@ function Input({ schema, index }) {
   )
 }
 
-export default Input
+export default HOC(Input)

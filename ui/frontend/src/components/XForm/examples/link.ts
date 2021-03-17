@@ -1,4 +1,4 @@
-const initialFormData = [['aaaa']]
+const initialFormData = []
 
 const initialSchema = {
   type: 'array',
@@ -8,6 +8,7 @@ const initialSchema = {
     title: 'Link 类型一维数组',
     template: {
       type: 'link',
+      title: '设备',
       url: '/api/object',
     },
   },
