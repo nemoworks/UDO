@@ -35,13 +35,16 @@
                 &>.title
                     font-weight: 800
                     font-size: 20px
-                    margin-bottom: 15px
-                    border-bottom: 2px solid #000000
+                    margin-bottom: 10px
+                    padding-bottom: 5px
+                    border-bottom: 1px solid #000000
 
             &[data-depth="1"]
                 &>.title
                     font-weight: 700
                     font-size: 19px
+                    padding-bottom: 5px
+                    border-bottom: 1px solid #000000
 
             &[data-depth="2"]
                 &>.title
@@ -67,8 +70,10 @@
 
             &[data-depth="1"]
                 &>.item
-                    margin-top: 5px
-                    border-radius: 5px
+                    margin-top: 8px
+                    border-left: 2px solid #6666662f
+                    &:hover
+                        border-left-color: #666666
 
     .Options.operators
         font-size: 18px
