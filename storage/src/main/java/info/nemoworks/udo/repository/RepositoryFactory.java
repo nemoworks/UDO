@@ -1,7 +1,7 @@
 package info.nemoworks.udo.repository;
 
+import info.nemoworks.udo.repository.h2.impl.MixH2Repository;
 import info.nemoworks.udo.repository.nitrite.NitriteSchemaRepository;
-import info.nemoworks.udo.repository.nitrite.UDONitriteRepository;
 
 public class RepositoryFactory {
 //    static final String Nitrite = "Nitrite";
