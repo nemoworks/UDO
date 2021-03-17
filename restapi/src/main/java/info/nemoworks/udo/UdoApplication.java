@@ -10,4 +10,11 @@ public class UdoApplication {
 		SpringApplication.run(UdoApplication.class, args);
 	}
 
+	@bean
+	public Nitrite nitriteDB(){
+		return  Nitrite.builder().openOrCreate();
+
+	} 
+	
+
 }

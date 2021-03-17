@@ -10,6 +10,7 @@ import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 import java.util.List;
 
+@Repository
 public class NitriteSchemaRepository implements UdoSchemaRepository {
 
     private static final Nitrite db = Nitrite.builder().openOrCreate();

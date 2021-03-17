@@ -9,10 +9,11 @@ import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.UdoRepository;
 
+@Repository
 public class UDONitriteRepository implements UdoRepository {
 
     @Autowired
-    private static Nitrite db = Nitrite.builder().openOrCreate();
+    private static Nitrite db;
 
     @Override
     public void saveUdo(Udo udo) throws UdoPersistException {

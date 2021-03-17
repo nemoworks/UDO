@@ -7,36 +7,23 @@ import info.nemoworks.udo.repository.nitrite.UDONitriteRepository;
 
 public class UdoService {
 
-    // private ObjectRepository<UDO> docRepository;
+    @Autowired
+    private UdoRepository udoRepository; 
 
-    // public ObjectRepository<UDO> getDocRepository() {
-    //     return docRepository;
-    // }
-    private UDONitriteRepository udoNitriteRepository;
-
-    public UdoService() {
-        // docRepository = UDORepository.getRepository();
-        udoNitriteRepository = new UDONitriteRepository();
+    public UdoService(UdoRepository udoRepository) {
+        this.udoRepository = udoRepository;
     }
 
     public void insertDocument(Udo doc) throws UdoPersistException {
-        // docRepository.insert(doc);
-        udoNitriteRepository.saveUdo(doc);
+        udoRepository.saveUdo(doc);
     }
 
     public Udo findDocument(String udoi) {
-        return udoNitriteRepository.findUdo(udoi);
+        return udoRepository.findUdo(udoi);
     }
 
     public UdoSchema findSchemaOfDoc(Udo doc) {
-        return udoNitriteRepository.findSchemaOfUdo(doc);
+        return udoRepository.findSchemaOfUdo(doc);
     }
 
-    // public void deleteDocument(ObjectFilter filter) {
-    //     // docRepository.remove(filter);
-    // }
-
-    // public void updateDocument(ObjectFilter filter, UDO update) {
-    //     // docRepository.update(filter, update);
-    // }
 }

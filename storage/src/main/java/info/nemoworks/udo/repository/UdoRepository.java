@@ -5,7 +5,6 @@ import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface UdoRepository {
 
     public void saveUdo(Udo udo) throws UdoPersistException;
