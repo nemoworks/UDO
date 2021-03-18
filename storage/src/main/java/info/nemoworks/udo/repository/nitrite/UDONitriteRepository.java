@@ -1,6 +1,7 @@
 package info.nemoworks.udo.repository.nitrite;
 
 import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.WriteResult;
 import org.dizitart.no2.objects.filters.ObjectFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,18 +16,14 @@ public class UDONitriteRepository implements UdoRepository {
     private static Nitrite db = Nitrite.builder().openOrCreate();
 
     @Override
-    public void saveUdo(Udo udo) throws UdoPersistException {
+    public Udo saveUdo(Udo udo) throws UdoPersistException {
         db.getRepository(Udo.class).insert(udo);
+        return null;
     }
 
     @Override
     public Udo findUdo(String udoi) {
         return db.getRepository(Udo.class).find(ObjectFilters.eq("udoi", udoi)).firstOrDefault();
-    }
-
-    @Override
-    public void saveSchema(UdoSchema schema) throws UdoPersistException {
-        db.getRepository(UdoSchema.class).insert(schema);
     }
 
     @Override

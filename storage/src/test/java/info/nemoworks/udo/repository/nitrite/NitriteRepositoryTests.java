@@ -29,19 +29,19 @@ public class NitriteRepositoryTests {
     @Test
     public void udoSaveTest() throws IOException, UdoPersistException {
         String f = loadFromFile();
-        System.out.print(f);
         assertNotNull(f);
         JSONObject jsonObject = JSON.parseObject(f);
         UdoSchema room = new UdoSchema("3-15-1", jsonObject);
-        UdoSchemaRepository udoSchemaRepository = repositoryFactory.getRepository(DBType.NitruteRepository);
-        room = udoSchemaRepository.createSchema(room);
-        System.out.println(udoSchemaRepository.findSchema(room.getUdoi()));
+        NitriteSchemaRepository nitriteSchemaRepository = new NitriteSchemaRepository();
+        UdoSchema res = nitriteSchemaRepository.createSchema(room);
+        System.out.println(res.toString());
+//        UdoSchemaRepository udoSchemaRepository = repositoryFactory.getRepository(DBType.NitruteRepository);
+//        System.out.println(udoSchemaRepository.createSchema(room));
+        //System.out.println(udoSchemaRepository.findSchema(room.getUdoi()));
 //        Udo doc = new Udo("3-15-1", room, JSON.parseObject("{content: null}"));
 //        UDONitriteRepository udoNitriteRepository = new UDONitriteRepository();
 //        doc = udoNitriteRepository.saveUdo(doc);
-//
-//        System.out.println(udoNitriteRepository.findUdo());
-
+//        System.out.println("a");
     }
 
 }

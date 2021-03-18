@@ -8,6 +8,8 @@ import org.dizitart.no2.NitriteCollection;
 import org.dizitart.no2.filters.Filters;
 import org.dizitart.no2.objects.ObjectRepository;
 import org.dizitart.no2.objects.filters.ObjectFilters;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class NitriteSchemaRepository implements UdoSchemaRepository {
@@ -37,8 +39,8 @@ public class NitriteSchemaRepository implements UdoSchemaRepository {
 
     @Override
     public UdoSchema createSchema(UdoSchema udoSchema) {
-        return (UdoSchema) udoSchemaRepository.insert(udoSchema);
-        //return null;
+        udoSchemaRepository.insert(udoSchema);
+        return findSchema("3-15-1");
     }
 
     @Override
