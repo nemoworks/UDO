@@ -20,14 +20,14 @@ public class UdoSchemaService {
         this.udoSchemaRepository = udoSchemaRepository;
     }
 
-    public void saveSchema(UdoSchema schema) throws UdoPersistException {
+    public UdoSchema saveSchema(UdoSchema schema) throws UdoPersistException {
         if (findSchemaById(schema.getUdoi()) != null) {
             throw new UdoPersistException("A schema with a same id already exists.");
         }
         if (findSchemaById(schema.getUdoi()).getSchemaName().equals(schema.getSchemaName())) {
             throw new UdoPersistException("A schema with a same name already exists.");
         }
-        udoSchemaRepository.saveSchema(schema);
+        return udoSchemaRepository.saveSchema(schema);
     }
 
     public UdoSchema findSchemaById(String udoi) throws UdoPersistException {
@@ -44,5 +44,18 @@ public class UdoSchemaService {
 
     public UdoSchema findSchemaByUdo(Udo udo) {
         return udoSchemaRepository.findSchemaById(udo.getSchema().getUdoi());
+    }
+
+    public List<UdoSchema> deleteSchemaById(String udoi) {
+        udoSchemaRepository.deleteSchemaById(udoi);
+        return udoSchemaRepository.findAllSchemas();
+    }
+
+    public UdoSchema updateSchema(UdoSchema udoSchema, String udoi) throws UdoPersistException {
+        UdoSchema schema = udoSchemaRepository.updateSchema(udoSchema, udoi);
+        if (schema == null) {
+            throw new UdoPersistException("Udo " + udoi + " does not exist.");
+        }
+        return schema;
     }
 }

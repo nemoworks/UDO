@@ -12,4 +12,6 @@ public interface UdoSchemaRepository {
     UdoSchema saveSchema(UdoSchema udoSchema);
 
     void deleteSchemaById(String udoi);
+
+    UdoSchema updateSchema(UdoSchema udoSchema, String udoi);
 }

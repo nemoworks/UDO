@@ -49,4 +49,10 @@ public class NitriteSchemaRepository implements UdoSchemaRepository {
     public void deleteSchemaById(String udoi) {
         nitriteRepository.remove(ObjectFilters.eq("udoi", udoi));
     }
+
+    @Override
+    public UdoSchema updateSchema(UdoSchema udoSchema, String udoi) {
+        nitriteRepository.update(ObjectFilters.eq("udoi", udoi), udoSchema);
+        return nitriteRepository.find(ObjectFilters.eq("udoi", udoi)).firstOrDefault();
+    }
 }
