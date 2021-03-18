@@ -1,12 +1,15 @@
 package info.nemoworks.udo.repository;
 
-import info.nemoworks.udo.model.UdoSchema;
-
 import java.util.List;
 
+import info.nemoworks.udo.model.UdoSchema;
+
 public interface UdoSchemaRepository {
-    List<UdoSchema> findSchemaList();
-    UdoSchema findSchema(String udoi);
-    UdoSchema createSchema(UdoSchema udoSchema);
-    void deleteSchema(String udoi);
+    List<UdoSchema> findAllSchemas();
+
+    UdoSchema findSchemaById(String udoi);
+
+    UdoSchema saveSchema(UdoSchema udoSchema);
+
+    void deleteSchemaById(String udoi);
 }

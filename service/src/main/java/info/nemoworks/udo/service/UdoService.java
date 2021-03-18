@@ -1,29 +1,26 @@
 package info.nemoworks.udo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.repository.nitrite.UDONitriteRepository;
+import info.nemoworks.udo.repository.UdoRepository;
 
 public class UdoService {
 
     @Autowired
-    private UdoRepository udoRepository; 
+    private UdoRepository udoRepository;
 
     public UdoService(UdoRepository udoRepository) {
         this.udoRepository = udoRepository;
     }
 
-    public void insertDocument(Udo doc) throws UdoPersistException {
+    public void saveUdo(Udo doc) throws UdoPersistException {
         udoRepository.saveUdo(doc);
     }
 
-    public Udo findDocument(String udoi) {
-        return udoRepository.findUdo(udoi);
-    }
-
-    public UdoSchema findSchemaOfDoc(Udo doc) {
-        return udoRepository.findSchemaOfUdo(doc);
+    public Udo findUdo(String udoi) {
+        return udoRepository.findUdoById(udoi);
     }
 
 }

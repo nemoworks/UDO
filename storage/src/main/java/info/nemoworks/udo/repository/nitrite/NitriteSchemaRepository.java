@@ -1,49 +1,52 @@
 package info.nemoworks.udo.repository.nitrite;
 
-import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.repository.UdoSchemaRepository;
-import org.dizitart.no2.FindOptions;
-import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.NitriteCollection;
-import org.dizitart.no2.filters.Filters;
-import org.dizitart.no2.objects.ObjectRepository;
-import org.dizitart.no2.objects.filters.ObjectFilters;
 import java.util.List;
 
-@Repository
+import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.NitriteId;
+import org.dizitart.no2.objects.ObjectRepository;
+import org.dizitart.no2.objects.filters.ObjectFilters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import info.nemoworks.udo.model.UdoSchema;
+import info.nemoworks.udo.repository.UdoSchemaRepository;
+
+@Component
 public class NitriteSchemaRepository implements UdoSchemaRepository {
 
-    private static final Nitrite db = Nitrite.builder().openOrCreate();
+    @Autowired
+    private Nitrite db;
 
-    //private NitriteCollection collection;
+    private ObjectRepository<UdoSchema> nitriteRepository;
 
-    private ObjectRepository<UdoSchema> udoSchemaRepository;
-
-    public NitriteSchemaRepository(){
-        udoSchemaRepository = db.getRepository(UdoSchema.class);
-        //collection = db.getCollection("UdoSchema");
+    public NitriteSchemaRepository(Nitrite db) {
+        this.db = db;
+        nitriteRepository = db.getRepository(UdoSchema.class);
     }
 
-
-    @Override
-    public List<UdoSchema> findSchemaList() {
-        return udoSchemaRepository.find().toList();
-        //return null;
+    public Nitrite getDb() {
+        return this.db;
     }
 
     @Override
-    public UdoSchema findSchema(String udoi) {
-        return udoSchemaRepository.find(ObjectFilters.eq("udoi",udoi)).firstOrDefault();
+    public List<UdoSchema> findAllSchemas() {
+        return nitriteRepository.find().toList();
     }
 
     @Override
-    public UdoSchema createSchema(UdoSchema udoSchema) {
-        return (UdoSchema) udoSchemaRepository.insert(udoSchema);
-        //return null;
+    public UdoSchema findSchemaById(String udoi) {
+        return nitriteRepository.find(ObjectFilters.eq("udoi", udoi)).firstOrDefault();
     }
 
     @Override
-    public void deleteSchema(String udoi) {
-        udoSchemaRepository.remove(ObjectFilters.eq("udoi",udoi));
+    public UdoSchema saveSchema(UdoSchema udoSchema) {
+        NitriteId saved = nitriteRepository.insert(udoSchema).iterator().next();
+        return nitriteRepository.getById(saved);
+    }
+
+    @Override
+    public void deleteSchemaById(String udoi) {
+        nitriteRepository.remove(ObjectFilters.eq("udoi", udoi));
     }
 }

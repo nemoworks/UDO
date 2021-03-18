@@ -1,11 +1,11 @@
 package info.nemoworks.udo.graphql.InputValueDefinitionConstructor;
 
-import graphql.language.InputValueDefinition;
-import graphql.language.TypeName;
-import info.nemoworks.udo.graphql.schemaParser.GraphQLPropertyConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import graphql.language.InputValueDefinition;
+import graphql.language.TypeName;
+import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 
 public class IdInputDefBuilder implements InputValueDefinitionBuilder {
     @Override
