@@ -18,7 +18,6 @@
         <module>core</module>
         <module>restapi</module>
         <module>storage</module>
-        <module>ui</module>
         <module>service</module>
     </modules>
 
@@ -47,5 +46,5 @@
         </dependency>
     </dependencies>
 
-   
+
 </project>
