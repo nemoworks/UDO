@@ -1,6 +1,6 @@
 import {
-  __fragment__,
   aggregatedOperation as Q,
+  __fragment__,
   __render__,
 } from '@perish/react-xform'
 import { Icon } from '@/components'
@@ -13,8 +13,6 @@ function Options({ schema, children, index }) {
     return (
       <button
         className="Options create"
-        data-index={index}
-        data-depth={depth}
         onClick={() =>
           Q(() => {
             if (schema.items === undefined) schema.items = []

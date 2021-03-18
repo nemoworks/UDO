@@ -1,10 +1,8 @@
 import { __depth__ } from '../utils'
+import HOC from './HOC'
 
-export default function Info({ schema, index }) {
-  const { [__depth__]: depth } = schema
-  return (
-    <div className="Info" data-index={index} data-depth={depth}>
-      {schema.data}
-    </div>
-  )
+function Info({ schema }) {
+  return <div className="Info">{schema.data}</div>
 }
+
+export default HOC(Info)

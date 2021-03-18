@@ -1,4 +1,4 @@
-const initialFormData = [['aaaa']]
+const initialFormData = []
 
 const initialSchema = {
   type: 'array',

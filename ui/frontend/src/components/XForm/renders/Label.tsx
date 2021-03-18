@@ -1,14 +1,13 @@
 import { __depth__ } from '../utils'
+import HOC from './HOC'
 
-export default function Label({
-  schema: { title, [__depth__]: depth },
-  children,
-  index,
-}) {
+function Label({ schema: { title }, children }) {
   return (
-    <div className="Label container" data-index={index} data-depth={depth}>
+    <div className="Label container">
       <div className="title">{title}</div>
       <div className="content">{children}</div>
     </div>
   )
 }
+
+export default HOC(Label)
