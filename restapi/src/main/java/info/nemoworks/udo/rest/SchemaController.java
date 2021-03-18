@@ -13,6 +13,7 @@ import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.service.UdoSchemaService;
 
 @RestController
+@RequestMapping("/api/schemas")
 public class SchemaController {
 
     @Autowired
@@ -36,6 +37,7 @@ public class SchemaController {
     public List<UdoSchema> deleteSchema(@PathVariable String udoi) {
         logger.info("now deleting schema " + udoi + "...");
         return schemaService.deleteSchemaById(udoi);
+//        return "null";
     }
 
     @PostMapping("/{udoi}")
