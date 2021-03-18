@@ -8,13 +8,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UdoRepository {
 
-    public void saveUdo(Udo udo) throws UdoPersistException;
+    public Udo saveUdo(Udo udo) throws UdoPersistException;
 
     public Udo findUdo(String oid);
 
     public UdoSchema findSchemaOfUdo(Udo udo);
-
-    public void saveSchema(UdoSchema schema) throws UdoPersistException;
 
     public UdoSchema findSchemaById(String udoi);
 }

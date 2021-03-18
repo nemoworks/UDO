@@ -10,18 +10,14 @@ import java.nio.file.Paths;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.exception.UdoPersistException;
-import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.repository.DBType;
-import info.nemoworks.udo.repository.RepositoryFactory;
-import info.nemoworks.udo.repository.UdoSchemaRepository;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class NitriteRepositoryTests {
 
-    private RepositoryFactory repositoryFactory = new RepositoryFactory();
+   // private RepositoryFactory repositoryFactory = new RepositoryFactory();
     public String loadFromFile() throws IOException {
         return new String(Files.readAllBytes(Paths.get("src/test/resources/room.json")));
     }

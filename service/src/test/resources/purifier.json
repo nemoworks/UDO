@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "air_purifier schema",
+    "name": "air_purifier",
     "properties": {
         "Name": {
             "type": "string",
@@ -33,10 +33,6 @@
         "Guarantee": {
             "type": "number",
             "description": "保修期/月"
-        },
-        "Status": {
-            "type": "bool",
-            "description": "状态(开/关)"
         }
     }
 }

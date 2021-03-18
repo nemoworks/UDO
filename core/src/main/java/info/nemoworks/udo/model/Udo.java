@@ -10,6 +10,11 @@ public class Udo implements IUdo {
 
     private JSONObject content;
 
+    public Udo(String udoi,JSONObject content) {
+        this.udoi = udoi;
+        this.content = content;
+    }
+
     public Udo(String udoi, UdoSchema schema, JSONObject content) {
         this.udoi = udoi;
         this.schema = schema;

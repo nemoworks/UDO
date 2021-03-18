@@ -1,9 +1,8 @@
 package info.nemoworks.udo.service;
 
-import info.nemoworks.udo.repository.DBType;
-import info.nemoworks.udo.repository.RepositoryFactory;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.repository.UdoSchemaRepository;
+import info.nemoworks.udo.repository.nitrite.NitriteSchemaRepository;
 import org.springframework.stereotype.Service;
 
 import info.nemoworks.udo.model.UdoSchema;
@@ -14,10 +13,10 @@ import java.util.List;
 public class UdoSchemaService {
 
     private UdoSchemaRepository udoSchemaRepository;
-    private static final RepositoryFactory repositoryFactory = new RepositoryFactory();
+    //private static final RepositoryFactory repositoryFactory = new RepositoryFactory();
 
-    public UdoSchemaService(DBType dbType) {
-        this.udoSchemaRepository = repositoryFactory.getRepository(dbType);
+    public UdoSchemaService() {
+        this.udoSchemaRepository = new NitriteSchemaRepository();
     }
 
     public void insertSchema(UdoSchema schema) throws UdoPersistException {

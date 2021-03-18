@@ -2,9 +2,10 @@ package info.nemoworks.udo.model;
 
 import com.alibaba.fastjson.JSONObject;
 import org.dizitart.no2.Document;
+import org.dizitart.no2.objects.Id;
 
 public class UdoSchema implements IUdo{
-
+    @Id
     private String udoi;
     private JSONObject schemaContent;
 
@@ -13,9 +14,21 @@ public class UdoSchema implements IUdo{
         this.schemaContent = schemaContent;
     }
 
+    public UdoSchema(JSONObject schemaContent) {
+        this.schemaContent = schemaContent;
+    }
+
     public UdoSchema(Document document) {
         this.udoi = document.get("udoi",String.class);
         this.schemaContent = document.get("schemaContent",JSONObject.class);
+    }
+
+    @Override
+    public String toString() {
+        return "UdoSchema{" +
+                "udoi='" + udoi + '\'' +
+                ", schemaContent=" + schemaContent +
+                '}';
     }
 
     public JSONObject toJson() {
