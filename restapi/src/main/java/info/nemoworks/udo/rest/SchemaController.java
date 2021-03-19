@@ -13,7 +13,7 @@ import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.service.UdoSchemaService;
 
 @RestController
-@RequestMapping("/api/schemas")
+@RequestMapping("/schemas")
 public class SchemaController {
 
     @Autowired
@@ -27,28 +27,33 @@ public class SchemaController {
         return schemaService.findAllSchemas();
     }
 
-    @PostMapping("/new")
-    public UdoSchema createSchema(@RequestBody JSONObject params, @RequestParam String udoi, @RequestParam String name) throws UdoPersistException {
+    @PutMapping("/")
+    public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException {
         logger.info("now saving a new schema...");
-        return schemaService.saveSchema(new UdoSchema(udoi, name, params));
+        String udoi = params.getString("udoi");
+        String name = params.getString("schemaName");
+        JSONObject content = params.getJSONObject("schemaContent");
+        return schemaService.saveSchema(new UdoSchema(udoi, name, content));
     }
 
     @DeleteMapping("/{udoi}")
-    public List<UdoSchema> deleteSchema(@PathVariable String udoi) {
+    public List<UdoSchema> deleteSchema(@PathVariable String udoi) throws UdoPersistException {
         logger.info("now deleting schema " + udoi + "...");
         return schemaService.deleteSchemaById(udoi);
-//        return "null";
     }
 
-    @PostMapping("/{udoi}")
+    @GetMapping("/{udoi}")
     public UdoSchema getSchemaById(@PathVariable String udoi) throws UdoPersistException {
         logger.info("now finding schema by udoi...");
         return schemaService.findSchemaById(udoi);
     }
 
-    @PostMapping("/update")
-    public UdoSchema updateSchema(@RequestBody JSONObject params, @RequestParam String udoi, @RequestParam String name) throws UdoPersistException {
+    @PostMapping("/{udoi}")
+    public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
+//        String udoi = params.getString("udoi");
         logger.info("now updating schema " + udoi + "...");
-        return schemaService.updateSchema(new UdoSchema(udoi, name, params), udoi);
+        String name = params.getString("schemaName");
+        JSONObject content = params.getJSONObject("schemaContent");
+        return schemaService.updateSchema(new UdoSchema(udoi, name, content), udoi);
     }
 }

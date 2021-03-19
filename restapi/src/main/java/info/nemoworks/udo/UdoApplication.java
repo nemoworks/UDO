@@ -43,7 +43,7 @@ public class UdoApplication {
 			f = UdoApplication.loadFromFile("src/main/resources/purifier.json");
 
 			jsonObject = JSON.parseObject(f);
-			schema = new UdoSchema("3-15-1", "room", jsonObject);
+			schema = new UdoSchema("3-15-2", "air", jsonObject);
 
 			schemaRepository.saveSchema(schema);
 
