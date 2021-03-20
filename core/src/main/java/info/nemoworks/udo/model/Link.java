@@ -2,9 +2,11 @@ package info.nemoworks.udo.model;
 
 public class Link {
 
-    public Link(String name, String collectionName, String linkType) {
+    private String name;
+    private String linkType;
+
+    public Link(String name, String linkType) {
         this.name = name;
-        this.collectionName = collectionName;
         this.linkType = linkType;
     }
 
@@ -16,14 +18,6 @@ public class Link {
         this.name = name;
     }
 
-    public String getCollectionName() {
-        return collectionName;
-    }
-
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
-    }
-
     public String getLinkType() {
         return linkType;
     }
@@ -32,7 +26,4 @@ public class Link {
         this.linkType = linkType;
     }
 
-    private String name;
-    private String collectionName;
-    private String linkType;
 }

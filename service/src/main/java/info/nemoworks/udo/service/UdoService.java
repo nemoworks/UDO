@@ -1,48 +1,46 @@
 package info.nemoworks.udo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.repository.nitrite.UDONitriteRepository;
+import info.nemoworks.udo.repository.UdoRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UdoService {
 
-    // private ObjectRepository<UDO> docRepository;
+    @Autowired
+    private UdoRepository udoRepository;
 
-    // public ObjectRepository<UDO> getDocRepository() {
-    //     return docRepository;
-    // }
-    private UDONitriteRepository udoNitriteRepository;
-
-    public UdoService() {
-        udoNitriteRepository = new UDONitriteRepository();
+    public UdoService(UdoRepository udoRepository) {
+        this.udoRepository = udoRepository;
     }
 
-    public Udo insertDocument(Udo udo) {
-        Udo res = null;
-        try {
-            res = udoNitriteRepository.saveUdo(udo);
-        } catch (UdoPersistException e) {
-            e.printStackTrace();
+    public void saveUdo(Udo doc) throws UdoPersistException {
+        udoRepository.saveUdo(doc);
+    }
+
+    public Udo findUdo(String udoi) {
+        return udoRepository.findUdoById(udoi);
+    }
+
+    public List<Udo> findAllUdos() {
+        return udoRepository.findAllUdos();
+    }
+
+    public List<Udo> deleteUdoById(String udoi) {
+        udoRepository.deleteUdoById(udoi);
+        return udoRepository.findAllUdos();
+    }
+
+    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException {
+        Udo doc = udoRepository.updateUdo(udo, udoi);
+        if (doc == null) {
+            throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
-        return res;
+        return doc;
     }
-
-    public Udo findDocument(String udoi) {
-        return udoNitriteRepository.findUdo(udoi);
-    }
-
-    public UdoSchema findSchemaOfDoc(Udo doc) {
-        return udoNitriteRepository.findSchemaOfUdo(doc);
-    }
-
-    // public void deleteDocument(ObjectFilter filter) {
-    //     // docRepository.remove(filter);
-    // }
-
-    // public void updateDocument(ObjectFilter filter, UDO update) {
-    //     // docRepository.update(filter, update);
-    // }
 }

@@ -1,42 +1,68 @@
 package info.nemoworks.udo.service;
 
-import info.nemoworks.udo.exception.UdoPersistException;
-import info.nemoworks.udo.repository.UdoSchemaRepository;
-import info.nemoworks.udo.repository.nitrite.NitriteSchemaRepository;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import info.nemoworks.udo.exception.UdoPersistException;
+import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
-
-import java.util.List;
+import info.nemoworks.udo.repository.UdoSchemaRepository;
 
 @Service
 public class UdoSchemaService {
 
+    @Autowired
     private UdoSchemaRepository udoSchemaRepository;
-    //private static final RepositoryFactory repositoryFactory = new RepositoryFactory();
 
-    public UdoSchemaService() {
-        this.udoSchemaRepository = new NitriteSchemaRepository();
+    public UdoSchemaService(UdoSchemaRepository udoSchemaRepository) {
+        this.udoSchemaRepository = udoSchemaRepository;
     }
 
-    public void insertSchema(UdoSchema schema) throws UdoPersistException {
-        udoSchemaRepository.createSchema(schema);
+    public UdoSchema saveSchema(UdoSchema schema) throws UdoPersistException {
+
+//        UdoSchema oldSchema = udoSchemaRepository.findSchemaById(schema.getUdoi());
+        if (udoSchemaRepository.findSchemaById(schema.getUdoi()) != null) {
+            throw new UdoPersistException("A schema with a same id already exists.");
+        }
+//        if (udoSchemaRepository.findSchemaById(schema.getUdoi()).getSchemaName().equals(schema.getSchemaName())) {
+//            throw new UdoPersistException("A schema with a same name already exists.");
+//        }
+        return udoSchemaRepository.saveSchema(schema);
     }
 
-    public UdoSchema findSchemaById(String udoi) {
-        return udoSchemaRepository.findSchema(udoi);
+    public UdoSchema findSchemaById(String udoi) throws UdoPersistException {
+        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
+        if (schema == null) {
+            throw new UdoPersistException("Udo " + udoi + " does not exist.");
+        }
+        return schema;
     }
 
-    public List<UdoSchema> findUdoSchemaList(){
-        return udoSchemaRepository.findSchemaList();
+    public List<UdoSchema> findAllSchemas() {
+        return udoSchemaRepository.findAllSchemas();
     }
 
-    // // 关于使用ObjectFilter来作为查询条件还需要查文档及测试
-    // public void deleteSchema(ObjectFilter filter) {
-    // // schemaRepository.remove(filter);
-    // }
+    public UdoSchema findSchemaByUdo(Udo udo) {
+        return udoSchemaRepository.findSchemaById(udo.getSchema().getUdoi());
+    }
 
-    // public void updateSchema(ObjectFilter filter, UDOSchema update) {
-    // // schemaRepository.update(filter, update);
-    // }
+    public List<UdoSchema> deleteSchemaById(String udoi) throws UdoPersistException {
+        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
+        if (schema == null) {
+            throw new UdoPersistException("Udo " + udoi + " does not exist.");
+        }
+        udoSchemaRepository.deleteSchemaById(udoi);
+        return udoSchemaRepository.findAllSchemas();
+    }
+
+    public UdoSchema updateSchema(UdoSchema udoSchema, String udoi) throws UdoPersistException {
+
+        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
+        if (schema == null) {
+            throw new UdoPersistException("Udo " + udoi + " does not exist.");
+        }
+        return udoSchemaRepository.updateSchema(udoSchema, udoi);
+    }
 }

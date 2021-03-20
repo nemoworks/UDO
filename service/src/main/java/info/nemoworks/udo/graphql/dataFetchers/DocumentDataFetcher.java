@@ -39,6 +39,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     }
 
     private JSONObject getDocumentByAggregation(String id){
-       return udoService.findDocument(id).getContent();
+        return udoService.findUdo(id).getContent();
+       //return udoService.findDocument(id).getContent();
     }
 }

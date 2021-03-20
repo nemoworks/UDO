@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.SchemaGenerator;
-import info.nemoworks.udo.graphql.schemaParser.SchemaTree;
+import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.service.UdoSchemaService;
 import info.nemoworks.udo.service.UdoService;
@@ -50,7 +50,7 @@ public class GraphQLBuilder {
             e.printStackTrace();
         }
         JSONObject jsonObject = JSON.parseObject(s);
-        UdoSchema schema = new UdoSchema("3-15-1", jsonObject);
+        UdoSchema schema = new UdoSchema("3-15-1","air_purifier", jsonObject);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree);
@@ -58,6 +58,4 @@ public class GraphQLBuilder {
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return  newGraphQL(graphQLSchema).build();
     }
-
-
 }

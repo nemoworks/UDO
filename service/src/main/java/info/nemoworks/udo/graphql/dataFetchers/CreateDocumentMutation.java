@@ -3,6 +3,7 @@ package info.nemoworks.udo.graphql.dataFetchers;
 import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.service.UdoService;
 
@@ -24,6 +25,11 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
 
     private Udo createNewUdo(String schemaId,JSONObject content){
         Udo udo = new Udo(schemaId,content);
+        try {
+            udoService.saveUdo(udo);
+        } catch (UdoPersistException e) {
+            e.printStackTrace();
+        }
         return udo;
     }
 

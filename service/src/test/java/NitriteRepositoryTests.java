@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import info.nemoworks.udo.exception.UdoPersistException;
-import info.nemoworks.udo.graphql.schemaParser.SchemaTree;
+import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.service.UdoSchemaService;
