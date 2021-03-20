@@ -1,4 +1,4 @@
-package info.nemoworks.udo;
+package info.nemoworks.udo.rest;
 
 import graphql.ExecutionResult;
 import graphql.GraphQL;
