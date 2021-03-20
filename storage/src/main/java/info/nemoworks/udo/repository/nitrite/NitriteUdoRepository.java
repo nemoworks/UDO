@@ -29,7 +29,8 @@ public class NitriteUdoRepository implements UdoRepository {
     @Override
     public Udo saveUdo(Udo udo) throws UdoPersistException {
         NitriteId saved = nitriteRepository.insert(udo).iterator().next();
-        return nitriteRepository.getById(saved);
+        //return nitriteRepository.getById(saved);
+        return udo;
     }
 
     @Override

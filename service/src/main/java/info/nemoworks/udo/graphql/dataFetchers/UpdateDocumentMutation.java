@@ -1,42 +1,47 @@
-//package info.nemoworks.udo.graphql.dataFetchers;
-//
-//import com.alibaba.fastjson.JSONObject;
-//import com.sddm.querybuilder.domain.Document;
-//import graphql.schema.DataFetcher;
-//import graphql.schema.DataFetchingEnvironment;
-//import org.javers.core.Javers;
-//import org.springframework.data.mongodb.core.MongoTemplate;
-//import org.springframework.stereotype.Component;
-//
-//@Component
-//public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
-//
-//    private final MongoTemplate mongoTemplate;
-//    private final Javers javers;
-//
-//    private String documentCollectionName;
-//    public UpdateDocumentMutation(MongoTemplate mongoTemplate,Javers javers){
-//        this.mongoTemplate = mongoTemplate;
-//        this.javers = javers;
-//    }
+package info.nemoworks.udo.graphql.dataFetchers;
+
+import com.alibaba.fastjson.JSONObject;
+import graphql.schema.DataFetcher;
+import graphql.schema.DataFetchingEnvironment;
+import info.nemoworks.udo.exception.UdoPersistException;
+import info.nemoworks.udo.model.Udo;
+import info.nemoworks.udo.service.UdoService;
+import org.springframework.stereotype.Component;
+
+import java.util.Objects;
+
+@Component
+public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
+
+    private final UdoService udoService;
+
+   // private String documentCollectionName;
+
+    public UpdateDocumentMutation(UdoService udoService) {
+        this.udoService = udoService;
+    }
+
 //    public void setDocumentCollectionName(String documentCollectionName){
 //        this.documentCollectionName = documentCollectionName;
 //    }
-//
-//    @Override
-//    public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
-//        String id = dataFetchingEnvironment.getArgument("id").toString();
-//        JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
-//        return this.updateDocumentById(id,content).getData();
-//    }
-//
-//    private Document updateDocumentById(String id,JSONObject content){
-//        Document document = mongoTemplate.findById(id,Document.class,documentCollectionName);
-//        assert document != null;
-//        document.setData(content);
-//        document = mongoTemplate.save(document,documentCollectionName);
-//        javers.commit(document.getId(),document);
-//        return document;
-//    }
-//
-//}
+
+    @Override
+    public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
+        String id = dataFetchingEnvironment.getArgument("id").toString();
+        JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
+        return Objects.requireNonNull(this.updateDocumentById(id, content)).getContent();
+    }
+
+    private Udo updateDocumentById(String id, JSONObject content){
+        Udo udo = udoService.findUdo(id);
+        assert udo!=null;
+        udo.setContent(content);
+        try {
+            return udoService.updateUdo(udo,id);
+        } catch (UdoPersistException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+}

@@ -63,34 +63,34 @@ public class SchemaTree {
             hashMap.forEach((key, value1) -> {
                 SchemaPropertyType typeName = SchemaPropertyType.valueOf(value1.get("type").toString());
                 switch (typeName) {
-                case LINK:
+                case Link:
                     String typeName1 = value1.get("linkTo").toString();
                     schemaTree.linkList.add(new Link(key, "Link"));
                     schemaTree.typeMap.put(key, new TypeName(typeName1));
                     schemaTree.inputMap.put(key, new TypeName("String"));
                     break;
-                case LINKLIST:
+                case LinkList:
                     String typeName2 = value1.get("linkTo").toString();
                     schemaTree.linkList.add(new Link(key, "LinkList"));
                     schemaTree.typeMap.put(key, new ListType(new TypeName(typeName2)));
                     schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
                     break;
-                case EMBEDDED:
+                case Embedded:
                     schemaTree.typeMap.put(key, new TypeName(value1.get("typeName").toString()));
                     schemaTree.inputMap.put(key, new TypeName(
                             new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery()));
                     break;
-                case EMBEDDEDLIST:
+                case EmbeddedList:
                     schemaTree.typeMap.put(key, new ListType(new TypeName(value1.get("typeName").toString())));
                     schemaTree.inputMap.put(key, new ListType(new TypeName(
                             new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery())));
                     break;
-                case NUMBER:
+                case number:
                     schemaTree.typeMap.put(key, new TypeName("Int"));
                     schemaTree.inputMap.put(key, new TypeName("Int"));
                     schemaTree.filterMap.put(key, new TypeName("Int"));
                     break;
-                case OBJECT:
+                case object:
                     JsonObject jsonObject = new Gson().toJsonTree(value1).getAsJsonObject();
                     schemaTree.typeMap.put(key, new TypeName(jsonObject.get("name").getAsString()));
                     schemaTree.inputMap.put(key,
@@ -101,7 +101,7 @@ public class SchemaTree {
                                     .filterKeyWordInQueryXxlist()));
                     schemaTree.childSchemas.put(key, this.createSchemaTree(jsonObject));
                     break;
-                case ARRAY:
+                case array:
                     schemaTree.typeMap.put(key, new ListType(new TypeName("String")));
                     schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
                     schemaTree.filterMap.put(key, new ListType(new TypeName("String")));

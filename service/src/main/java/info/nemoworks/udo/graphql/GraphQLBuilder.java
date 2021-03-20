@@ -45,7 +45,7 @@ public class GraphQLBuilder {
 
         String s = null;
         try {
-            s = new String(Files.readAllBytes(Paths.get("/Users/tangcong/Desktop/UDO/service/src/main/resources/purifier.json")));
+            s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/purifier.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }

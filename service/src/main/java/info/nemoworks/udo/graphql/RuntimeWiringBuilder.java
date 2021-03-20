@@ -2,8 +2,7 @@ package info.nemoworks.udo.graphql;
 
 import graphql.schema.DataFetcher;
 import graphql.schema.idl.RuntimeWiring;
-import info.nemoworks.udo.graphql.dataFetchers.CreateDocumentMutation;
-import info.nemoworks.udo.graphql.dataFetchers.DocumentDataFetcher;
+import info.nemoworks.udo.graphql.dataFetchers.*;
 import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Link;
@@ -60,10 +59,10 @@ public class RuntimeWiringBuilder {
 
         GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(schemaTree.getName());
 
-//        //orderDocumentList ==> documentListDataFetcher
-//        DocumentListDataFetcher documentListDataFetcher = new DocumentListDataFetcher(mongoTemplate);
-//        documentListDataFetcher.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
-//        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxlistKeyWord(), documentListDataFetcher);
+        //orderDocumentList ==> documentListDataFetcher
+        DocumentListDataFetcher documentListDataFetcher = new DocumentListDataFetcher(udoService);
+        //documentListDataFetcher.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxlistKeyWord(), documentListDataFetcher);
 
         //orderDocument ==>  documentDataFetcher
         DocumentDataFetcher documentDataFetcher = new DocumentDataFetcher(udoService);
@@ -75,16 +74,16 @@ public class RuntimeWiringBuilder {
         //documentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.createNewXxKeyWord(),documentMutation);
 
-//        //updateOrder ==> updateDocumentMutation
-//        UpdateDocumentMutation updateDocumentMutation = new UpdateDocumentMutation(mongoTemplate,javers);
-//        updateDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
-//        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.updateXxKeyWord(),updateDocumentMutation);
-//
-//        //deleteOrder ==> deleteDocumentMutation
-//        DeleteDocumentMutation deleteDocumentMutation = new DeleteDocumentMutation(mongoTemplate,javers);
-//        deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
-//        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(),deleteDocumentMutation);
-//
+        //updateOrder ==> updateDocumentMutation
+        UpdateDocumentMutation updateDocumentMutation = new UpdateDocumentMutation(udoService);
+        //updateDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.updateXxKeyWord(),updateDocumentMutation);
+
+        //deleteOrder ==> deleteDocumentMutation
+        DeleteDocumentMutation deleteDocumentMutation = new DeleteDocumentMutation(udoService);
+        //deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(),deleteDocumentMutation);
+
 //        //orderCommits ==> DocumentCommitsMutation
 //        DocumentCommitsMutation documentCommitsMutation = new DocumentCommitsMutation(mongoTemplate,javers);
 //        documentCommitsMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
