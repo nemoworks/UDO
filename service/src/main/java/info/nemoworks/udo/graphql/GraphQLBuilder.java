@@ -49,13 +49,27 @@ public class GraphQLBuilder {
             e.printStackTrace();
         }
         JSONObject jsonObject = JSON.parseObject(s);
-        UdoSchema schema = new UdoSchema("3-15-1","air_purifier", jsonObject);
+        UdoSchema schema = new UdoSchema("udo1","room", jsonObject);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree);
 
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return  newGraphQL(graphQLSchema).build();
+    }
+
+    public GraphQL addTypeInGraphQL(UdoSchema udoSchema){
+        this.addNewTypeAndDataFetcherInGraphQL(udoSchema);
+        GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
+        return  newGraphQL(graphQLSchema).build();
+    }
+
+    private void addNewTypeAndDataFetcherInGraphQL(UdoSchema udoSchema){
+        SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
+                .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
+        typeRegistryBuilder.addSchema(schemaTree);
+        runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree);
+
     }
 
 

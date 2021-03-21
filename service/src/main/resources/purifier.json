@@ -1,14 +1,14 @@
 {
     "type": "object",
-    "name": "air_purifier",
+    "title": "air_purifier",
     "properties": {
         "Name": {
             "type": "string",
-            "description": "产品名称"
+            "title": "产品名称"
         },
         "Brand": {
             "type": "string",
-            "description": "品牌"
+            "title": "品牌"
         }
     }
 }

@@ -57,7 +57,9 @@ public class SchemaController {
         String udoi = params.getString("udoi");
         String name = params.getString("schemaName");
         JSONObject content = params.getJSONObject("schemaContent");
-        return schemaService.saveSchema(new UdoSchema(udoi, name, content));
+        UdoSchema udoSchema = new UdoSchema(udoi,name,content);
+        //graphQlBuilder.addTypeInGraphQL(udoSchema);
+        return schemaService.saveSchema(udoSchema);
     }
 
     @DeleteMapping("/schemas/{udoi}")
