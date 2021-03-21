@@ -26,11 +26,11 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
     private Udo createNewUdo(String schemaId,JSONObject content){
         Udo udo = new Udo(schemaId,content);
         try {
-            udoService.saveUdo(udo);
+            return udoService.saveUdo(udo);
         } catch (UdoPersistException e) {
             e.printStackTrace();
         }
-        return udo;
+        return null;
     }
 
 

@@ -15,14 +15,22 @@ import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
+import info.nemoworks.udo.repository.UdoRepository;
 import info.nemoworks.udo.service.UdoSchemaService;
 import info.nemoworks.udo.service.UdoService;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.apache.commons.io.IOUtils;
+import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
-public class NitriteRepositoryTests {
+//@RunWith(SpringRunner.class)
+public class NitriteServiceTests {
+
+//    @Autowired
+//    private UdoService udoService;
 
     public String loadFromFile() throws IOException {
         return new String(Files.readAllBytes(Paths.get("src/test/resources/room.json")));
@@ -43,8 +51,9 @@ public class NitriteRepositoryTests {
     }
 
     @Test
-    public void udoFindTest() throws IOException, UdoPersistException {
-
+    public void udoServiceTest() throws IOException, UdoPersistException {
+        JSONObject content = new JSONObject();
+        content.put("exam", "test data");
     }
 
 }

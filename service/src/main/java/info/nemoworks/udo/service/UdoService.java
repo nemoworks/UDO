@@ -1,5 +1,6 @@
 package info.nemoworks.udo.service;
 
+import info.nemoworks.udo.repository.nitrite.NitriteUdoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import info.nemoworks.udo.exception.UdoPersistException;
@@ -19,28 +20,39 @@ public class UdoService {
         this.udoRepository = udoRepository;
     }
 
-    public void saveUdo(Udo doc) throws UdoPersistException {
-        udoRepository.saveUdo(doc);
+    public Udo saveUdo(Udo doc) throws UdoPersistException {
+        if (udoRepository.findUdoById(doc.getUdoi()) != null) {
+            throw new UdoPersistException("A Udo with a same id already exists.");
+        }
+        return udoRepository.saveUdo(doc);
     }
 
-    public Udo findUdo(String udoi) {
-        return udoRepository.findUdoById(udoi);
+    public Udo findUdoById(String udoi) throws UdoPersistException {
+        Udo doc = udoRepository.findUdoById(udoi);
+        if (doc == null) {
+            throw new UdoPersistException("Doc " + udoi + " does not exist.");
+        }
+        return doc;
     }
 
     public List<Udo> findAllUdos() {
         return udoRepository.findAllUdos();
     }
 
-    public List<Udo> deleteUdoById(String udoi) {
+    public List<Udo> deleteUdoById(String udoi) throws UdoPersistException {
+        Udo doc = udoRepository.findUdoById(udoi);
+        if (doc == null) {
+            throw new UdoPersistException("Doc " + udoi + " does not exist.");
+        }
         udoRepository.deleteUdoById(udoi);
         return udoRepository.findAllUdos();
     }
 
     public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException {
-        Udo doc = udoRepository.updateUdo(udo, udoi);
+        Udo doc = udoRepository.findUdoById(udoi);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
-        return doc;
+        return udoRepository.updateUdo(udo, udoi);
     }
 }

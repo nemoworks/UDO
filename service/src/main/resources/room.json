@@ -27,10 +27,6 @@
           "description": "高"
         }
       }
-    },
-    "airpurifier": {
-      "type": "Link",
-      "linkTo": "air_purifier"
     }
   }
 }
