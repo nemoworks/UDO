@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "name": "room",
+  "title": "room",
   "properties": {
     "Name": {
       "type": "string",
@@ -12,7 +12,7 @@
     },
     "Size": {
       "type": "object",
-      "name": "Size",
+      "title": "Size",
       "properties": {
         "length": {
           "type": "number",

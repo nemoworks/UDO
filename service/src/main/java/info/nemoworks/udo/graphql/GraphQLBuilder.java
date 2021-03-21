@@ -42,7 +42,6 @@ public class GraphQLBuilder {
         typeRegistryBuilder.initSchemaDefinition();
         typeRegistryBuilder.initTypeDefinition();
         runtimeWiringBuilder.initRuntimeWiring();
-
         String s = null;
         try {
             s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/room.json")));
@@ -58,5 +57,7 @@ public class GraphQLBuilder {
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return  newGraphQL(graphQLSchema).build();
     }
+
+
 }
 

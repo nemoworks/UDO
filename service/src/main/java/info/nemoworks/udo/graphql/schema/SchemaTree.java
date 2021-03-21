@@ -57,7 +57,7 @@ public class SchemaTree {
     public SchemaTree createSchemaTree(JsonObject schema) {
         SchemaTree schemaTree = new SchemaTree();
         JsonObject properties = schema.getAsJsonObject("properties");
-        schemaTree.name = schema.get("name").getAsString();
+        schemaTree.name = schema.get("title").getAsString();
         if (properties != null) {
             HashMap<String, LinkedTreeMap> hashMap = new Gson().fromJson(properties.toString(), HashMap.class);
             hashMap.forEach((key, value1) -> {
@@ -92,12 +92,12 @@ public class SchemaTree {
                     break;
                 case object:
                     JsonObject jsonObject = new Gson().toJsonTree(value1).getAsJsonObject();
-                    schemaTree.typeMap.put(key, new TypeName(jsonObject.get("name").getAsString()));
+                    schemaTree.typeMap.put(key, new TypeName(jsonObject.get("title").getAsString()));
                     schemaTree.inputMap.put(key,
-                            new TypeName(new GraphQLPropertyConstructor(jsonObject.get("name").getAsString())
+                            new TypeName(new GraphQLPropertyConstructor(jsonObject.get("title").getAsString())
                                     .inputKeyWordInQuery()));
                     schemaTree.filterMap.put(key,
-                            new TypeName(new GraphQLPropertyConstructor(jsonObject.get("name").getAsString())
+                            new TypeName(new GraphQLPropertyConstructor(jsonObject.get("title").getAsString())
                                     .filterKeyWordInQueryXxlist()));
                     schemaTree.childSchemas.put(key, this.createSchemaTree(jsonObject));
                     break;
