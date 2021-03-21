@@ -25,6 +25,7 @@
     "@perish/reactive": "^0.0.2",
     "@umijs/preset-react": "1.x",
     "axios": "^0.21.1",
+    "json-to-graphql-query": "^2.0.0",
     "jsoneditor": "^9.2.0",
     "umi": "^3.3.9"
   },

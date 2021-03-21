@@ -1,9 +1,20 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import XForm from '@perish/react-xform'
 import { composer, extractor, transformer } from '@/components/XForm'
 import './index.sass'
+
+function toQuery(target) {
+  if (typeof target === 'string') return `"${target}"`
+  if (typeof target === 'number') return target
+
+  let query = ''
+  Object.keys(target).forEach(key => {
+    query += key + ':' + toQuery(target[key]) + '\n'
+  })
+  return '{\n' + query + '}'
+}
 
 export default function Page() {
   const [formData, setFormData] = useState(null)
@@ -11,41 +22,34 @@ export default function Page() {
 
   useEffect(() => {
     axios
-      .get('/api/schemas/udoi888')
+      .get('/api/schemas/uid777')
       .then(({ data: { schemaContent } }) => setSchema(schemaContent))
   }, [])
 
   function createHandler() {
+    const query = `{
+      newroom(
+          schemaId: "${'UID' + Math.floor(Math.random() * 100000)}",
+          content: ${toQuery(formData)}
+      ){
+          Name
+          Size{
+              length
+              width
+          }
+      }
+    }`
+
     axios
-      .post(
-        '/api/documents/query',
-        `{
-            newroom(
-                schemaId : "1222",
-                content:{
-                    Name : "409"
-                    Area : 100
-                    Size : {
-                        length : 10
-                        width : 5
-                        height : 3
-                    }
-                }
-            ){
-                Name
-                Size{
-                    length
-                    width
-                }
-            }
-        }`,
-        {
-          headers: {
-            'Content-type': 'text/plain',
-          },
+      .post('/api/documents/query', query, {
+        headers: {
+          'Content-type': 'text/plain',
         },
-      )
-      .then(console.log)
+      })
+      .then(({ data }) => {
+        console.log(data)
+        message.success('创建成功', 1)
+      })
   }
 
   return (
