@@ -25,11 +25,16 @@ export default function DefaultLayout({ children }: any) {
 
         <Menu theme="dark" mode="inline">
           <Menu.Item
-            key="Schema"
             icon={<Icon type="iconschema" />}
             onClick={() => history.push('/schema')}
           >
             Schema
+          </Menu.Item>
+          <Menu.Item
+            icon={<Icon type="icon-document" />}
+            onClick={() => history.push('/document')}
+          >
+            Document
           </Menu.Item>
         </Menu>
       </Sider>

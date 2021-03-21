@@ -30,6 +30,7 @@ const parser = {
     const { properties } = schema
     for (const key in properties)
       properties[key] = await transformer(properties[key], depth + 1, readOnly)
+    schema[__render__].push(Card)
     return schema
   },
   array: async (schema, depth = 0, readOnly = false) => {

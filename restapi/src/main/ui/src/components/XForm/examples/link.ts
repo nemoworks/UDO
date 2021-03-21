@@ -9,7 +9,7 @@ const initialSchema = {
     template: {
       type: 'link',
       title: '设备',
-      url: '/api/object',
+      url: '/mock/object',
     },
   },
 }

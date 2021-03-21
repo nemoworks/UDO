@@ -23,7 +23,7 @@ const schema = {
 const objects = [
   {
     id: 'aaaa',
-    schema: '/api/schema/device',
+    schema: '/mock/schema/device',
     content: {
       Name: '净化器',
       Brand: '小米',
@@ -33,7 +33,7 @@ const objects = [
 
   {
     id: 'bbbb',
-    schema: '/api/schema/device',
+    schema: '/mock/schema/device',
     content: {
       Name: '小太阳',
       Brand: '美的',
@@ -42,7 +42,7 @@ const objects = [
   },
   {
     id: 'cccc',
-    schema: '/api/schema/device',
+    schema: '/mock/schema/device',
     content: {
       Name: 'iPhone 12 Pro Max',
       Brand: 'Apple',
@@ -51,7 +51,7 @@ const objects = [
   },
   {
     id: 'dddd',
-    schema: '/api/schema/device',
+    schema: '/mock/schema/device',
     content: {
       Name: '台灯',
       Brand: '小米',
@@ -61,20 +61,20 @@ const objects = [
 ]
 
 export default {
-  'GET /api/schema/test': (req, res) =>
+  'GET /mock/schema/test': (req, res) =>
     res.send({
       type: 'string',
     }),
 
-  'GET /api/schema/device': (req, res) => res.send(schema),
+  'GET /mock/schema/device': (req, res) => res.send(schema),
 
-  'GET /api/object/*': ({ originalUrl }, res) => {
+  'GET /mock/object/*': ({ originalUrl }, res) => {
     res.send(
-      objects.find(o => o.id === originalUrl.replace(/\/api\/object\//, '')),
+      objects.find(o => o.id === originalUrl.replace(/\/mock\/object\//, '')),
     )
   },
 
-  'GET /api/object': (req, res) => {
+  'GET /mock/object': (req, res) => {
     res.send(objects)
   },
 }

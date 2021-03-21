@@ -2,7 +2,7 @@ import { combine } from '../utils'
 
 const parserMap = {
   object: ({ properties }, formData) =>
-    Object.keys(formData).forEach(key => {
+    Object.keys(formData || {}).forEach(key => {
       composer(properties[key], formData[key])
     }),
   array: (schema, formData = []) =>

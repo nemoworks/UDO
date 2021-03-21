@@ -1,4 +1,4 @@
-import { defineConfig } from 'umi';
+import { defineConfig } from 'umi'
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -11,11 +11,11 @@ export default defineConfig({
   locale: {},
   antd: {},
   proxy: {
-    // '/cordra': {
-    //   target: 'https://192.168.224.1:7711',
-    //   changeOrigin: true,
-    //   secure: false,
-    //   pathRewrite: { '^/cordra': '' },
-    // },
+    '/api': {
+      target: 'http://192.168.1.105:8000',
+      changeOrigin: true,
+      secure: false,
+      // pathRewrite: { '^/api': '' },
+    },
   },
-});
+})

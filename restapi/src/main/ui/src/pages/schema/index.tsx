@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import axios from 'axios'
+import { message } from 'antd'
 import XForm from '@perish/react-xform'
-import { JSONEditor, Card } from '@/components'
+import { JSONEditor, Card, Icon } from '@/components'
 import {
   initialSchema,
   initialFormData,
-} from '@/components/XForm/examples/link'
+} from '@/components/XForm/examples/room'
 import { composer, extractor, transformer } from '@/components/XForm'
 import './index.sass'
 
@@ -13,10 +15,41 @@ export default function Page() {
   const [defaultFormData] = useState(initialFormData)
   const [formData, setFormData] = useState(null)
   const [schema, setSchema] = useState(initialSchema)
+  const [udoi, setUdoi] = useState('')
+
+  function createSchemaHandler() {
+    axios
+      .post(
+        '/api/schemas',
+        {
+          udoi,
+          schemaName: 'room',
+          schemaContent: schema,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then(() => message.success('创建成功', 1))
+  }
 
   return (
     <div className="page schema-new container">
-      <Card title="表单设计" className="editor">
+      <Card
+        title={
+          <input
+            value={udoi}
+            onChange={e => setUdoi(e.target.value)}
+            placeholder="此处填写 udoi"
+          />
+        }
+        className="editor"
+        options={
+          <Icon type="iconcreatetemplate" onClick={createSchemaHandler} />
+        }
+      >
         <JSONEditor
           mode="code"
           json={schema}
