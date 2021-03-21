@@ -35,7 +35,7 @@ public class UdoSchemaService {
     public UdoSchema findSchemaById(String udoi) throws UdoPersistException {
         UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {
-            throw new UdoPersistException("Udo " + udoi + " does not exist.");
+            throw new UdoPersistException("Schema " + udoi + " does not exist.");
         }
         return schema;
     }
@@ -45,7 +45,7 @@ public class UdoSchemaService {
     }
 
     public UdoSchema findSchemaByUdo(Udo udo) {
-        return udoSchemaRepository.findSchemaById(udo.getSchema().getUdoi());
+        return udoSchemaRepository.findSchemaById(udo.getSchema());
     }
 
     public List<UdoSchema> deleteSchemaById(String udoi) throws UdoPersistException {

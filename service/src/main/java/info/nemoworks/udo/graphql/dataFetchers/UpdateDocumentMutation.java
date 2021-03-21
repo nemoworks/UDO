@@ -6,6 +6,7 @@ import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.service.UdoService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -25,6 +26,7 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
 //        this.documentCollectionName = documentCollectionName;
 //    }
 
+    @SneakyThrows
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = dataFetchingEnvironment.getArgument("id").toString();
@@ -32,8 +34,8 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
         return Objects.requireNonNull(this.updateDocumentById(id, content)).getContent();
     }
 
-    private Udo updateDocumentById(String id, JSONObject content){
-        Udo udo = udoService.findUdo(id);
+    private Udo updateDocumentById(String id, JSONObject content) throws UdoPersistException {
+        Udo udo = udoService.findUdoById(id);
         assert udo!=null;
         udo.setContent(content);
         try {

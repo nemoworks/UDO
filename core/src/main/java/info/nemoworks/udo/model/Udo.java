@@ -6,19 +6,24 @@ public class Udo implements IUdo {
 
     private String udoi;
 
-    private UdoSchema schema;
+    private String schema;
 
     private JSONObject content;
 
-    public Udo(String udoi,JSONObject content) {
+    private String name;
+
+    public Udo() { super(); }
+
+    public Udo(String udoi, JSONObject content) {
         this.udoi = udoi;
         this.content = content;
     }
 
-    public Udo(String udoi, UdoSchema schema, JSONObject content) {
+    public Udo(String udoi, String name, String schema, JSONObject content) {
         this.udoi = udoi;
         this.schema = schema;
         this.content = content;
+        this.name = name;
     }
 
     @Override
@@ -30,11 +35,11 @@ public class Udo implements IUdo {
         this.udoi = udoi;
     }
 
-    public UdoSchema getSchema() {
+    public String getSchema() {
         return schema;
     }
 
-    public void setSchema(UdoSchema schema) {
+    public void setSchema(String schema) {
         this.schema = schema;
     }
 
@@ -45,10 +50,15 @@ public class Udo implements IUdo {
     public void setContent(JSONObject content) {
         this.content = content;
     }
+
+    public String getName() { return this.name; }
+
+    public void setName(String name) { this.name = name; }
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("udoi", this.getUdoi());
-        jsonObject.put("schema", this.getSchema().getUdoi());
+        jsonObject.put("name", name);
+        jsonObject.put("schema", this.getSchema());
         jsonObject.put("data", content);
         return jsonObject;
     }
