@@ -4,11 +4,11 @@
   "properties": {
     "Name": {
       "type": "string",
-      "description": "房间名"
+      "title": "房间名"
     },
     "Area": {
       "type": "number",
-      "description": "房间面积(平方米)"
+      "title": "房间面积(平方米)"
     },
     "Size": {
       "type": "object",
@@ -16,15 +16,15 @@
       "properties": {
         "length": {
           "type": "number",
-          "description": "长"
+          "title": "长"
         },
         "width": {
           "type": "number",
-          "description": "宽"
+          "title": "宽"
         },
         "height": {
           "type": "number",
-          "description": "高"
+          "title": "高"
         }
       }
     }

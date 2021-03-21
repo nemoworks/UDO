@@ -51,7 +51,7 @@ public class SchemaController {
         return schemaService.findAllSchemas();
     }
 
-    @PutMapping("/schemas")
+    @PostMapping("/schemas")
     public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException {
         logger.info("now saving a new schema...");
         String udoi = params.getString("udoi");
@@ -72,7 +72,7 @@ public class SchemaController {
         return schemaService.findSchemaById(udoi);
     }
 
-    @PostMapping("/schemas/{udoi}")
+    @PutMapping("/schemas/{udoi}")
     public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating schema " + udoi + "...");
