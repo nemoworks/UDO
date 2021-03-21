@@ -36,7 +36,7 @@ public class SchemaController {
     }
 
     //    @CrossOrigin
-    @PostMapping(value = "documents/query")
+    @PostMapping(value = "/documents/query")
     public ResponseEntity query(@RequestBody String query){
         ExecutionResult result = graphQL.execute(query);
         logger.info("errors: "+result.getErrors());
