@@ -44,7 +44,7 @@ public class GraphQLBuilder {
         runtimeWiringBuilder.initRuntimeWiring();
         String s = null;
         try {
-            s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/room.json")));
+            s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/purifier.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,6 +65,7 @@ public class GraphQLBuilder {
     }
 
     private void addNewTypeAndDataFetcherInGraphQL(UdoSchema udoSchema){
+        JSONObject json = udoSchema.getSchemaContent();
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
                 .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
