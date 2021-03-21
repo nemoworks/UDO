@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/documents")
+@RequestMapping("/api")
 public class DocController {
     @Autowired
     private UdoService udoService;
 
     private static final Logger logger = LoggerFactory.getLogger(DocController.class);
 
-    @GetMapping("/")
+    @GetMapping("/documents")
     public List<Udo> allDocs() {
         logger.info("find all docs...");
         return udoService.findAllUdos();
     }
 
-    @PutMapping("/")
+    @PostMapping("/documents")
     public Udo createDoc(@RequestBody JSONObject params) throws UdoPersistException {
         logger.info("now saving a new doc...");
         String udoi = params.getString("udoi");
@@ -37,19 +37,19 @@ public class DocController {
         return udoService.saveUdo(new Udo(udoi, name, schema, data));
     }
 
-    @DeleteMapping("/{udoi}")
+    @DeleteMapping("/documents/{udoi}")
     public List<Udo> deleteDoc(@PathVariable String udoi) throws UdoPersistException {
         logger.info("now deleting doc " + udoi + "...");
         return udoService.deleteUdoById(udoi);
     }
 
-    @GetMapping("/{udoi}")
+    @GetMapping("/documents/{udoi}")
     public Udo getDocById(@PathVariable String udoi) throws UdoPersistException {
         logger.info("now finding doc by udoi...");
         return udoService.findUdoById(udoi);
     }
 
-    @PostMapping("/{udoi}")
+    @PutMapping("/documents/{udoi}")
     public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating doc " + udoi + "...");
