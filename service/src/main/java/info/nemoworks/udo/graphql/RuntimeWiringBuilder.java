@@ -89,26 +89,26 @@ public class RuntimeWiringBuilder {
 //        documentCommitsMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
 //        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.commitsXxKeyWord(),documentCommitsMutation);
 //
-//        if(!schemaTree.getLinkList().isEmpty()){
-//            this.addDataFetchers(graphQLPropertyConstructor.schemaKeyWordInGraphQL(),linkTypeDataFetcher(schemaTree.getLinkList(),mongoTemplate));
-//        }
+        if(!schemaTree.getLinkList().isEmpty()){
+            this.addDataFetchers(graphQLPropertyConstructor.schemaKeyWordInGraphQL(),linkTypeDataFetcher(schemaTree.getLinkList(),udoService));
+        }
     }
 
-//    private Map<String,DataFetcher> linkTypeDataFetcher(List<Link> linkList, MongoTemplate mongoTemplate){
-//        Map<String,DataFetcher> dataFetcherMap = new HashMap<>();
-//        linkList.forEach(link -> {
-//            if(link.getLinkType().equals("Link")){
-//                DocumentDataFetcher documentDataFetcher1 = new DocumentDataFetcher(mongoTemplate);
-//                documentDataFetcher1.setDocumentCollectionName(link.getCollectionName());
-//                documentDataFetcher1.setKeyNameInParent(link.getName());
-//                dataFetcherMap.put(link.getName(),documentDataFetcher1);
-//            }else if(link.getLinkType().equals("LinkList")){
-//                DocumentListDataFetcher documentListDataFetcher1 = new DocumentListDataFetcher(mongoTemplate);
-//                documentListDataFetcher1.setDocumentCollectionName(link.getCollectionName());
-//                documentListDataFetcher1.setKeyNameInParent(link.getName());
-//                dataFetcherMap.put(link.getName(),documentListDataFetcher1);
-//            }
-//        });
-//        return dataFetcherMap;
-//    }
+    private Map<String,DataFetcher> linkTypeDataFetcher(List<Link> linkList, UdoService udoService){
+        Map<String,DataFetcher> dataFetcherMap = new HashMap<>();
+        linkList.forEach(link -> {
+            if(link.getLinkType().equals("Link")){
+                DocumentDataFetcher documentDataFetcher1 = new DocumentDataFetcher(udoService);
+               // documentDataFetcher1.setDocumentCollectionName(link.getCollectionName());
+                documentDataFetcher1.setKeyNameInParent(link.getName());
+                dataFetcherMap.put(link.getName(),documentDataFetcher1);
+            }else if(link.getLinkType().equals("LinkList")){
+                DocumentListDataFetcher documentListDataFetcher1 = new DocumentListDataFetcher(udoService);
+               // documentListDataFetcher1.setDocumentCollectionName(link.getCollectionName());
+                documentListDataFetcher1.setKeyNameInParent(link.getName());
+                dataFetcherMap.put(link.getName(),documentListDataFetcher1);
+            }
+        });
+        return dataFetcherMap;
+    }
 }

@@ -29,29 +29,29 @@ public class UdoApplication {
 
 	}
 
-	@Bean
-	CommandLineRunner initDatabase(NitriteSchemaRepository schemaRepository) {
-
-		return args -> {
-			String f = UdoApplication.loadFromFile("src/main/resources/room.json");
-
-			JSONObject jsonObject = JSON.parseObject(f);
-			UdoSchema schema = new UdoSchema("3-15-1", "room", jsonObject);
-
-			schemaRepository.saveSchema(schema);
-
-			f = UdoApplication.loadFromFile("src/main/resources/purifier.json");
-
-			jsonObject = JSON.parseObject(f);
-			schema = new UdoSchema("3-15-2", "air", jsonObject);
-
-			schemaRepository.saveSchema(schema);
-
-		};
-	}
-
-	public static String loadFromFile(String path) throws IOException {
-		return new String(Files.readAllBytes(Paths.get(path)));
-	}
+//	@Bean
+//	CommandLineRunner initDatabase(NitriteSchemaRepository schemaRepository) {
+//
+//		return args -> {
+//			String f = UdoApplication.loadFromFile("src/main/resources/room.json");
+//
+//			JSONObject jsonObject = JSON.parseObject(f);
+//			UdoSchema schema = new UdoSchema("3-15-1", "room", jsonObject);
+//
+//			schemaRepository.saveSchema(schema);
+//
+//			f = UdoApplication.loadFromFile("src/main/resources/purifier.json");
+//
+//			jsonObject = JSON.parseObject(f);
+//			schema = new UdoSchema("3-15-2", "air", jsonObject);
+//
+//			schemaRepository.saveSchema(schema);
+//
+//		};
+//	}
+//
+//	public static String loadFromFile(String path) throws IOException {
+//		return new String(Files.readAllBytes(Paths.get(path)));
+//	}
 
 }

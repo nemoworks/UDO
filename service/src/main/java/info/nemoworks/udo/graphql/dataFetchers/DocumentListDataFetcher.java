@@ -16,7 +16,7 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 
     private final UdoService udoService;
     //private String documentCollectionName;
-    //private String keyNameInParent;
+    private String keyNameInParent;
 
     @Autowired
     public DocumentListDataFetcher(UdoService udoService) {
@@ -26,9 +26,9 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 //    public void setDocumentCollectionName(String documentCollectionName){
 //        this.documentCollectionName = documentCollectionName;
 //    }
-//    public void setKeyNameInParent(String keyNameInParent) {
-//        this.keyNameInParent = keyNameInParent;
-//    }
+    public void setKeyNameInParent(String keyNameInParent) {
+        this.keyNameInParent = keyNameInParent;
+    }
 
     @Override
     public List<JSONObject> get(DataFetchingEnvironment dataFetchingEnvironment) {
