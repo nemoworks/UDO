@@ -1,9 +1,4 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { message } from 'antd'
-import XForm from '@perish/react-xform'
-import { JSONEditor, Card, Icon } from '@/components'
-import { composer, extractor, transformer } from '@/components/XForm'
+import { useEffect } from 'react'
 import './index.sass'
 
 export default function Page() {
