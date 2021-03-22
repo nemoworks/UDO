@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import './index.sass'
 
 export default function Page() {
   useEffect(() => {}, [])
