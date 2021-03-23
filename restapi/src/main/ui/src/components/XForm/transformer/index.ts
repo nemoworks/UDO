@@ -12,6 +12,7 @@ import {
   Options,
   Link,
   List,
+  UDOLink,
 } from '../renders'
 import { __depth__ } from '../utils'
 
@@ -23,6 +24,7 @@ const defaultRender = {
   link: () => [Link],
   info: () => [Info],
   none: () => [],
+  Link: () => [UDOLink],
 }
 
 const parser = {

@@ -12,6 +12,7 @@ const parserMap = {
       return auxiliary
     })),
   link: (schema, formData) => (schema['uid'] = formData),
+  Link: (schema, formData) => (schema['udoi'] = formData),
   default: (schema, formData) => (schema['data'] = formData),
 } as any
 

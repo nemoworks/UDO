@@ -9,6 +9,8 @@ const { Sider, Content } = Layout
 export default function DefaultLayout({ children }: any) {
   const [collapse, setCollapse] = useState(true)
 
+  const [schemas, setSchemas] = useState([])
+
   return (
     <Layout>
       <Sider
@@ -29,12 +31,6 @@ export default function DefaultLayout({ children }: any) {
             onClick={() => history.push('/schema')}
           >
             Schema
-          </Menu.Item>
-          <Menu.Item
-            icon={<Icon type="icon-document" />}
-            onClick={() => history.push('/document')}
-          >
-            Document
           </Menu.Item>
         </Menu>
       </Sider>

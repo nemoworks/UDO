@@ -9,6 +9,7 @@ import Label from './Label'
 import Table from './Table'
 import List from './List'
 import Link from './Link'
+import UDOLink from './UDOLink'
 import './index.sass'
 
 export {
@@ -23,4 +24,5 @@ export {
   Options,
   List,
   Link,
+  UDOLink,
 }

@@ -14,7 +14,7 @@ export default function Card({
   options = null,
 }: Props) {
   return (
-    <div className={'card ' + className}>
+    <div className={'FixedCard ' + className}>
       {title && <div className="title">{title}</div>}
       {options && <div className="options">{options}</div>}
       <div className="body">{children}</div>
