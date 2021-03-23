@@ -50,7 +50,7 @@ public class SchemaTree {
     }
 
     public SchemaTree() {
-        typeMap.put("id", new TypeName("String"));
+        typeMap.put("udoi", new TypeName("String"));
         filterMap.put("schemaId", new TypeName("String"));
     }
 

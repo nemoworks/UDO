@@ -33,7 +33,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     @lombok.SneakyThrows
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String id = String.valueOf(dataFetchingEnvironment.getArguments().get("id"));
+        String id = String.valueOf(dataFetchingEnvironment.getArguments().get("udoi"));
         if(id.equals("null")){
             JSONObject jsonObject = dataFetchingEnvironment.getSource();
             id = jsonObject.getString(keyNameInParent);

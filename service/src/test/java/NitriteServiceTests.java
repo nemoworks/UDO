@@ -38,7 +38,7 @@ public class NitriteServiceTests {
 
     @Test
     public void udoSaveTest() throws IOException, UdoPersistException {
-        InputStream is = new FileInputStream("/Users/tangcong/Desktop/UDO/service/src/test/resources/purifier.json");
+        InputStream is = new FileInputStream("/Users/tangcong/Desktop/UDO/service/src/test/resources/light.json");
         String jsonTxt = IOUtils.toString(is, "UTF-8");
         // System.out.println(jsonTxt);
         JsonObject json = new Gson().fromJson(jsonTxt,JsonObject.class);

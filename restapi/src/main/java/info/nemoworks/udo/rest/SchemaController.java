@@ -54,10 +54,10 @@ public class SchemaController {
     @PostMapping("/schemas")
     public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException {
         logger.info("now saving a new schema...");
-        String udoi = params.getString("udoi");
+        //String udoi = params.getString("udoi");
         String name = params.getString("schemaName");
         JSONObject content = params.getJSONObject("schemaContent");
-        UdoSchema udoSchema = new UdoSchema(udoi,name,content);
+        UdoSchema udoSchema = new UdoSchema("udoi"+name,name,content);
         this.graphQL = graphQlBuilder.addTypeInGraphQL(udoSchema);
         return schemaService.saveSchema(udoSchema);
     }

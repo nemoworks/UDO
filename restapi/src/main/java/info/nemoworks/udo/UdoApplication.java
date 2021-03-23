@@ -40,7 +40,7 @@ public class UdoApplication {
 //
 //			schemaRepository.saveSchema(schema);
 //
-//			f = UdoApplication.loadFromFile("src/main/resources/purifier.json");
+//			f = UdoApplication.loadFromFile("src/main/resources/light.json");
 //
 //			jsonObject = JSON.parseObject(f);
 //			schema = new UdoSchema("3-15-2", "air", jsonObject);

@@ -20,12 +20,16 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String schemaId = dataFetchingEnvironment.getArgument("schemaId").toString();
         JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
-        return this.createNewUdo(schemaId,content).getContent();
+        Udo udo =  this.createNewUdo(schemaId,content);
+        JSONObject json = udo.getContent();
+        json.put("udoi",udo.getUdoi());
+        return json;
     }
 
     private Udo createNewUdo(String schemaId,JSONObject content){
         Udo udo = new Udo(schemaId,content);
         try {
+          //  udo = udoService.saveUdo(udo);
             return udoService.saveUdo(udo);
         } catch (UdoPersistException e) {
             e.printStackTrace();

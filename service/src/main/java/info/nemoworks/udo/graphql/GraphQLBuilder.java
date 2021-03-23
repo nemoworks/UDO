@@ -44,7 +44,7 @@ public class GraphQLBuilder {
         runtimeWiringBuilder.initRuntimeWiring();
         String s = null;
         try {
-            s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/purifier.json")));
+            s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/light.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }

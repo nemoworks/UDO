@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "air_purifier",
+    "title": "light",
     "properties": {
         "Name": {
             "type": "string",

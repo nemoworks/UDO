@@ -40,7 +40,9 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
         List<Udo> udos = this.getDocuments();
         List<JSONObject> udoContents = new ArrayList<>();
         udos.forEach(udo -> {
-            udoContents.add(udo.getContent());
+            JSONObject json = udo.getContent();
+            json.put("udoi",udo.getUdoi());
+            udoContents.add(json);
         });
         return udoContents;
    }

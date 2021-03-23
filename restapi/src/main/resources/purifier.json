@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "air_purifier schema",
+    "title": "air_purifier",
     "properties": {
         "Name": {
             "type": "string",
