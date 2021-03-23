@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Layout, Menu } from 'antd'
 import { history } from 'umi'
+import { Layout, Menu } from 'antd'
 import { Icon } from '@/components'
 import './index.sass'
 

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Button, message } from 'antd'
+import axios from 'axios'
 import XForm from '@perish/react-xform'
 import { composer, extractor, transformer } from '@/components/XForm'
-import './index.sass'
 
 function toQuery(target) {
   if (typeof target === 'string') return `"${target}"`
@@ -20,37 +19,37 @@ export default function Page() {
   const [formData, setFormData] = useState(null)
   const [schema, setSchema] = useState(null)
 
-  useEffect(() => {
-    axios
-      .get('/api/schemas/uid777')
-      .then(({ data: { schemaContent } }) => setSchema(schemaContent))
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get('/api/schemas/uid777')
+  //     .then(({ data: { schemaContent } }) => setSchema(schemaContent))
+  // }, [])
 
-  function createHandler() {
-    const query = `{
-      newroom(
-          schemaId: "${'UID' + Math.floor(Math.random() * 100000)}",
-          content: ${toQuery(formData)}
-      ){
-          Name
-          Size{
-              length
-              width
-          }
-      }
-    }`
+  // function createHandler() {
+  //   const query = `{
+  //     newroom(
+  //         schemaId: "${'UID' + Math.floor(Math.random() * 100000)}",
+  //         content: ${toQuery(formData)}
+  //     ){
+  //         Name
+  //         Size{
+  //             length
+  //             width
+  //         }
+  //     }
+  //   }`
 
-    axios
-      .post('/api/documents/query', query, {
-        headers: {
-          'Content-type': 'text/plain',
-        },
-      })
-      .then(({ data }) => {
-        console.log(data)
-        message.success('创建成功', 1)
-      })
-  }
+  //   axios
+  //     .post('/api/documents/query', query, {
+  //       headers: {
+  //         'Content-type': 'text/plain',
+  //       },
+  //     })
+  //     .then(({ data }) => {
+  //       console.log(data)
+  //       message.success('创建成功', 1)
+  //     })
+  // }
 
   return (
     <div className="page document-new container">
@@ -62,9 +61,9 @@ export default function Page() {
         extractor={extractor}
         composer={composer}
       />
-      <Button id="create" onClick={createHandler}>
+      {/* <Button id="create" onClick={createHandler}>
         创建表单
-      </Button>
+      </Button> */}
     </div>
   )
 }
