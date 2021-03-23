@@ -49,7 +49,7 @@ public class GraphQLBuilder {
             e.printStackTrace();
         }
         JSONObject jsonObject = JSON.parseObject(s);
-        UdoSchema schema = new UdoSchema("udo1","room", jsonObject);
+        UdoSchema schema = new UdoSchema("udo1","purifier", jsonObject);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree);

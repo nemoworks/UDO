@@ -1,32 +1,36 @@
 {
   "type": "object",
-  "title": "room",
+  "name": "room",
   "properties": {
     "Name": {
       "type": "string",
-      "title": "房间名"
+      "description": "房间名"
     },
     "Area": {
       "type": "number",
-      "title": "房间面积(平方米)"
+      "description": "房间面积(平方米)"
     },
     "Size": {
       "type": "object",
-      "title": "Size",
+      "name": "Size",
       "properties": {
         "length": {
           "type": "number",
-          "title": "长"
+          "description": "长"
         },
         "width": {
           "type": "number",
-          "title": "宽"
+          "description": "宽"
         },
         "height": {
           "type": "number",
-          "title": "高"
+          "description": "高"
         }
       }
+    },
+    "airpurifier": {
+      "type": "Link",
+      "linkTo": "air_purifier"
     }
   }
 }
