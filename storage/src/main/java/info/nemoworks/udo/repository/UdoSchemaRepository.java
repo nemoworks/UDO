@@ -4,6 +4,8 @@ import java.util.List;
 
 import info.nemoworks.udo.model.UdoSchema;
 
+//import javax.swing.text.Document;
+
 public interface UdoSchemaRepository {
     List<UdoSchema> findAllSchemas();
 
@@ -14,4 +16,5 @@ public interface UdoSchemaRepository {
     void deleteSchemaById(String udoi);
 
     UdoSchema updateSchema(UdoSchema udoSchema, String udoi);
+
 }

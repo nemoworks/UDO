@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -16,6 +18,7 @@ import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.UdoRepository;
+import info.nemoworks.udo.service.Translate;
 import info.nemoworks.udo.service.UdoSchemaService;
 import info.nemoworks.udo.service.UdoService;
 import org.junit.Test;
@@ -33,7 +36,7 @@ public class NitriteServiceTests {
 //    private UdoService udoService;
 
     public String loadFromFile() throws IOException {
-        return new String(Files.readAllBytes(Paths.get("src/test/resources/room.json")));
+        return new String(Files.readAllBytes(Paths.get("src/test/resources/test.json")));
     }
 
     @Test
@@ -54,6 +57,22 @@ public class NitriteServiceTests {
     public void udoServiceTest() throws IOException, UdoPersistException {
         JSONObject content = new JSONObject();
         content.put("exam", "test data");
+    }
+
+    @Test
+    public void translatingTest() throws IOException {
+        JSONObject obj = JSON.parseObject(this.loadFromFile());
+//        obj.put("arr", "{[{val: 1}, {val: 2}]}");
+//        obj.put("obj", "{a: {b: c}}");
+//        for (Map.Entry entry: obj.entrySet()) {
+//            System.out.println(entry.getValue().getClass());
+//            System.out.println(entry.getValue() instanceof JSONArray);
+//            System.out.println(entry.getValue() instanceof JSONObject);
+//        }
+        Translate translate = new Translate(obj);
+        translate.startTrans();
+        System.out.println(translate.getTuples());
+        translate.printTuples();
     }
 
 }
