@@ -1,80 +1,28 @@
-const schema = {
-  type: 'object',
-  title: '设备信息',
-  properties: {
-    Name: {
-      type: 'string',
-      title: '产品名称',
-    },
-    Brand: {
-      type: 'string',
-      title: '品牌',
-    },
-    Operations: {
-      type: 'array',
-      title: '操作记录',
-      template: {
-        type: 'string',
+const schemas = [
+  {
+    id: 'a',
+    content: {
+      type: 'object',
+      title: '一个对象',
+      properties: {
+        a: {
+          type: 'string',
+          title: '一个字符串',
+        },
       },
-    },
-  },
-}
-
-const objects = [
-  {
-    id: 'aaaa',
-    schema: '/mock/schema/device',
-    content: {
-      Name: '净化器',
-      Brand: '小米',
-      Operations: ['write', 'read'],
-    },
-  },
-
-  {
-    id: 'bbbb',
-    schema: '/mock/schema/device',
-    content: {
-      Name: '小太阳',
-      Brand: '美的',
-      Operations: ['switch on', 'switch off'],
-    },
-  },
-  {
-    id: 'cccc',
-    schema: '/mock/schema/device',
-    content: {
-      Name: 'iPhone 12 Pro Max',
-      Brand: 'Apple',
-      Operations: [],
-    },
-  },
-  {
-    id: 'dddd',
-    schema: '/mock/schema/device',
-    content: {
-      Name: '台灯',
-      Brand: '小米',
-      Operations: ['turn red', 'turn green'],
     },
   },
 ]
 
 export default {
-  'GET /mock/schema/test': (req, res) =>
-    res.send({
-      type: 'string',
-    }),
-
-  'GET /mock/schema/device': (req, res) => res.send(schema),
-
-  'GET /mock/object/*': ({ originalUrl }, res) => {
-    res.send(
-      objects.find(o => o.id === originalUrl.replace(/\/mock\/object\//, '')),
-    )
-  },
-
-  'GET /mock/object': (req, res) => {
-    res.send(objects)
+  'GET /mock/schema': (req, res) => res.send(schemas),
+  'GET /mock/schema/:id': ({ params: { id } }, res) =>
+    res.send(schemas.find(s => s.id === id)),
+  'POST /mock/schema': ({ body }, res) => {
+    schemas.push({
+      id: String(Math.floor(Math.random() * 100000)).padStart(6, '0'),
+      content: body,
+    })
+    res.send('success')
   },
 }

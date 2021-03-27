@@ -9,32 +9,6 @@
         justify-content: center
         align-items: center
 
-        span.slogan
-            font-weight: 800
-            font-size: 5em
-            text-shadow: 4px 4px 5px #7777775e
-
-    &.schema-all, &.document-all, &.document-new
-        button#create
-            border: none
-            width: 100%
-            background-color: white
-            box-shadow: 0px 0px 10px -5px #3b3b3b91
-            border-radius: 5px
-            margin-bottom: 5px
-            padding: 5px
-            font-weight: 800
-
-    &.schema-all
-        .block
-            margin-bottom: 5px
-            position: relative
-            &>.anticon
-                position: absolute
-                right: 15px
-                top: 15px
-                font-size: 22px
-
     &.schema-new
         display: grid
         grid-template-columns: repeat(2,1fr)
@@ -64,9 +38,225 @@
             grid-row: 2/3
             grid-column: 1/2
 
-    &.document-new
-        button#create
+    &.schema-new,&.document-new,&.document-all
+        .xform-root
+            // 单个组件样式规则
+            .container
+                position: relative
+
+                &.Label
+                    width: 100%
+                    display: inline-flex
+                    padding: 5px
+
+                    &>.title
+                        flex: 0 0 120px
+                        font-size: 15px
+                        font-weight: 600
+
+                    &>.content
+                        flex: 1 1 auto
+
+                &.Card
+                    width: 100%
+
+                    &>.content
+                        position: relative
+
+                    &[data-depth="0"]
+                        background-color: white
+                        box-shadow: 0px 0px 10px 1px #77777777
+                        box-sizing: border-box
+                        padding: 15px
+
+                        &>.title
+                            font-weight: 800
+                            font-size: 20px
+                            margin-bottom: 10px
+                            padding-bottom: 5px
+                            border-bottom: 1px solid #000000
+
+                    &[data-depth="1"]
+                        &>.title
+                            font-weight: 700
+                            font-size: 19px
+                            padding-bottom: 5px
+                            border-bottom: 1px solid #000000
+
+                    &[data-depth="2"]
+                        &>.title
+                            font-weight: 600
+                            font-size: 18px
+
+                    &[data-depth="3"]
+                        &>.title
+                            font-weight: 600
+                            font-size: 15px
+                            font-weight: 600
+                            border-bottom: 1px dashed #000000
+                &.Link
+                    padding: 0
+
+                    &>.clear
+                        position: absolute
+                        top: 50%
+                        right: 0px
+                        font-size: 18px
+                        transform: translateY(-50%)
+                        display: none
+
+                    &:hover>.clear
+                        display: block
+
+                &.List
+                    &>.item
+                        position: relative
+
+                    &[data-depth="1"]
+                        &>.item
+                            margin-top: 8px
+                            border-left: 2px solid #6666662f
+                            &:hover
+                                border-left-color: #666666
+
+                    &[data-depth="3"]
+                        &>.item
+                            display: flex
+                            &::before
+                                content: "·"
+                                margin-right: 2px
+
+            .Options.operators
+                font-size: 18px
+
+            button.Options.create
+                width: calc(100% - 10px)
+                border: none
+                padding: 5px
+                background-color: #08768a31
+                border-radius: 5px
+                font-weight: 600
+                margin: 5px
+
+                &:hover
+                    font-weight: 800
+                    background-color: #08768a98
+                    transition-property: background-color
+                    transition-duration: 0.2s
+                    transition-timing-function: linear
+
+            select.Link.selector
+                position: relative
+                min-width: 100px
+                height: 100%
+
+            // 关联组件特殊规则
+            .Card.container + .Options.operators
+                position: absolute
+                top: 0px
+                right: 0px
+
+            .Label.container + .Options.operators
+                position: absolute
+                top: 0px
+                right: 0px
+
+            .Link.container + .Options.operators
+                position: absolute
+                top: 0px
+                right: 0px
+
+            .Link.container .Label.container
+                padding: 0
+
+    &.schema-all
+        display: flex
+        flex-direction: row
+
+        .FlexCard
+            height: 200px
+            width: 200px
+            background-color: white
+            box-shadow: 0px 0px 1px 1px #11111111
+            position: relative
+
+            &>.options
+                position: absolute
+                top: 3px
+                right: 3px
+                display: inline-flex
+                font-size: 18px
+                height: 22px
+                align-items: center
+
+            &.create
+                display: flex
+                align-items: center
+                justify-content: center
+                font-size: 22px
+
+            &:hover
+                transition: box-shadow 0.2s linear
+                box-shadow: 0px 0px 5px 2px #00000011
+
+        .xform-root
+            padding: 3px
+            .Card.container
+                &[data-depth="0"]
+
+                    &>.title
+                        font-size: 15px
+                        font-weight: 600
+                        padding-left: 2px
+                        padding-bottom: 2px
+                        border-bottom: 0.5px solid #77777777
+
+                    &>.content
+                        padding: 3px 2px 2px 2px
+                        box-sizing: border-box
+                        overflow: auto
+
+            .Label.container
+                display: inline-flex
+                width: 100%
+                height: 22px
+
+                &>.title
+                    font-size: 12px
+                    font-weight: 400
+                    flex: 0 0 80px
+                    height: 22px
+                    line-height: 22px
+
+                &>.content
+                    flex: auto
+
+            .Input
+                width: 100%
+                height: 22px
+                border-radius: 2px
+                border: 1px solid black
+
+    &.document-all
+        .DocumentItem
             width: 100%
-            margin-top: 5px
-            border-radius: 5px
+            font-size: 22px
             font-weight: 800
+            background-color: white
+            line-height: 40px
+            height: 40px
+            border-radius: 5px
+            box-shadow: 0px 0px 5px 2px #7777771a
+            padding-left: 5px
+
+    &.document-new
+        button.create
+            border: none
+            width: 100%
+            background-color: white
+            font-size: 15px
+            height: 40px
+            border-radius: 5px
+            line-height: 40px
+            margin-top: 5px
+            box-shadow: 0px 0px 5px 1px #77777777

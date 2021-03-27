@@ -1,37 +1,27 @@
 import axios from 'axios'
-import room_schema from './room.json'
-import air_purifier_schema from './air_purifier.json'
 
-const schema = {
-  getAll: () => axios.get('/api/schemas').then(({ data }) => data),
-  create: source =>
-    axios.post('/api/schemas', source, {
+const SchemaQuery = {
+  getAll: () => axios.get('/mock/schema').then(({ data }) => data),
+  create: schema =>
+    axios.post('/mock/schema', schema, {
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-type': 'application/json; charset=utf-8',
       },
     }),
+  get: id => axios.get('/mock/schema/' + id).then(({ data }) => data),
 }
 
-const document = {
-  getAll: () => {},
-  create: () => {},
+const DocumentQuery = {
+  getAll: (search = '') =>
+    axios.get('/mock/document' + search).then(({ data }) => data),
+  create: (search = '', document) =>
+    axios.post('/mock/document' + search, document, {
+      headers: {
+        'Content-type': 'application/json; charset=utf-8',
+      },
+    }),
   update: () => {},
   delete: () => {},
-}
-
-function initializeSchema() {
-  return axios.all([
-    axios.post('/api/schemas', room_schema, {
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }),
-    axios.post('/api/schemas', air_purifier_schema, {
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    }),
-  ])
 }
 
 function documentQuery(query) {
@@ -54,4 +44,4 @@ function json2query(target) {
   return '{\n' + query + '}'
 }
 
-export { initializeSchema, documentQuery, json2query }
+export { DocumentQuery, SchemaQuery }

@@ -1,39 +1,20 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { history } from 'umi'
-import { message } from 'antd'
 import XForm from '@perish/react-xform'
 import { transformer, extractor, composer } from '@/components/XForm'
 import { Card, JSONEditor, Icon } from '@/components'
+import { SchemaQuery } from '@/utils'
 
 export default function Page() {
+  const [formData, setFormData] = useState(null)
   const [schema, setSchema] = useState({
     type: 'object',
-    title: 'schema identifier',
+    title: "schema' title",
     properties: {},
   })
 
-  const [formData, setFormData] = useState(null)
-
   function createHandler() {
-    const request = {
-      schemaName: schema.title,
-      schemaContent: schema,
-    }
-
-    axios
-      .post('/api/schemas', request, {
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-      })
-      .then(() => {
-        message.success('创建成功', 1)
-        history.push('/schema')
-      })
-      .catch(() => {
-        message.error('创建失败', 1)
-      })
+    SchemaQuery.create(schema).then(() => history.push('/schema'))
   }
 
   return (

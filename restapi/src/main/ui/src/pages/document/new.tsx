@@ -3,34 +3,25 @@ import axios from 'axios'
 import { history } from 'umi'
 import XForm from '@perish/react-xform'
 import { transformer, extractor, composer } from '@/components/XForm'
-import { documentQuery, json2query } from '@/utils'
+import { DocumentQuery, SchemaQuery } from '@/utils'
 
 export default function Page({
-  match: {
-    params: { schemaName },
+  location: {
+    query: { schemaId },
+    search,
   },
 }) {
   const [schema, setSchema] = useState(null)
   const [formData, setFormData] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('/api/schemas/udoi' + schemaName)
-      .then(({ data }) => setSchema(data.schemaContent))
+    SchemaQuery.get(schemaId).then(({ content }) => setSchema(content))
   }, [])
 
   function createHandler() {
-    documentQuery(`{
-      new${schemaName}(
-        schemaId: "${String(Math.floor(Math.random() * 100000)).padStart(
-          8,
-          '0',
-        )}",
-        content: ${json2query(formData)}
-      ){
-        udoi
-      }
-    }`).then(({ data }) => history.push('/documents'))
+    DocumentQuery.create(search, formData).then(() =>
+      history.push('/document' + search),
+    )
   }
 
   return (
@@ -41,7 +32,7 @@ export default function Page({
         extractor={extractor}
         onChange={setFormData}
       />
-      <button id="create" onClick={createHandler}>
+      <button onClick={createHandler} className="create">
         确认创建
       </button>
     </div>
