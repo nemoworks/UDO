@@ -10,7 +10,7 @@ const parser = {
   array: schema =>
     (schema.items || []).map(item => extractor(combine(schema.template, item))),
   number: schema => Number(schema.data),
-  link: schema => schema.uid,
+  link: schema => schema.id,
   Link: schema => schema.udoi,
   default: schema => schema.data,
 }

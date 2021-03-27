@@ -201,6 +201,10 @@
 
         .xform-root
             padding: 3px
+
+            .container
+                position: relative
+
             .Card.container
                 &[data-depth="0"]
 
@@ -227,6 +231,9 @@
                     flex: 0 0 80px
                     height: 22px
                     line-height: 22px
+                    text-overflow: ellipsis
+                    white-space: nowrap
+                    overflow: hidden
 
                 &>.content
                     flex: auto

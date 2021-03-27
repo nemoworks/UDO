@@ -11,7 +11,7 @@ import {
   Validator,
   Label,
   Options,
-  Link,
+  MockLink,
   List,
   UDOLink,
 } from '../renders'
@@ -21,7 +21,7 @@ const defaultRender = {
   array: () => [XArray],
   string: readOnly => (readOnly ? [Info] : [Input]),
   number: readOnly => (readOnly ? [Info] : [Input]),
-  link: () => [Link],
+  link: () => [MockLink],
   info: () => [Info],
   none: () => [],
   Link: () => [UDOLink],

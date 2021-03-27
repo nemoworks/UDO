@@ -1,23 +1,10 @@
 const documents = [
   {
-    id: 'aaa',
-    schemaId: 'a',
+    id: 'D000001',
+    schemaId: 'S000001',
     content: {
-      a: 'haha',
-    },
-  },
-  {
-    id: 'bbb',
-    schemaId: 'a',
-    content: {
-      a: 'haha',
-    },
-  },
-  {
-    id: 'ccc',
-    schemaId: 'a',
-    content: {
-      a: 'haha',
+      Name: 'Yeah',
+      Brand: 'Hei',
     },
   },
 ]
@@ -30,7 +17,7 @@ export default {
   },
   'POST /mock/document': ({ body, query: { schemaId } }, res) => {
     documents.push({
-      id: String(Math.floor(Math.random() * 100000)).padStart(6, '0'),
+      id: 'D' + String(Math.floor(Math.random() * 100000)).padStart(6, '0'),
       schemaId,
       content: body,
     })

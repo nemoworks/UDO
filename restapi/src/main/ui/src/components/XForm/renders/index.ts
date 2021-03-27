@@ -10,7 +10,7 @@ import Table from './Table'
 import List from './List'
 import Link from './Link'
 import UDOLink from './UDOLink'
-import './index.sass'
+import MockLink from './MockLink'
 
 export {
   Input,
@@ -25,4 +25,5 @@ export {
   List,
   Link,
   UDOLink,
+  MockLink,
 }

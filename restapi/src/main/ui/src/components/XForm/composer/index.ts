@@ -11,7 +11,7 @@ const parserMap = {
       composer(combine(schema.template, auxiliary), data)
       return auxiliary
     })),
-  link: (schema, formData) => (schema['uid'] = formData),
+  link: (schema, formData) => (schema['id'] = formData),
   Link: (schema, formData) => (schema['udoi'] = formData),
   default: (schema, formData) => (schema['data'] = formData),
 } as any

@@ -1,13 +1,58 @@
 const schemas = [
   {
-    id: 'a',
+    id: 'S000001',
     content: {
       type: 'object',
-      title: '一个对象',
+      title: '空气净化器',
       properties: {
-        a: {
+        Name: {
           type: 'string',
-          title: '一个字符串',
+          title: '产品名称',
+        },
+        Brand: {
+          type: 'string',
+          title: '品牌',
+        },
+      },
+    },
+  },
+  {
+    id: 'S000002',
+    content: {
+      type: 'object',
+      title: 'room',
+      'display-title': '房间',
+      properties: {
+        Name: {
+          type: 'string',
+          title: '房间名',
+        },
+        Area: {
+          type: 'number',
+          title: '房间面积(平方米)',
+        },
+        air_purifier: {
+          type: 'link',
+          title: '空气净化器',
+          schemaId: 'S000001',
+        },
+        Size: {
+          type: 'object',
+          title: 'Size',
+          properties: {
+            length: {
+              type: 'number',
+              title: '长',
+            },
+            width: {
+              type: 'number',
+              title: '宽',
+            },
+            height: {
+              type: 'number',
+              title: '高',
+            },
+          },
         },
       },
     },
@@ -20,7 +65,7 @@ export default {
     res.send(schemas.find(s => s.id === id)),
   'POST /mock/schema': ({ body }, res) => {
     schemas.push({
-      id: String(Math.floor(Math.random() * 100000)).padStart(6, '0'),
+      id: 'S' + String(Math.floor(Math.random() * 100000)).padStart(6, '0'),
       content: body,
     })
     res.send('success')
