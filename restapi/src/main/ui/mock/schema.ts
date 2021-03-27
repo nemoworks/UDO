@@ -21,7 +21,6 @@ const schemas = [
     content: {
       type: 'object',
       title: 'room',
-      'display-title': '房间',
       properties: {
         Name: {
           type: 'string',
@@ -32,9 +31,12 @@ const schemas = [
           title: '房间面积(平方米)',
         },
         air_purifier: {
-          type: 'link',
-          title: '空气净化器',
-          schemaId: 'S000001',
+          type: 'array',
+          template: {
+            type: 'link',
+            title: '空气净化器',
+            schemaId: 'S000001',
+          },
         },
         Size: {
           type: 'object',

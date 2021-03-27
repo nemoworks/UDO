@@ -21,15 +21,13 @@ function UDOLink({ schema }) {
 
   useEffect(() => {
     id &&
-      SchemaQuery.get(schemaId).then(({ content: initialSchema }) => {
-        // const formData = options.find(o => o.id === id).content
-
+      SchemaQuery.get(schemaId).then(({ content: initialSchema }) =>
         transformer(initialSchema, 2, true)
           .then(result =>
             composer(result, options.find(o => o.id === id).content),
           )
-          .then(setSubSchema)
-      })
+          .then(setSubSchema),
+      )
   }, [id])
 
   return schema.id === undefined ? (

@@ -19,6 +19,7 @@ export default function Page() {
       </div>
       {schemas.map((schema: any) => (
         <div className="FlexCard" key={schema.id}>
+          <XForm schema={schema.content} transformer={transformer} />
           <div className="options">
             <Icon
               type="iconcreatetemplate"
@@ -27,7 +28,6 @@ export default function Page() {
               }
             />
           </div>
-          <XForm schema={schema.content} transformer={transformer} />
         </div>
       ))}
     </div>
