@@ -30,11 +30,7 @@ export default function Page({
       ){
         udoi
       }
-    }`).then(({ data }) =>
-      history.push(
-        '/api/documents/' + schemaName + '/' + data['new' + schemaName].udoi,
-      ),
-    )
+    }`).then(({ data }) => history.push('/documents'))
   }
 
   return (

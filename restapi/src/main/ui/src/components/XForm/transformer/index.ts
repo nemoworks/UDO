@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { __render__ } from '@perish/react-xform'
 import validatorRules from '../renders/Validator/parser'
+import { __depth__ } from '../utils'
 import {
   Info,
   Input,
@@ -14,7 +15,6 @@ import {
   List,
   UDOLink,
 } from '../renders'
-import { __depth__ } from '../utils'
 
 const defaultRender = {
   object: () => [XObject],
