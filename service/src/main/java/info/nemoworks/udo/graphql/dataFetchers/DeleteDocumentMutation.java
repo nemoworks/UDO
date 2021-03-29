@@ -20,11 +20,12 @@ public class DeleteDocumentMutation implements DataFetcher<JSONObject> {
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = dataFetchingEnvironment.getArgument("id").toString();
-        return  deleteDocumentById(id);
+        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        return  deleteDocumentById(id, collection);
     }
 
-    private JSONObject deleteDocumentById(String id) throws UdoPersistException {
-        udoService.deleteUdoById(id);
+    private JSONObject deleteDocumentById(String id, String collection) throws UdoPersistException {
+        udoService.deleteUdoById(id, collection);
         JSONObject res = new JSONObject();
         res.put("deleteResult","document has been deleted");
         return res;

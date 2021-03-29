@@ -21,10 +21,10 @@ public class DocController {
 
     private static final Logger logger = LoggerFactory.getLogger(DocController.class);
 
-    @GetMapping("/documents")
-    public List<Udo> allDocs() {
+    @GetMapping("/documents/{collection}")
+    public List<Udo> allDocs(@PathVariable String collection) {
         logger.info("find all docs...");
-        return udoService.findAllUdos();
+        return udoService.findAllUdos(collection);
     }
 
     @PostMapping("/documents")
@@ -34,28 +34,29 @@ public class DocController {
         String name = params.getString("name");
         String schema = params.getString("schema");
         JSONObject data = params.getJSONObject("data");
-        return udoService.saveUdo(new Udo(udoi, name, schema, data));
+        String collection = params.getString("collection");
+        return udoService.saveUdo(new Udo(udoi, name, schema, data, collection));
     }
 
-    @DeleteMapping("/documents/{udoi}")
-    public List<Udo> deleteDoc(@PathVariable String udoi) throws UdoPersistException {
+    @DeleteMapping("/documents/{collection}/{udoi}")
+    public List<Udo> deleteDoc(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
         logger.info("now deleting doc " + udoi + "...");
-        return udoService.deleteUdoById(udoi);
+        return udoService.deleteUdoById(udoi, collection);
     }
 
-    @GetMapping("/documents/{udoi}")
-    public Udo getDocById(@PathVariable String udoi) throws UdoPersistException {
+    @GetMapping("/documents/{collection}/{udoi}")
+    public Udo getDocById(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
         logger.info("now finding doc by udoi...");
-        return udoService.findUdoById(udoi);
+        return udoService.findUdoById(udoi, collection);
     }
 
-    @PutMapping("/documents/{udoi}")
-    public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
+    @PutMapping("/documents/{collection}/{udoi}")
+    public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating doc " + udoi + "...");
         String name = params.getString("name");
         String schema = params.getString("schema");
         JSONObject data = params.getJSONObject("data");
-        return udoService.updateUdo(new Udo(udoi, name, schema, data), udoi);
+        return udoService.updateUdo(new Udo(udoi, name, schema, data, collection), udoi);
     }
 }

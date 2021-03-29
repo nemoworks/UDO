@@ -1,6 +1,5 @@
 package info.nemoworks.udo.service;
 
-import info.nemoworks.udo.repository.nitrite.NitriteUdoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import info.nemoworks.udo.exception.UdoPersistException;
@@ -21,38 +20,38 @@ public class UdoService {
     }
 
     public Udo saveUdo(Udo doc) throws UdoPersistException {
-        if (udoRepository.findUdoById(doc.getUdoi()) != null) {
+        if (udoRepository.findUdoById(doc.getUdoi(), doc.getCollection()) != null) {
             throw new UdoPersistException("A Udo with a same id already exists.");
         }
-        return udoRepository.saveUdo(doc);
+        return udoRepository.saveUdo(doc, doc.getCollection());
     }
 
-    public Udo findUdoById(String udoi) throws UdoPersistException {
-        Udo doc = udoRepository.findUdoById(udoi);
+    public Udo findUdoById(String udoi, String collection) throws UdoPersistException {
+        Udo doc = udoRepository.findUdoById(udoi, collection);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
         return doc;
     }
 
-    public List<Udo> findAllUdos() {
-        return udoRepository.findAllUdos();
+    public List<Udo> findAllUdos(String collection) {
+        return udoRepository.findAllUdos(collection);
     }
 
-    public List<Udo> deleteUdoById(String udoi) throws UdoPersistException {
-        Udo doc = udoRepository.findUdoById(udoi);
+    public List<Udo> deleteUdoById(String udoi, String collection) throws UdoPersistException {
+        Udo doc = udoRepository.findUdoById(udoi, collection);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
-        udoRepository.deleteUdoById(udoi);
-        return udoRepository.findAllUdos();
+        udoRepository.deleteUdoById(udoi, collection);
+        return udoRepository.findAllUdos(collection);
     }
 
     public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException {
-        Udo doc = udoRepository.findUdoById(udoi);
+        Udo doc = udoRepository.findUdoById(udoi, udo.getCollection());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
-        return udoRepository.updateUdo(udo, udoi);
+        return udoRepository.updateUdo(udo, udoi, udo.getCollection());
     }
 }

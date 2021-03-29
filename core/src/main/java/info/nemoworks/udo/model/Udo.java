@@ -12,6 +12,8 @@ public class Udo implements IUdo {
 
     private String name;
 
+    private String collection;
+
     public Udo() { super(); }
 
     public Udo(String udoi, JSONObject content) {
@@ -19,11 +21,12 @@ public class Udo implements IUdo {
         this.content = content;
     }
 
-    public Udo(String udoi, String name, String schema, JSONObject content) {
+    public Udo(String udoi, String name, String schema, JSONObject content, String collection) {
         this.udoi = udoi;
         this.schema = schema;
         this.content = content;
         this.name = name;
+        this.collection = collection;
     }
 
     @Override
@@ -52,6 +55,14 @@ public class Udo implements IUdo {
     }
 
     public String getName() { return this.name; }
+
+    public String getCollection() {
+        return collection;
+    }
+
+    public void setCollection(String collection) {
+        this.collection = collection;
+    }
 
     public void setName(String name) { this.name = name; }
     public JSONObject toJSON() {

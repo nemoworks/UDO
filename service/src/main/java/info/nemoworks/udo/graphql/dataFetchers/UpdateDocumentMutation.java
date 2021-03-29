@@ -31,11 +31,12 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = dataFetchingEnvironment.getArgument("id").toString();
         JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
-        return Objects.requireNonNull(this.updateDocumentById(id, content)).getContent();
+        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        return Objects.requireNonNull(this.updateDocumentById(id, content, collection)).getContent();
     }
 
-    private Udo updateDocumentById(String id, JSONObject content) throws UdoPersistException {
-        Udo udo = udoService.findUdoById(id);
+    private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException {
+        Udo udo = udoService.findUdoById(id, collection);
         assert udo!=null;
         udo.setContent(content);
         try {

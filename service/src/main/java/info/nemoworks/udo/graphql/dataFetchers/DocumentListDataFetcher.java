@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+//@Component
 public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 
     private final UdoService udoService;
@@ -37,7 +37,8 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 //            List<String> ids = (List<String>) jsonObject.get(keyNameInParent);
 //            return this.getDocumentsByLinkList(ids);
 //        }
-        List<Udo> udos = this.getDocuments();
+        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        List<Udo> udos = this.getDocuments(collection);
         List<JSONObject> udoContents = new ArrayList<>();
         udos.forEach(udo -> {
             JSONObject json = udo.getContent();
@@ -47,8 +48,8 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
         return udoContents;
    }
 
-   public List<Udo> getDocuments(){
-        return udoService.findAllUdos();
+   public List<Udo> getDocuments(String collection){
+        return udoService.findAllUdos(collection);
    }
 
 

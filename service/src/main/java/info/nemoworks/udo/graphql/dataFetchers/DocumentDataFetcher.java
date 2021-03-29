@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-@Component
+//@Component
 public class DocumentDataFetcher implements DataFetcher<JSONObject> {
 
     private String documentCollectionName;
@@ -38,11 +38,12 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
             JSONObject jsonObject = dataFetchingEnvironment.getSource();
             id = jsonObject.getString(keyNameInParent);
         }
-        return this.getDocumentByAggregation(id);
+        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        return this.getDocumentByAggregation(id, collection);
     }
 
-    private JSONObject getDocumentByAggregation(String id) throws UdoPersistException {
-        return udoService.findUdoById(id).getContent();
+    private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException {
+        return udoService.findUdoById(id, collection).getContent();
        //return udoService.findDocument(id).getContent();
     }
 }

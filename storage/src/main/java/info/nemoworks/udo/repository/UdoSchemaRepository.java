@@ -7,14 +7,14 @@ import info.nemoworks.udo.model.UdoSchema;
 //import javax.swing.text.Document;
 
 public interface UdoSchemaRepository {
-    List<UdoSchema> findAllSchemas();
+    List<UdoSchema> findAllSchemas(String collection);
 
-    UdoSchema findSchemaById(String udoi);
+    UdoSchema findSchemaById(String udoi, String collection);
 
-    UdoSchema saveSchema(UdoSchema udoSchema);
+    UdoSchema saveSchema(UdoSchema udoSchema, String collection);
 
-    void deleteSchemaById(String udoi);
+    void deleteSchemaById(String udoi, String collection);
 
-    UdoSchema updateSchema(UdoSchema udoSchema, String udoi);
+    UdoSchema updateSchema(UdoSchema udoSchema, String udoi, String collection);
 
 }

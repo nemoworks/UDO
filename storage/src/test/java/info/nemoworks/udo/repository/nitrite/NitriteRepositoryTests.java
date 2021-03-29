@@ -29,11 +29,11 @@ public class NitriteRepositoryTests {
         String f = loadFromFile();
         assertNotNull(f);
         JSONObject jsonObject = JSON.parseObject(f);
-        UdoSchema room = new UdoSchema("3-15-1", "room", jsonObject);
-        UdoSchemaRepository udoSchemaRepository = new NitriteSchemaRepository(Nitrite.builder().openOrCreate());
-        UdoSchema savedRoom = udoSchemaRepository.saveSchema(room);
-        System.out.println(savedRoom.toJson());
-        assertNotNull(savedRoom);
+//        UdoSchema room = new UdoSchema("3-15-1", "room", jsonObject);
+//        UdoSchemaRepository udoSchemaRepository = new NitriteSchemaRepository(Nitrite.builder().openOrCreate());
+//        UdoSchema savedRoom = udoSchemaRepository.saveSchema(room);
+//        System.out.println(savedRoom.toJson());
+//        assertNotNull(savedRoom);
     }
 
 }
