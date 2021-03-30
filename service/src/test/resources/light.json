@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "title": "light",
+    "properties": {
+        "Name": {
+            "type": "string",
+            "title": "产品名称"
+        },
+        "Brand": {
+            "type": "string",
+            "title": "品牌"
+        }
+    }
+}

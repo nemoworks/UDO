@@ -21,6 +21,7 @@ import info.nemoworks.udo.repository.UdoRepository;
 import info.nemoworks.udo.service.Translate;
 import info.nemoworks.udo.service.UdoSchemaService;
 import info.nemoworks.udo.service.UdoService;
+import kotlin.reflect.jvm.internal.impl.util.collectionUtils.ScopeUtilsKt;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,15 @@ public class NitriteServiceTests {
         translate.startTrans();
         System.out.println(translate.getTuples());
         translate.printTuples();
+    }
+
+    @Test
+    public void graphqlTest() throws IOException {
+        String light = new String(Files.readAllBytes(Paths.get("src/test/resources/light.json")));
+        System.out.println(light);
+        JSONObject jsonObject = JSON.parseObject(light);
+        UdoSchema schema = new UdoSchema("udo1","purifier", jsonObject);
+        System.out.println(schema.toJson());
     }
 
 }

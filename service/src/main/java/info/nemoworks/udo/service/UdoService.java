@@ -20,6 +20,7 @@ public class UdoService {
     }
 
     public Udo saveUdo(Udo doc) throws UdoPersistException {
+        System.out.println(doc.toJSON());
         if (udoRepository.findUdoById(doc.getUdoi(), doc.getCollection()) != null) {
             throw new UdoPersistException("A Udo with a same id already exists.");
         }

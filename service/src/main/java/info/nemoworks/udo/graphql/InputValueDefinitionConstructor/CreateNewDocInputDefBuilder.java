@@ -14,6 +14,9 @@ public class CreateNewDocInputDefBuilder implements InputValueDefinitionBuilder 
         List<InputValueDefinition> inputValueDefinitions = new ArrayList<>();
         inputValueDefinitions.add(new InputValueDefinition("content",new TypeName(graphQLPropertyConstructor.inputKeyWordInQuery())));
         inputValueDefinitions.add(new InputValueDefinition("schemaId",new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("name",new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("schema",new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("collection",new TypeName("String")));
         return inputValueDefinitions;
     }
 }

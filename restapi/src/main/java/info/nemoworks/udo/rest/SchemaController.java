@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import info.nemoworks.udo.exception.UdoPersistException;
-//import info.nemoworks.udo.graphql.GraphQLBuilder;
+import info.nemoworks.udo.graphql.GraphQLBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +26,24 @@ public class SchemaController {
     @Autowired
     private UdoSchemaService schemaService;
 
-//    private GraphQL graphQL;
-//    private GraphQLBuilder graphQlBuilder;
-//
-//    @Autowired
-//    public SchemaController(GraphQLBuilder graphQlBuilder){
-//        this.graphQL = graphQlBuilder.createGraphQl();
-//        this.graphQlBuilder = graphQlBuilder;
-//    }
+    private GraphQL graphQL;
+    private GraphQLBuilder graphQlBuilder;
 
-    //    @CrossOrigin
-//    @PostMapping(value = "/documents/query")
-//    public ResponseEntity query(@RequestBody String query){
-//        ExecutionResult result = graphQL.execute(query);
-//        logger.info("errors: "+result.getErrors());
-//        if(result.getErrors().isEmpty())
-//            return ResponseEntity.ok(result.getData());
-//        else return ResponseEntity.badRequest().body(result.getErrors());
-//    }
+    @Autowired
+    public SchemaController(GraphQLBuilder graphQlBuilder){
+        this.graphQL = graphQlBuilder.createGraphQl();
+        this.graphQlBuilder = graphQlBuilder;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/documents/query")
+    public ResponseEntity query(@RequestBody String query){
+        ExecutionResult result = graphQL.execute(query);
+        logger.info("errors: "+result.getErrors());
+        if(result.getErrors().isEmpty())
+            return ResponseEntity.ok(result.getData());
+        else return ResponseEntity.badRequest().body(result.getErrors());
+    }
 
     @GetMapping("/schemas")
     public List<UdoSchema> allSchemas() {
@@ -59,7 +59,7 @@ public class SchemaController {
         JSONObject content = params.getJSONObject("schemaContent");
 //        String collection = params.getString("collection");
         UdoSchema udoSchema = new UdoSchema("udoi" + name, name, content);
-//        this.graphQL = graphQlBuilder.addTypeInGraphQL(udoSchema);
+        this.graphQL = graphQlBuilder.addTypeInGraphQL(udoSchema);
         return schemaService.saveSchema(udoSchema);
     }
 
