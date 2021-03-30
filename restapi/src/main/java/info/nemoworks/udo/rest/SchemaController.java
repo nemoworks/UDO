@@ -45,10 +45,10 @@ public class SchemaController {
 //        else return ResponseEntity.badRequest().body(result.getErrors());
 //    }
 
-    @GetMapping("/schemas/{collection}")
-    public List<UdoSchema> allSchemas(@PathVariable String collection) {
+    @GetMapping("/schemas")
+    public List<UdoSchema> allSchemas() {
         logger.info("find all schemas...");
-        return schemaService.findAllSchemas(collection);
+        return schemaService.findAllSchemas();
     }
 
     @PostMapping("/schemas")
@@ -57,30 +57,30 @@ public class SchemaController {
         //String udoi = params.getString("udoi");
         String name = params.getString("schemaName");
         JSONObject content = params.getJSONObject("schemaContent");
-        String collection = params.getString("collection");
-        UdoSchema udoSchema = new UdoSchema("udoi" + name, name, content, collection);
+//        String collection = params.getString("collection");
+        UdoSchema udoSchema = new UdoSchema("udoi" + name, name, content);
 //        this.graphQL = graphQlBuilder.addTypeInGraphQL(udoSchema);
         return schemaService.saveSchema(udoSchema);
     }
 
-    @DeleteMapping("/schemas/{collection}/{udoi}")
-    public List<UdoSchema> deleteSchema(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
+    @DeleteMapping("/schemas/{udoi}")
+    public List<UdoSchema> deleteSchema(@PathVariable String udoi) throws UdoPersistException {
         logger.info("now deleting schema " + udoi + "...");
-        return schemaService.deleteSchemaById(udoi, collection);
+        return schemaService.deleteSchemaById(udoi);
     }
 
-    @GetMapping("/schemas/{collection}/{udoi}")
-    public UdoSchema getSchemaById(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
+    @GetMapping("/schemas/{udoi}")
+    public UdoSchema getSchemaById(@PathVariable String udoi) throws UdoPersistException {
         logger.info("now finding schema by udoi...");
-        return schemaService.findSchemaById(udoi, collection);
+        return schemaService.findSchemaById(udoi);
     }
 
-    @PutMapping("/schemas/{collection}/{udoi}")
-    public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
+    @PutMapping("/schemas/{udoi}")
+    public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating schema " + udoi + "...");
         String name = params.getString("schemaName");
         JSONObject content = params.getJSONObject("schemaContent");
-        return schemaService.updateSchema(new UdoSchema(udoi, name, content, collection), udoi);
+        return schemaService.updateSchema(new UdoSchema(udoi, name, content), udoi);
     }
 }

@@ -23,46 +23,46 @@ public class UdoSchemaService {
     public UdoSchema saveSchema(UdoSchema schema) throws UdoPersistException {
 
 //        UdoSchema oldSchema = udoSchemaRepository.findSchemaById(schema.getUdoi());
-        if (udoSchemaRepository.findSchemaById(schema.getUdoi(), schema.getCollection()) != null) {
+        if (udoSchemaRepository.findSchemaById(schema.getUdoi()) != null) {
             throw new UdoPersistException("A schema with a same id already exists.");
         }
 //        if (udoSchemaRepository.findSchemaById(schema.getUdoi()).getSchemaName().equals(schema.getSchemaName())) {
 //            throw new UdoPersistException("A schema with a same name already exists.");
 //        }
-        return udoSchemaRepository.saveSchema(schema, schema.getCollection());
+        return udoSchemaRepository.saveSchema(schema);
     }
 
-    public UdoSchema findSchemaById(String udoi, String collection) throws UdoPersistException {
-        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi, collection);
+    public UdoSchema findSchemaById(String udoi) throws UdoPersistException {
+        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {
             throw new UdoPersistException("Schema " + udoi + " does not exist.");
         }
         return schema;
     }
 
-    public List<UdoSchema> findAllSchemas(String collection) {
-        return udoSchemaRepository.findAllSchemas(collection);
+    public List<UdoSchema> findAllSchemas() {
+        return udoSchemaRepository.findAllSchemas();
     }
 
-    public UdoSchema findSchemaByUdo(Udo udo, String collection) {
-        return udoSchemaRepository.findSchemaById(udo.getSchema(), collection);
+    public UdoSchema findSchemaByUdo(Udo udo) {
+        return udoSchemaRepository.findSchemaById(udo.getSchema());
     }
 
-    public List<UdoSchema> deleteSchemaById(String udoi, String collection) throws UdoPersistException {
-        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi, collection);
+    public List<UdoSchema> deleteSchemaById(String udoi) throws UdoPersistException {
+        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {
             throw new UdoPersistException("Udo " + udoi + " does not exist.");
         }
-        udoSchemaRepository.deleteSchemaById(udoi, collection);
-        return udoSchemaRepository.findAllSchemas(collection);
+        udoSchemaRepository.deleteSchemaById(udoi);
+        return udoSchemaRepository.findAllSchemas();
     }
 
     public UdoSchema updateSchema(UdoSchema udoSchema, String udoi) throws UdoPersistException {
 
-        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi, udoSchema.getCollection());
+        UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {
             throw new UdoPersistException("Udo " + udoi + " does not exist.");
         }
-        return udoSchemaRepository.updateSchema(udoSchema, udoi, udoSchema.getCollection());
+        return udoSchemaRepository.updateSchema(udoSchema, udoi);
     }
 }
