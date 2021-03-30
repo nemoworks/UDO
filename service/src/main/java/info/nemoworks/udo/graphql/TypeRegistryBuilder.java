@@ -90,11 +90,14 @@ public class TypeRegistryBuilder {
 
     private void addCreateNewDocumentTypeInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor,
             Map<String, Type> inputMap) {
+
         this.addInputObjectTypeDefinition(graphQLPropertyConstructor.inputKeyWordInQuery(), inputMap);
         this.addFieldDefinitionsInQueryType(graphQLPropertyConstructor.createNewXxKeyWord(),
                 new TypeName(graphQLPropertyConstructor.schemaKeyWordInGraphQL()),
                 new CreateNewDocInputDefBuilder().inputValueDefinitionListBuilder(graphQLPropertyConstructor));
     }
+
+
 
     private void addUpdateDocumentByIdInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor) {
         this.addFieldDefinitionsInQueryType(graphQLPropertyConstructor.updateXxKeyWord(),
