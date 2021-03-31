@@ -58,7 +58,7 @@ public class SchemaController {
         String name = params.getString("schemaName");
         JSONObject content = params.getJSONObject("schemaContent");
 //        String collection = params.getString("collection");
-        UdoSchema udoSchema = new UdoSchema("udoi" + name, name, content);
+        UdoSchema udoSchema = new UdoSchema(name, name, content);
         this.graphQL = graphQlBuilder.addTypeInGraphQL(udoSchema);
         return schemaService.saveSchema(udoSchema);
     }

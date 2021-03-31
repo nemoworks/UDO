@@ -18,27 +18,25 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
 
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String schemaId = dataFetchingEnvironment.getArgument("schemaId").toString();
+        String udoi = dataFetchingEnvironment.getArgument("udoi").toString();
         JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
-        System.out.println("balabala");
-        String name = dataFetchingEnvironment.getArgument("name").toString();
-        System.out.println("name");
-        String schema = dataFetchingEnvironment.getArgument("schema").toString();
-        System.out.println("schema");
-        String collection = dataFetchingEnvironment.getArgument("collection").toString();
-        System.out.println(name + " wuwuwu " + schema + "  " + collection);
-        Udo udo =  this.createNewUdo(schemaId, name, schema, content, collection);
+//        String name = dataFetchingEnvironment.getArgument("name").toString();
+//        System.out.println("name");
+        String schemaId = dataFetchingEnvironment.getArgument("schemaId").toString();
+        System.out.println("schemaId");
+//        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        Udo udo =  this.createNewUdo(udoi, schemaId, content);
         assert udo != null;
         JSONObject json = udo.getContent();
         json.put("udoi",udo.getUdoi());
-        json.put("name",udo.getName());
-        json.put("schema",udo.getSchema());
-        json.put("collection",udo.getCollection());
+//        json.put("name",udo.getName());
+        json.put("schemaId",udo.getSchemaId());
+//        json.put("collection",udo.getCollection());
         return json;
     }
 
-    private Udo createNewUdo(String schemaId, String name, String schema, JSONObject content, String collection){
-        Udo udo = new Udo(schemaId, name, schema, content, collection);
+    private Udo createNewUdo(String schemaId, String schema, JSONObject content){
+        Udo udo = new Udo(schemaId, schema, content);
         try {
           //  udo = udoService.saveUdo(udo);
             return udoService.saveUdo(udo);

@@ -61,7 +61,7 @@ public class RuntimeWiringBuilder {
 
         //orderDocumentList ==> documentListDataFetcher
         DocumentListDataFetcher documentListDataFetcher = new DocumentListDataFetcher(udoService);
-        //documentListDataFetcher.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+        documentListDataFetcher.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxlistKeyWord(), documentListDataFetcher);
 
         //orderDocument ==>  documentDataFetcher
@@ -71,17 +71,17 @@ public class RuntimeWiringBuilder {
 
         //createNewOrder ==> createDocumentMutation
         CreateDocumentMutation documentMutation = new CreateDocumentMutation(udoService);
-        //documentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+//        documentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.createNewXxKeyWord(),documentMutation);
 
         //updateOrder ==> updateDocumentMutation
         UpdateDocumentMutation updateDocumentMutation = new UpdateDocumentMutation(udoService);
-        //updateDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+        updateDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.updateXxKeyWord(),updateDocumentMutation);
 
         //deleteOrder ==> deleteDocumentMutation
         DeleteDocumentMutation deleteDocumentMutation = new DeleteDocumentMutation(udoService);
-        //deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
+        deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(),deleteDocumentMutation);
 
 //        //orderCommits ==> DocumentCommitsMutation

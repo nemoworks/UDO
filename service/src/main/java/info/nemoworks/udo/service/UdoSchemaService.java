@@ -45,7 +45,7 @@ public class UdoSchemaService {
     }
 
     public UdoSchema findSchemaByUdo(Udo udo) {
-        return udoSchemaRepository.findSchemaById(udo.getSchema());
+        return udoSchemaRepository.findSchemaById(udo.getSchemaId());
     }
 
     public List<UdoSchema> deleteSchemaById(String udoi) throws UdoPersistException {

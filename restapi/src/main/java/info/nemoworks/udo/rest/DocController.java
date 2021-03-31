@@ -31,11 +31,11 @@ public class DocController {
     public Udo createDoc(@RequestBody JSONObject params) throws UdoPersistException {
         logger.info("now saving a new doc...");
         String udoi = params.getString("udoi");
-        String name = params.getString("name");
-        String schema = params.getString("schema");
-        JSONObject data = params.getJSONObject("data");
-        String collection = params.getString("collection");
-        return udoService.saveUdo(new Udo(udoi, name, schema, data, collection));
+//        String name = params.getString("name");
+        String schemaId = params.getString("schemaId");
+        JSONObject data = params.getJSONObject("content");
+//        String collection = params.getString("collection");
+        return udoService.saveUdo(new Udo(udoi, schemaId, data));
     }
 
     @DeleteMapping("/documents/{collection}/{udoi}")
@@ -50,13 +50,13 @@ public class DocController {
         return udoService.findUdoById(udoi, collection);
     }
 
-    @PutMapping("/documents/{collection}/{udoi}")
-    public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
+    @PutMapping("/documents/{udoi}")
+    public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating doc " + udoi + "...");
-        String name = params.getString("name");
-        String schema = params.getString("schema");
+//        String name = params.getString("name");
+        String schemaId = params.getString("schemaId");
         JSONObject data = params.getJSONObject("data");
-        return udoService.updateUdo(new Udo(udoi, name, schema, data, collection), udoi);
+        return udoService.updateUdo(new Udo(udoi, schemaId, data), udoi);
     }
 }

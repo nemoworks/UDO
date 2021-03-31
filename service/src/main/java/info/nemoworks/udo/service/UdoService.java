@@ -21,10 +21,10 @@ public class UdoService {
 
     public Udo saveUdo(Udo doc) throws UdoPersistException {
         System.out.println(doc.toJSON());
-        if (udoRepository.findUdoById(doc.getUdoi(), doc.getCollection()) != null) {
+        if (udoRepository.findUdoById(doc.getUdoi(), doc.getSchemaId()) != null) {
             throw new UdoPersistException("A Udo with a same id already exists.");
         }
-        return udoRepository.saveUdo(doc, doc.getCollection());
+        return udoRepository.saveUdo(doc, doc.getSchemaId());
     }
 
     public Udo findUdoById(String udoi, String collection) throws UdoPersistException {
@@ -49,10 +49,10 @@ public class UdoService {
     }
 
     public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException {
-        Udo doc = udoRepository.findUdoById(udoi, udo.getCollection());
+        Udo doc = udoRepository.findUdoById(udoi, udo.getSchemaId());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
-        return udoRepository.updateUdo(udo, udoi, udo.getCollection());
+        return udoRepository.updateUdo(udo, udoi, udo.getSchemaId());
     }
 }

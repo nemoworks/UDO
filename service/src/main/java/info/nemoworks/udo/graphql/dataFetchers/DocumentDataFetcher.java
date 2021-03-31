@@ -38,8 +38,8 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
             JSONObject jsonObject = dataFetchingEnvironment.getSource();
             id = jsonObject.getString(keyNameInParent);
         }
-        String collection = dataFetchingEnvironment.getArgument("collection").toString();
-        return this.getDocumentByAggregation(id, collection);
+//        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        return this.getDocumentByAggregation(id, documentCollectionName);
     }
 
     private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException {

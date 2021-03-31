@@ -3,7 +3,7 @@ package info.nemoworks.udo.graphql.schema;
 public class GraphQLPropertyConstructor {
     private String schemaName;
 
-    private static final String COLLECTION_NAME_PRE = "sddm_";
+    private static final String COLLECTION_NAME_PRE = "";
     private static final String QUERY_XXLIST_SUFFIX = "Documents";
     private static final String QUERY_XX_SUFFIX = "";
     private static final String CREATE_NEW_XX_PRE = "new";

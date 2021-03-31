@@ -16,23 +16,23 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
 
     private final UdoService udoService;
 
-   // private String documentCollectionName;
+    private String documentCollectionName;
 
     public UpdateDocumentMutation(UdoService udoService) {
         this.udoService = udoService;
     }
 
-//    public void setDocumentCollectionName(String documentCollectionName){
-//        this.documentCollectionName = documentCollectionName;
-//    }
+    public void setDocumentCollectionName(String documentCollectionName){
+        this.documentCollectionName = documentCollectionName;
+    }
 
     @SneakyThrows
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String id = dataFetchingEnvironment.getArgument("id").toString();
+        String udoi = dataFetchingEnvironment.getArgument("udoi").toString();
         JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
-        String collection = dataFetchingEnvironment.getArgument("collection").toString();
-        return Objects.requireNonNull(this.updateDocumentById(id, content, collection)).getContent();
+//        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        return Objects.requireNonNull(this.updateDocumentById(udoi, content, documentCollectionName)).getContent();
     }
 
     private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException {

@@ -69,6 +69,7 @@ public class NitriteSchemaCollectionRepo implements UdoSchemaRepository {
         WriteResult writeResult = nitriteCollection.insert(sav);
         NitriteId nitriteId = Iterables.firstOrDefault(writeResult);
         Document doc = nitriteCollection.getById(nitriteId);
+        db.getCollection(udoSchema.getUdoi());
         return JSON.parseObject(mapperFacade.toJson(doc), UdoSchema.class);
     }
 

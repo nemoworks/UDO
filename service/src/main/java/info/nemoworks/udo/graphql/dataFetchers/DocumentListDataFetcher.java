@@ -15,7 +15,7 @@ import java.util.List;
 public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 
     private final UdoService udoService;
-    //private String documentCollectionName;
+    private String documentCollectionName;
     private String keyNameInParent;
 
     @Autowired
@@ -23,9 +23,9 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
         this.udoService = udoService;
     }
 
-//    public void setDocumentCollectionName(String documentCollectionName){
-//        this.documentCollectionName = documentCollectionName;
-//    }
+    public void setDocumentCollectionName(String documentCollectionName){
+        this.documentCollectionName = documentCollectionName;
+    }
     public void setKeyNameInParent(String keyNameInParent) {
         this.keyNameInParent = keyNameInParent;
     }
@@ -37,8 +37,8 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 //            List<String> ids = (List<String>) jsonObject.get(keyNameInParent);
 //            return this.getDocumentsByLinkList(ids);
 //        }
-        String collection = dataFetchingEnvironment.getArgument("collection").toString();
-        List<Udo> udos = this.getDocuments(collection);
+//        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        List<Udo> udos = this.getDocuments(documentCollectionName);
         List<JSONObject> udoContents = new ArrayList<>();
         udos.forEach(udo -> {
             JSONObject json = udo.getContent();

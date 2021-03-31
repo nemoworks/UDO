@@ -48,11 +48,13 @@ public class GraphQLBuilder {
                 "    \"properties\": {\n" +
                 "        \"Name\": {\n" +
                 "            \"type\": \"string\",\n" +
-                "            \"title\": \"产品名称\"\n" +
+                "            \"title\": \"产品名称\",\n" +
+                "            \"filter\": true\n" +
                 "        },\n" +
                 "        \"Brand\": {\n" +
                 "            \"type\": \"string\",\n" +
-                "            \"title\": \"品牌\"\n" +
+                "            \"title\": \"品牌\",\n" +
+                "            \"filter\": false\n" +
                 "        }\n" +
                 "    }\n" +
                 "}";

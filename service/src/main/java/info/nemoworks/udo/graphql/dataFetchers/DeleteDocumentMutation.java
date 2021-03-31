@@ -12,16 +12,22 @@ import org.springframework.stereotype.Component;
 public class DeleteDocumentMutation implements DataFetcher<JSONObject> {
     private final UdoService udoService ;
 
+    private String documentCollectionName;
+
     public DeleteDocumentMutation(UdoService udoService) {
         this.udoService = udoService;
+    }
+
+    public void setDocumentCollectionName(String documentCollectionName){
+        this.documentCollectionName = documentCollectionName;
     }
 
     @SneakyThrows
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
-        String id = dataFetchingEnvironment.getArgument("id").toString();
-        String collection = dataFetchingEnvironment.getArgument("collection").toString();
-        return  deleteDocumentById(id, collection);
+        String udoi = dataFetchingEnvironment.getArgument("udoi").toString();
+//        String collection = dataFetchingEnvironment.getArgument("collection").toString();
+        return  deleteDocumentById(udoi, documentCollectionName);
     }
 
     private JSONObject deleteDocumentById(String id, String collection) throws UdoPersistException {
