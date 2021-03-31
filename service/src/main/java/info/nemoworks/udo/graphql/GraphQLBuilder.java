@@ -74,6 +74,7 @@ public class GraphQLBuilder {
     }
 
     public GraphQL addTypeInGraphQL(UdoSchema udoSchema){
+        System.out.println(udoSchema.toJson());
         this.addNewTypeAndDataFetcherInGraphQL(udoSchema);
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return  newGraphQL(graphQLSchema).build();
@@ -81,6 +82,7 @@ public class GraphQLBuilder {
 
     private void addNewTypeAndDataFetcherInGraphQL(UdoSchema udoSchema){
         JSONObject json = udoSchema.getSchemaContent();
+        System.out.println(json);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
                 .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);

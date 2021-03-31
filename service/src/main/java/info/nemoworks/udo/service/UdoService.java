@@ -28,9 +28,10 @@ public class UdoService {
     }
 
     public Udo findUdoById(String udoi, String collection) throws UdoPersistException {
+        collection = collection.substring(0, 1).toLowerCase() + collection.substring(1);
         Udo doc = udoRepository.findUdoById(udoi, collection);
         if (doc == null) {
-            throw new UdoPersistException("Doc " + udoi + " does not exist.");
+            throw new UdoPersistException("Doc " + udoi + " does not exist.\n" + collection + udoi);
         }
         return doc;
     }

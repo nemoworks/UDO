@@ -65,13 +65,13 @@ public class SchemaTree {
                 switch (typeName) {
                 case Link:
                     String typeName1 = value1.get("linkTo").toString();
-                    schemaTree.linkList.add(new Link(key, "Link"));
+                    schemaTree.linkList.add(new Link(key, "Link", typeName1));
                     schemaTree.typeMap.put(key, new TypeName(typeName1));
                     schemaTree.inputMap.put(key, new TypeName("String"));
                     break;
                 case LinkList:
                     String typeName2 = value1.get("linkTo").toString();
-                    schemaTree.linkList.add(new Link(key, "LinkList"));
+                    schemaTree.linkList.add(new Link(key, "LinkList", typeName2));
                     schemaTree.typeMap.put(key, new ListType(new TypeName(typeName2)));
                     schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
                     break;

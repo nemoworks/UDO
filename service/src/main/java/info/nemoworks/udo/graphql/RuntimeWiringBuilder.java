@@ -99,12 +99,12 @@ public class RuntimeWiringBuilder {
         linkList.forEach(link -> {
             if(link.getLinkType().equals("Link")){
                 DocumentDataFetcher documentDataFetcher1 = new DocumentDataFetcher(udoService);
-               // documentDataFetcher1.setDocumentCollectionName(link.getCollectionName());
+                documentDataFetcher1.setDocumentCollectionName(link.getCollection());
                 documentDataFetcher1.setKeyNameInParent(link.getName());
                 dataFetcherMap.put(link.getName(),documentDataFetcher1);
             }else if(link.getLinkType().equals("LinkList")){
                 DocumentListDataFetcher documentListDataFetcher1 = new DocumentListDataFetcher(udoService);
-               // documentListDataFetcher1.setDocumentCollectionName(link.getCollectionName());
+                documentListDataFetcher1.setDocumentCollectionName(link.getCollection());
                 documentListDataFetcher1.setKeyNameInParent(link.getName());
                 dataFetcherMap.put(link.getName(),documentListDataFetcher1);
             }
