@@ -51,11 +51,11 @@ public class TypeRegistryBuilder {
 
             typeDefinitionsMap.put(schemaTree.getName(), schemaTree.getTypeMap());
 
-            System.out.println(schemaTree.getName());
+//            System.out.println(schemaTree.getName());
             GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(
                     schemaTree.getName());
-            System.out.println(schemaTree.getTypeMap());
-            System.out.println(graphQLPropertyConstructor.schemaKeyWordInGraphQL());
+//            System.out.println(schemaTree.getTypeMap());
+//            System.out.println(graphQLPropertyConstructor.schemaKeyWordInGraphQL());
             this.addTypeDefinition(graphQLPropertyConstructor.schemaKeyWordInGraphQL(), schemaTree.getTypeMap());
 
             this.addDocumentTypeInQuery(graphQLPropertyConstructor);

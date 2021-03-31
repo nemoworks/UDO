@@ -23,7 +23,7 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
 //        String name = dataFetchingEnvironment.getArgument("name").toString();
 //        System.out.println("name");
         String schemaId = dataFetchingEnvironment.getArgument("schemaId").toString();
-        System.out.println("schemaId");
+//        System.out.println("schemaId");
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
         Udo udo =  this.createNewUdo(udoi, schemaId, content);
         assert udo != null;
