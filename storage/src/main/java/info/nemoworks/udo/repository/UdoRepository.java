@@ -5,15 +5,18 @@ import info.nemoworks.udo.model.Udo;
 
 import java.util.List;
 
+/*
+collection : schemaId
+ */
 public interface UdoRepository {
 
-    Udo saveUdo(Udo udo, String collection) throws UdoPersistException;
+    Udo saveUdo(Udo udo, String schemaId) throws UdoPersistException;
 
-    Udo findUdoById(String udoi, String collection);
+    Udo findUdoById(String udoi, String schemaId);
 
-    List<Udo> findAllUdos(String collection);
+    List<Udo> findAllUdos(String schemaId);
 
-    void deleteUdoById(String udoi, String collection);
+    void deleteUdoById(String udoi, String schemaId);
 
-    Udo updateUdo(Udo udo, String udoi, String collection);
+    Udo updateUdo(Udo udo, String udoi, String schemaId);
 }

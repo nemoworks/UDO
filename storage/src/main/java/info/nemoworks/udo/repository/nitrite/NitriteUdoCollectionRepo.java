@@ -37,8 +37,8 @@ public class NitriteUdoCollectionRepo implements UdoRepository {
     }
 
     @Override
-    public Udo saveUdo(Udo udo, String collection) throws UdoPersistException {
-        nitriteCollection = db.getCollection(collection);
+    public Udo saveUdo(Udo udo, String schemaId) throws UdoPersistException {
+        nitriteCollection = db.getCollection(schemaId);
         MapperFacade mapperFacade = new JacksonFacade();
         Document sav = mapperFacade.parse(JSONObject.toJSONString(udo));
         WriteResult writeResult = nitriteCollection.insert(sav);
@@ -48,16 +48,16 @@ public class NitriteUdoCollectionRepo implements UdoRepository {
     }
 
     @Override
-    public Udo findUdoById(String udoi, String collection) {
-        nitriteCollection = this.getCollection(collection);
+    public Udo findUdoById(String udoi, String schemaId) {
+        nitriteCollection = this.getCollection(schemaId);
         Document doc = nitriteCollection.find(Filters.eq("udoi", udoi)).firstOrDefault();
         MapperFacade mapperFacade = new JacksonFacade();
         return JSON.parseObject(mapperFacade.toJson(doc), Udo.class);
     }
 
     @Override
-    public List<Udo> findAllUdos(String collection) {
-        nitriteCollection = this.getCollection(collection);
+    public List<Udo> findAllUdos(String schemaId) {
+        nitriteCollection = this.getCollection(schemaId);
         List<Document> docList = nitriteCollection.find().toList();
         List<Udo> resList = new ArrayList<>();
         for (Document doc: docList) {
@@ -68,14 +68,14 @@ public class NitriteUdoCollectionRepo implements UdoRepository {
     }
 
     @Override
-    public void deleteUdoById(String udoi, String collection) {
-        nitriteCollection = this.getCollection(collection);
+    public void deleteUdoById(String udoi, String schemaId) {
+        nitriteCollection = this.getCollection(schemaId);
         nitriteCollection.remove(Filters.eq("udoi", udoi));
     }
 
     @Override
-    public Udo updateUdo(Udo udo, String udoi, String collection) {
-        nitriteCollection = this.getCollection(collection);
+    public Udo updateUdo(Udo udo, String udoi, String schemaId) {
+        nitriteCollection = this.getCollection(schemaId);
         MapperFacade mapperFacade = new JacksonFacade();
         Document upd = mapperFacade.parse(JSONObject.toJSONString(udo));
         nitriteCollection.update(Filters.eq("udoi", udoi), upd);
