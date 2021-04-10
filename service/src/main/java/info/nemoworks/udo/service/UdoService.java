@@ -19,6 +19,10 @@ public class UdoService {
         this.udoRepository = udoRepository;
     }
 
+    public UdoRepository getUdoRepository() {
+        return udoRepository;
+    }
+
     public Udo saveUdo(Udo doc) throws UdoPersistException {
         System.out.println(doc.toJSON());
         if (udoRepository.findUdoById(doc.getUdoi(), doc.getSchemaId()) != null) {

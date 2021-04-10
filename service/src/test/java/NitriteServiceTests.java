@@ -6,28 +6,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
-import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.repository.UdoRepository;
 import info.nemoworks.udo.service.Translate;
-import info.nemoworks.udo.service.UdoSchemaService;
-import info.nemoworks.udo.service.UdoService;
-import kotlin.reflect.jvm.internal.impl.util.collectionUtils.ScopeUtilsKt;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.apache.commons.io.IOUtils;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 //@RunWith(SpringRunner.class)
@@ -72,7 +62,7 @@ public class NitriteServiceTests {
 //        }
         Translate translate = new Translate(obj);
         translate.startTrans();
-        System.out.println(translate.getTuples());
+        System.out.println(translate.getUTuples());
         translate.printTuples();
     }
 
