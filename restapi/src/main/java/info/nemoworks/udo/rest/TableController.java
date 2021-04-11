@@ -2,9 +2,9 @@ package info.nemoworks.udo.rest;
 
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.exception.TablePersistException;
-import info.nemoworks.udo.model.UTable;
+import info.nemoworks.udo.repository.h2.UTable;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.service.TableService;
+import info.nemoworks.udo.repository.h2.TableService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

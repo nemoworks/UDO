@@ -1,8 +1,8 @@
-package info.nemoworks.udo.service;
+package info.nemoworks.udo.repository.h2;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import info.nemoworks.udo.model.UTuple;
+import info.nemoworks.udo.repository.h2.UTuple;
 
 import java.util.*;
 
@@ -24,6 +24,10 @@ public class Translate {
         this.UTuples = new ArrayList<>();
         this.uid = 0;
         this.translatingObj(this.jsonObject, "");
+    }
+
+    public JSONObject backTranslate(List<UTuple> tuples) {
+        return this.jsonObject;
     }
 
     private void translatingObj(JSONObject obj, String suffix) {

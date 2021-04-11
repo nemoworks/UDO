@@ -1,10 +1,8 @@
-package info.nemoworks.udo.service;
+package info.nemoworks.udo.repository.h2;
 
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.exception.TablePersistException;
-import info.nemoworks.udo.model.UTable;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.repository.h2.TableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +11,18 @@ import java.util.List;
 @Service
 public class TableService {
     @Autowired
-    private TableRepository tableRepository;
+    private UTableRepository uTableRepository;
 
-    public TableService(TableRepository tableRepository) {
-        this.tableRepository = tableRepository;
+    public TableService(UTableRepository uTableRepository) {
+        this.uTableRepository = uTableRepository;
     }
 
     public List<UTable> findAllTables() {
-        return tableRepository.findAll();
+        return uTableRepository.findAll();
     }
 
     public UTable findTableByName(String name) throws TablePersistException {
-        UTable UTable = tableRepository.findByTableName(name);
+        UTable UTable = uTableRepository.findByTableName(name);
         if (UTable == null) {
             throw new TablePersistException("Table named: " + name + " is not existing.");
         }
@@ -32,11 +30,11 @@ public class TableService {
     }
 
     public void deleteTableByName(String name) throws TablePersistException {
-        UTable UTable = tableRepository.findByTableName(name);
+        UTable UTable = uTableRepository.findByTableName(name);
         if (UTable == null) {
             throw new TablePersistException("Table named: " + name + " is not existing.");
         }
-        tableRepository.deleteByTableName(name);
+        uTableRepository.deleteByTableName(name);
     }
 
     public UTable saveUdoAsTable(Udo udo) throws TablePersistException{
@@ -45,9 +43,21 @@ public class TableService {
         Translate translate = new Translate(obj);
         translate.startTrans();
         UTable UTable = new UTable(translate.getUTuples(), tableName);
-        if (tableRepository.findByTableName(UTable.getTableName()) != null) {
+        if (uTableRepository.findByTableName(UTable.getTableName()) != null) {
             throw new TablePersistException("Table named: " + UTable.getTableName() + " already exists.");
         }
-        return tableRepository.save(UTable);
+        return uTableRepository.save(UTable);
+    }
+
+    public UTable updateUdoAsTable(Udo udo) throws TablePersistException {
+        JSONObject obj = udo.getContent();
+        String tableName = udo.getUdoi() + udo.getSchemaId();
+        Translate translate = new Translate(obj);
+        translate.startTrans();
+        UTable UTable = new UTable(translate.getUTuples(), tableName);
+        if (uTableRepository.findByTableName(UTable.getTableName()) == null) {
+            throw new TablePersistException("Table named: " + UTable.getTableName() + " does not exist.");
+        }
+        return uTableRepository.save(UTable);
     }
 }

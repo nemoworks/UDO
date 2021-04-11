@@ -25,7 +25,7 @@ public class UdoService {
 
     public Udo saveUdo(Udo doc) throws UdoPersistException {
         System.out.println(doc.toJSON());
-        if (udoRepository.findUdoById(doc.getUdoi(), doc.getSchemaId()) != null) {
+        if (udoRepository.findUdo(doc.getUdoi(), doc.getSchemaId()) != null) {
             throw new UdoPersistException("A Udo with a same id already exists.");
         }
         return udoRepository.saveUdo(doc, doc.getSchemaId());
@@ -33,7 +33,7 @@ public class UdoService {
 
     public Udo findUdoById(String udoi, String collection) throws UdoPersistException {
         collection = collection.substring(0, 1).toLowerCase() + collection.substring(1);
-        Udo doc = udoRepository.findUdoById(udoi, collection);
+        Udo doc = udoRepository.findUdo(udoi, collection);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.\n" + collection + udoi);
         }
@@ -45,16 +45,16 @@ public class UdoService {
     }
 
     public List<Udo> deleteUdoById(String udoi, String collection) throws UdoPersistException {
-        Udo doc = udoRepository.findUdoById(udoi, collection);
+        Udo doc = udoRepository.findUdo(udoi, collection);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
-        udoRepository.deleteUdoById(udoi, collection);
+        udoRepository.deleteUdo(udoi, collection);
         return udoRepository.findAllUdos(collection);
     }
 
     public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException {
-        Udo doc = udoRepository.findUdoById(udoi, udo.getSchemaId());
+        Udo doc = udoRepository.findUdo(udoi, udo.getSchemaId());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
