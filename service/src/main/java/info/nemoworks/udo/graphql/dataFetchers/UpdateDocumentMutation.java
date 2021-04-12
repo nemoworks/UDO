@@ -3,6 +3,7 @@ package info.nemoworks.udo.graphql.dataFetchers;
 import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.service.UdoService;
@@ -35,7 +36,7 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
         return Objects.requireNonNull(this.updateDocumentById(udoi, content, documentCollectionName)).getContent();
     }
 
-    private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException {
+    private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException, TablePersistException {
         Udo udo = udoService.findUdoById(id, collection);
         assert udo!=null;
         udo.setContent(content);

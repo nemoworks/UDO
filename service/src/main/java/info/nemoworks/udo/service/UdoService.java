@@ -1,5 +1,6 @@
 package info.nemoworks.udo.service;
 
+import info.nemoworks.udo.exception.TablePersistException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import info.nemoworks.udo.exception.UdoPersistException;
@@ -23,7 +24,7 @@ public class UdoService {
         return udoRepository;
     }
 
-    public Udo saveUdo(Udo doc) throws UdoPersistException {
+    public Udo saveUdo(Udo doc) throws UdoPersistException, TablePersistException {
         System.out.println(doc.toJSON());
         if (udoRepository.findUdo(doc.getUdoi(), doc.getSchemaId()) != null) {
             throw new UdoPersistException("A Udo with a same id already exists.");
@@ -31,7 +32,7 @@ public class UdoService {
         return udoRepository.saveUdo(doc, doc.getSchemaId());
     }
 
-    public Udo findUdoById(String udoi, String collection) throws UdoPersistException {
+    public Udo findUdoById(String udoi, String collection) throws UdoPersistException, TablePersistException {
         collection = collection.substring(0, 1).toLowerCase() + collection.substring(1);
         Udo doc = udoRepository.findUdo(udoi, collection);
         if (doc == null) {
@@ -44,7 +45,7 @@ public class UdoService {
         return udoRepository.findAllUdos(collection);
     }
 
-    public List<Udo> deleteUdoById(String udoi, String collection) throws UdoPersistException {
+    public List<Udo> deleteUdoById(String udoi, String collection) throws UdoPersistException, TablePersistException {
         Udo doc = udoRepository.findUdo(udoi, collection);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
@@ -53,7 +54,7 @@ public class UdoService {
         return udoRepository.findAllUdos(collection);
     }
 
-    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException {
+    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException, TablePersistException {
         Udo doc = udoRepository.findUdo(udoi, udo.getSchemaId());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");

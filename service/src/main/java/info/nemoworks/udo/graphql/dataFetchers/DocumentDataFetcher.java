@@ -3,6 +3,7 @@ package info.nemoworks.udo.graphql.dataFetchers;
 import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.service.UdoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
         return this.getDocumentByAggregation(id, documentCollectionName);
     }
 
-    private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException {
+    private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, TablePersistException {
         return udoService.findUdoById(id, collection).getContent();
        //return udoService.findDocument(id).getContent();
     }
