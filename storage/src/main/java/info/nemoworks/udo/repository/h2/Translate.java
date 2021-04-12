@@ -20,14 +20,25 @@ public class Translate {
         this.jsonObject = jsonObject;
     }
 
+    public Translate(List<UTuple> UTuples) {
+        this.UTuples = UTuples;
+        this.uid = 0;
+        this.jsonObject = new JSONObject();
+    }
+
     public void startTrans() {
         this.UTuples = new ArrayList<>();
         this.uid = 0;
         this.translatingObj(this.jsonObject, "");
     }
 
-    public JSONObject backTranslate(List<UTuple> tuples) {
-        return this.jsonObject;
+    public void startBackTrans() {
+        this.backTranslate(this.UTuples);
+    }
+
+    public void backTranslate(List<UTuple> tuples) {
+
+//        return this.jsonObject;
     }
 
     private void translatingObj(JSONObject obj, String suffix) {

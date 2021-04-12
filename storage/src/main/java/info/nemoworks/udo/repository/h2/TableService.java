@@ -38,11 +38,12 @@ public class TableService {
     }
 
     public UTable saveUdoAsTable(Udo udo) throws TablePersistException{
-        JSONObject obj = udo.getContent();
-        String tableName = udo.getUdoi() + udo.getSchemaId();
-        Translate translate = new Translate(obj);
+//        JSONObject obj = udo.getContent();
+        String firstTableName = udo.getUdoi();
+        String secondTableName = udo.getSchemaId();
+        Translate translate = new Translate(udo.getContent());
         translate.startTrans();
-        UTable UTable = new UTable(translate.getUTuples(), tableName);
+        UTable UTable = new UTable(translate.getUTuples(), firstTableName, secondTableName);
         if (uTableRepository.findByTableName(UTable.getTableName()) != null) {
             throw new TablePersistException("Table named: " + UTable.getTableName() + " already exists.");
         }
@@ -50,11 +51,12 @@ public class TableService {
     }
 
     public UTable updateUdoAsTable(Udo udo) throws TablePersistException {
-        JSONObject obj = udo.getContent();
-        String tableName = udo.getUdoi() + udo.getSchemaId();
-        Translate translate = new Translate(obj);
+//        JSONObject obj = udo.getContent();
+        String firstTableName = udo.getUdoi();
+        String secondTableName = udo.getSchemaId();
+        Translate translate = new Translate(udo.getContent());
         translate.startTrans();
-        UTable UTable = new UTable(translate.getUTuples(), tableName);
+        UTable UTable = new UTable(translate.getUTuples(), firstTableName, secondTableName);
         if (uTableRepository.findByTableName(UTable.getTableName()) == null) {
             throw new TablePersistException("Table named: " + UTable.getTableName() + " does not exist.");
         }

@@ -48,7 +48,7 @@ public class NitriteUdoCollectionRepo implements UdoRepository {
     }
 
     @Override
-    public Udo findUdoById(String udoi, String schemaId) {
+    public Udo findUdo(String udoi, String schemaId) {
         nitriteCollection = this.getCollection(schemaId);
         Document doc = nitriteCollection.find(Filters.eq("udoi", udoi)).firstOrDefault();
         MapperFacade mapperFacade = new JacksonFacade();
@@ -67,8 +67,10 @@ public class NitriteUdoCollectionRepo implements UdoRepository {
         return resList;
     }
 
+
+
     @Override
-    public void deleteUdoById(String udoi, String schemaId) {
+    public void deleteUdo(String udoi, String schemaId) {
         nitriteCollection = this.getCollection(schemaId);
         nitriteCollection.remove(Filters.eq("udoi", udoi));
     }
