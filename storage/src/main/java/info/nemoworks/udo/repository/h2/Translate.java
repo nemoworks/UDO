@@ -74,7 +74,7 @@ public class Translate {
         nameStack.push(objName);
         objectStack.push(obj);
         while (!pPrefix.equals("") && !pPrefix.equals(pPrefix.substring(0, 0))) {
-//            System.out.println("Now prefix: " + pPrefix);
+            System.out.println("Now prefix: " + pPrefix);
             sb = new StringBuffer(pPrefix);
             reverse = sb.reverse().toString();
             endIndex = pPrefix.length() - reverse.indexOf(".");
@@ -88,13 +88,23 @@ public class Translate {
             nameStack.push(objName);
             objectStack.push(obj);
         }
-        if (!this.jsonObject.containsKey(objName))
+        if (!this.jsonObject.containsKey(objName)) {
+//            System.out.println("add obj" + objName);
+//            System.out.println("obj" + obj.getJSONObject(objName));
             this.jsonObject.put(objName, obj.getJSONObject(objName));
+        }
         else {
             JSONObject fatherObj = this.jsonObject.getJSONObject(objName); //获取jsonObject中已经存在的obj
             nameStack.pop(); // 去掉栈顶，即尾部名称
             objectStack.pop();
-            this.jsonObject.put(objName, packUpObj(fatherObj, nameStack, objectStack));
+//            System.out.println("pushing: " + objName + "into" + packUpObj(fatherObj, nameStack, objectStack));
+//            System.out.println("before: " + this.jsonObject);
+//            System.out.println("father: " + fatherObj);
+            JSONObject obj2put = packUpObj(fatherObj, nameStack, objectStack);
+//            System.out.println("obj2" + obj2put);
+            this.jsonObject.put(objName, obj2put);
+//            System.out.println(objName);
+//            System.out.println(this.jsonObject);
 //            String curName = nameStack.pop();
 //            JSONObject curObj = objectStack.pop();
 //            while (fatherObj.containsKey(curName)) {
@@ -107,10 +117,24 @@ public class Translate {
         }
     }
 
+    /**
+     * 递归，自下而上搭建新的JSONObj
+     * @param fatherObj 上层节点
+     * @param nameStack 存储节点name
+     * @param objStack 存储下层节点内容
+     * @return 填充完成的Obj
+     */
     private JSONObject packUpObj(JSONObject fatherObj, Stack<String> nameStack, Stack<JSONObject> objStack) {
         String curName = nameStack.pop();
+//        System.out.println("cname: " + curName);
         JSONObject curObj = objStack.pop();
-        if (!fatherObj.containsKey(curName)) return (JSONObject) fatherObj.put(curName, curObj);
+//        System.out.println("cobj: " + curObj);
+        if (!fatherObj.containsKey(curName)) {
+            if (curObj.get(curName) instanceof String)
+                fatherObj.put(curName, curObj.getString(curName));
+            else fatherObj.put(curName, curObj.get(curName));
+            return fatherObj;
+        }
         else return (JSONObject) fatherObj.put(curName, packUpObj(fatherObj.getJSONObject(curName), nameStack, objStack));
     }
 
