@@ -15,6 +15,7 @@ import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.h2.Translate;
+import javafx.util.Pair;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.apache.commons.io.IOUtils;
@@ -81,6 +82,28 @@ public class NitriteServiceTests {
         jsonObject.put("1", 1);
         jsonObject.put("1", 2);
         System.out.println(jsonObject);
+    }
+
+    @Test
+    public void traverseTest2() throws IOException {
+        String prefix = "a[0].c";
+        StringBuffer sb = new StringBuffer(prefix);
+        String reverse = sb.reverse().toString();
+        int indexArr = reverse.indexOf("]");
+        int indexLeftArr = reverse.indexOf("[");
+        int indexDot = reverse.indexOf(".");
+        if (indexArr < indexDot) {
+            int endIndex = prefix.length() - indexDot;
+            String ArrName = prefix.substring(endIndex, prefix.length() - indexLeftArr - 1);
+            prefix = prefix.substring(0, endIndex - 1);
+            System.out.println(ArrName + " " + prefix);
+        } else {
+            int endIndex = prefix.length() - indexArr + 1;
+            String ObjName = prefix.substring(endIndex);
+            prefix = prefix.substring(0, endIndex - 1);
+            System.out.println(ObjName + " " + prefix);
+            System.out.println("a[0]".substring(0, "a[0]".indexOf("[")));
+        }
     }
 
     @Test

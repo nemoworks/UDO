@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.repository.h2.UTuple;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -74,11 +75,11 @@ public class Translate {
         nameStack.push(objName);
         objectStack.push(obj);
         while (!pPrefix.equals("") && !pPrefix.equals(pPrefix.substring(0, 0))) {
-            System.out.println("Now prefix: " + pPrefix);
+//            System.out.println("Now prefix: " + pPrefix);
             sb = new StringBuffer(pPrefix);
             reverse = sb.reverse().toString();
             endIndex = pPrefix.length() - reverse.indexOf(".");
-            if (!reverse.contains(".")) endIndex = 0;
+            if (!reverse.contains(".")) endIndex = 0; // 处理到根节点的情况
             objName = pPrefix.substring(endIndex);
             if (endIndex == 0) pPrefix = pPrefix.substring(0, 0);
             else pPrefix = pPrefix.substring(0, endIndex - 1);
@@ -126,9 +127,7 @@ public class Translate {
      */
     private JSONObject packUpObj(JSONObject fatherObj, Stack<String> nameStack, Stack<JSONObject> objStack) {
         String curName = nameStack.pop();
-//        System.out.println("cname: " + curName);
         JSONObject curObj = objStack.pop();
-//        System.out.println("cobj: " + curObj);
         if (!fatherObj.containsKey(curName)) {
             if (curObj.get(curName) instanceof String)
                 fatherObj.put(curName, curObj.getString(curName));
@@ -139,10 +138,71 @@ public class Translate {
     }
 
     private void backTranslatingArr(UTuple uTuple, String prefix) {
-        if (prefix.equals(uTuple.getName())) {
-            String cStr = prefix.substring(0, prefix.indexOf("["));
+        if (prefix.equals("")) return;
+        StringBuffer sb = new StringBuffer(prefix);
+        String reverse = sb.reverse().toString();
+        int endIndex = prefix.length() - reverse.indexOf(".");
+        String objName = prefix.substring(endIndex);
+        Object obj = new JSONObject();
+        ((JSONObject) obj).put(objName, uTuple.getVal());
+        String pPrefix = prefix.substring(0, endIndex - 1);
+        Stack<String> nameStack = new Stack<>();
+        Stack<Pair<Object, String>> objectStack = new Stack<>();
+        nameStack.push(objName);
+        objectStack.push(new Pair<Object, String>(obj, "Object"));
+        // 考虑 Object 与 Array 互相嵌套的 5 种情况
+        while (!pPrefix.equals("") && !pPrefix.equals(pPrefix.substring(0, 0))) {
+            sb = new StringBuffer(pPrefix);
+            reverse = sb.reverse().toString();
+            int indexArr = reverse.indexOf("]");
+            int indexLeftArr = reverse.indexOf("[");
+            int indexDot = reverse.indexOf(".");
+            if (indexArr == -1 && indexDot == -1) { // 根节点 形如a
+                String ObjName = pPrefix;
+                nameStack.push(ObjName);
+                pPrefix = pPrefix.substring(0, 0);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(ObjName, obj);
+                objectStack.push(new Pair<>(jsonObject, "Object"));
+                obj = jsonObject;
+            } else if (indexDot == -1) { // 根节点，形如a[x]
+                String ArrName = pPrefix.substring(0, pPrefix.indexOf("["));
+                nameStack.push(ArrName);
+                pPrefix = pPrefix.substring(0, 0);
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.add(obj);
+                objectStack.push(new Pair<>(jsonArray, "Array"));
+                obj = jsonArray;
+            } else if (indexArr == -1) { // 形如 a.b.c
+                endIndex = pPrefix.length() - reverse.indexOf(".");
+                String ObjName = pPrefix.substring(endIndex);
+                pPrefix = pPrefix.substring(0, endIndex - 1);
+                JSONObject jsonObject = new JSONObject();
+                nameStack.push(ObjName);
+                jsonObject.put(ObjName, obj);
+                objectStack.push(new Pair<>(jsonObject, "Object"));
+                obj = jsonObject;
+            }
+            else if (indexArr < indexDot) { //形如 c.a[x]
+                endIndex = pPrefix.length() - indexDot;
+                String ArrName = pPrefix.substring(endIndex, pPrefix.length() - indexLeftArr - 1);
+                pPrefix = pPrefix.substring(0, endIndex - 1);
+                nameStack.push(ArrName);
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.add(obj);
+                objectStack.push(new Pair<>(jsonArray, "Array"));
+                obj = jsonArray;
+            } else { //形如 a[x].c
+                endIndex = pPrefix.length() - indexArr + 1;
+                String ObjName = pPrefix.substring(endIndex);
+                pPrefix = pPrefix.substring(0, endIndex - 1);
+                nameStack.push(ObjName);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(ObjName, obj);
+                objectStack.push(new Pair<>(jsonObject, "Object"));
+                obj = jsonObject;
+            }
         }
-//        String name = uTuple.getName();
     }
 
     private void translatingObj(JSONObject obj, String suffix) {
