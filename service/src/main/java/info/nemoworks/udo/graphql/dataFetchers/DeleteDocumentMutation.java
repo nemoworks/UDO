@@ -3,6 +3,7 @@ package info.nemoworks.udo.graphql.dataFetchers;
 import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
+import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.service.UdoService;
 import lombok.SneakyThrows;
@@ -30,7 +31,7 @@ public class DeleteDocumentMutation implements DataFetcher<JSONObject> {
         return  deleteDocumentById(udoi, documentCollectionName);
     }
 
-    private JSONObject deleteDocumentById(String id, String collection) throws UdoPersistException {
+    private JSONObject deleteDocumentById(String id, String collection) throws UdoPersistException, TablePersistException {
         udoService.deleteUdoById(id, collection);
         JSONObject res = new JSONObject();
         res.put("deleteResult","document has been deleted");

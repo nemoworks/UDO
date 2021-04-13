@@ -14,11 +14,11 @@ public interface UdoRepository {
 
     Udo saveUdo(Udo udo, String schemaId) throws UdoPersistException, TablePersistException;
 
-    Udo findUdo(String udoi, String schemaId);
+    Udo findUdo(String udoi, String schemaId) throws TablePersistException;
 
     List<Udo> findAllUdos(String schemaId);
 
-    void deleteUdo(String udoi, String schemaId);
+    void deleteUdo(String udoi, String schemaId) throws TablePersistException;
 
-    Udo updateUdo(Udo udo, String udoi, String schemaId);
+    Udo updateUdo(Udo udo, String udoi, String schemaId) throws TablePersistException;
 }

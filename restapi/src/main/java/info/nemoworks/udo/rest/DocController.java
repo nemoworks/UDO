@@ -1,6 +1,7 @@
 package info.nemoworks.udo.rest;
 
 import com.alibaba.fastjson.JSONObject;
+import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.model.UdoSchema;
@@ -28,7 +29,7 @@ public class DocController {
     }
 
     @PostMapping("/documents")
-    public Udo createDoc(@RequestBody JSONObject params) throws UdoPersistException {
+    public Udo createDoc(@RequestBody JSONObject params) throws UdoPersistException, TablePersistException {
         logger.info("now saving a new doc...");
         String udoi = params.getString("udoi");
 //        String name = params.getString("name");
@@ -39,19 +40,19 @@ public class DocController {
     }
 
     @DeleteMapping("/documents/{collection}/{udoi}")
-    public List<Udo> deleteDoc(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
+    public List<Udo> deleteDoc(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException, TablePersistException {
         logger.info("now deleting doc " + udoi + "...");
         return udoService.deleteUdoById(udoi, collection);
     }
 
     @GetMapping("/documents/{collection}/{udoi}")
-    public Udo getDocById(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException {
+    public Udo getDocById(@PathVariable String collection, @PathVariable String udoi) throws UdoPersistException, TablePersistException {
         logger.info("now finding doc by udoi...");
         return udoService.findUdoById(udoi, collection);
     }
 
     @PutMapping("/documents/{udoi}")
-    public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
+    public Udo updateUdo(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException, TablePersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating doc " + udoi + "...");
 //        String name = params.getString("name");

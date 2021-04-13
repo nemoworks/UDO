@@ -20,14 +20,46 @@ public class Translate {
         this.jsonObject = jsonObject;
     }
 
+    public Translate(List<UTuple> UTuples) {
+        this.UTuples = UTuples;
+        this.uid = 0;
+        this.jsonObject = new JSONObject();
+    }
+
     public void startTrans() {
         this.UTuples = new ArrayList<>();
         this.uid = 0;
         this.translatingObj(this.jsonObject, "");
     }
 
-    public JSONObject backTranslate(List<UTuple> tuples) {
-        return this.jsonObject;
+    public void startBackTrans() {
+        this.jsonObject = new JSONObject();
+        this.backTranslatingTuple(this.UTuples);
+    }
+
+    private void backTranslatingTuple(List<UTuple> uTuples) {
+        for (UTuple uTuple: uTuples) {
+            if (uTuple.getName().contains("[")) {
+                if (uTuple.getName().contains(".")) {
+                    if (uTuple.getName().indexOf("[") < uTuple.getName().indexOf("."))
+                        backTranslatingArr();
+                    else backTranslatingObj();
+                }
+            }
+            else if (uTuple.getName().contains(".")) backTranslatingObj();
+            else {
+                this.jsonObject.put(uTuple.getName(), uTuple.getVal());
+            }
+        }
+//        return this.jsonObject;
+    }
+
+    private void backTranslatingObj() {
+
+    }
+
+    private void backTranslatingArr() {
+
     }
 
     private void translatingObj(JSONObject obj, String suffix) {

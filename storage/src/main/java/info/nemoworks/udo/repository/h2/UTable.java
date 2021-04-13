@@ -13,14 +13,18 @@ public class UTable {
     @GeneratedValue
     private int pkey;
 
+    private String firstTableName;
+    private String secondTableName;
     private String tableName;
 
     @OneToMany(targetEntity = UTuple.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UTuple> UTuples;
 
-    public UTable(List<UTuple> UTuples, String tableName) {
+    public UTable(List<UTuple> UTuples, String firstTableName, String secondTableName) {
         this.UTuples = UTuples;
-        this.tableName = tableName;
+        this.firstTableName = firstTableName;
+        this.secondTableName = secondTableName;
+        this.tableName = firstTableName + "_" + secondTableName;
     }
 
     public void setUTuples(List<UTuple> UTuples) {
@@ -31,11 +35,31 @@ public class UTable {
         return UTuples;
     }
 
+    public String getFirstTableName() {
+        return firstTableName;
+    }
+
+    public String getSecondTableName() {
+        return secondTableName;
+    }
+
+    public void setFirstTableName(String firstTableName) {
+        this.firstTableName = firstTableName;
+    }
+
+    public void setSecondTableName(String secondTableName) {
+        this.secondTableName = secondTableName;
+    }
+
     public String getTableName() {
         return tableName;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
+    //    public String getTableName() {
+//        return tableName;
+//    }
+//
+//    public void setTableName(String tableName) {
+//        this.tableName = tableName;
+//    }
 }
