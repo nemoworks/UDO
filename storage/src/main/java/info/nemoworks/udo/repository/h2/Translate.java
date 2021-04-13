@@ -1,5 +1,6 @@
 package info.nemoworks.udo.repository.h2;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.repository.h2.UTuple;
@@ -39,27 +40,85 @@ public class Translate {
 
     private void backTranslatingTuple(List<UTuple> uTuples) {
         for (UTuple uTuple: uTuples) {
-            if (uTuple.getName().contains("[")) {
-                if (uTuple.getName().contains(".")) {
-                    if (uTuple.getName().indexOf("[") < uTuple.getName().indexOf("."))
-                        backTranslatingArr();
-                    else backTranslatingObj();
-                }
+            if (uTuple.getName().contains("[")) { // 当前Tuple为JSONArray
+//                StringBuffer sb = new StringBuffer(uTuple.getName());
+//                String reverse = sb.reverse().toString();
+                backTranslatingArr(uTuple, uTuple.getName());
             }
-            else if (uTuple.getName().contains(".")) backTranslatingObj();
+            // 当前Tuple为纯Obj
+            else if (uTuple.getName().contains(".")) backTranslatingObj(uTuple, uTuple.getName());
+            // 当前Tuple为简单Element
             else {
-                this.jsonObject.put(uTuple.getName(), uTuple.getVal());
+                backTranslatingEle(uTuple);
             }
         }
 //        return this.jsonObject;
     }
 
-    private void backTranslatingObj() {
-
+    private void backTranslatingEle(UTuple uTuple) {
+        this.jsonObject.put(uTuple.getName(), uTuple.getVal());
     }
 
-    private void backTranslatingArr() {
+    private void backTranslatingObj(UTuple uTuple, String prefix) {
+//        String name = uTuple.getName();
+        if (prefix.equals("")) return;
+        StringBuffer sb = new StringBuffer(prefix);
+        String reverse = sb.reverse().toString();
+        int endIndex = prefix.length() - reverse.indexOf(".");
+        String objName = prefix.substring(endIndex);
+        JSONObject obj = new JSONObject();
+        obj.put(objName, uTuple.getVal());
+        String pPrefix = prefix.substring(0, endIndex - 1);
+        Stack<String> nameStack = new Stack<>();
+        Stack<JSONObject> objectStack = new Stack<>();
+        nameStack.push(objName);
+        objectStack.push(obj);
+        while (!pPrefix.equals("") && !pPrefix.equals(pPrefix.substring(0, 0))) {
+//            System.out.println("Now prefix: " + pPrefix);
+            sb = new StringBuffer(pPrefix);
+            reverse = sb.reverse().toString();
+            endIndex = pPrefix.length() - reverse.indexOf(".");
+            if (!reverse.contains(".")) endIndex = 0;
+            objName = pPrefix.substring(endIndex);
+            if (endIndex == 0) pPrefix = pPrefix.substring(0, 0);
+            else pPrefix = pPrefix.substring(0, endIndex - 1);
+            JSONObject nObj = new JSONObject();
+            nObj.put(objName, obj);
+            obj = nObj;
+            nameStack.push(objName);
+            objectStack.push(obj);
+        }
+        if (!this.jsonObject.containsKey(objName))
+            this.jsonObject.put(objName, obj.getJSONObject(objName));
+        else {
+            JSONObject fatherObj = this.jsonObject.getJSONObject(objName); //获取jsonObject中已经存在的obj
+            nameStack.pop(); // 去掉栈顶，即尾部名称
+            objectStack.pop();
+            this.jsonObject.put(objName, packUpObj(fatherObj, nameStack, objectStack));
+//            String curName = nameStack.pop();
+//            JSONObject curObj = objectStack.pop();
+//            while (fatherObj.containsKey(curName)) {
+//                fatherObj = fatherObj.getJSONObject(curName);
+//                curName = nameStack.pop();
+//                curObj = objectStack.pop();
+////                if (fatherObj.entrySet().contains(curName))
+//            }
+//            fatherObj.put(curName, curObj);
+        }
+    }
 
+    private JSONObject packUpObj(JSONObject fatherObj, Stack<String> nameStack, Stack<JSONObject> objStack) {
+        String curName = nameStack.pop();
+        JSONObject curObj = objStack.pop();
+        if (!fatherObj.containsKey(curName)) return (JSONObject) fatherObj.put(curName, curObj);
+        else return (JSONObject) fatherObj.put(curName, packUpObj(fatherObj.getJSONObject(curName), nameStack, objStack));
+    }
+
+    private void backTranslatingArr(UTuple uTuple, String prefix) {
+        if (prefix.equals(uTuple.getName())) {
+            String cStr = prefix.substring(0, prefix.indexOf("["));
+        }
+//        String name = uTuple.getName();
     }
 
     private void translatingObj(JSONObject obj, String suffix) {

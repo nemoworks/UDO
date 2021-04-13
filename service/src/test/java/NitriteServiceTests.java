@@ -27,7 +27,7 @@ public class NitriteServiceTests {
 //    private UdoService udoService;
 
     public String loadFromFile() throws IOException {
-        return new String(Files.readAllBytes(Paths.get("src/test/resources/test.json")));
+        return new String(Files.readAllBytes(Paths.get("src/test/resources/test0.json")));
     }
 
     @Test
@@ -64,6 +64,23 @@ public class NitriteServiceTests {
         translate.startTrans();
         System.out.println(translate.getUTuples());
         translate.printTuples();
+        translate.startBackTrans();
+        System.out.println(translate.getJsonObject());
+    }
+
+    @Test
+    public void traverseTest() throws IOException {
+        String prefix = "a.b.c";
+        StringBuffer sb = new StringBuffer(prefix);
+
+        String reverse = sb.reverse().toString();
+        String objName = prefix.substring(prefix.length() - reverse.indexOf("."));
+        System.out.println(objName);
+        System.out.println(prefix.substring(0, prefix.length() - reverse.indexOf(".") - 1));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("1", 1);
+        jsonObject.put("1", 2);
+        System.out.println(jsonObject);
     }
 
     @Test
