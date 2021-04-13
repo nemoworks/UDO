@@ -20,6 +20,7 @@
         <module>restapi</module>
         <module>storage</module>
         <module>ui</module>
+        <module>mqttClient</module>
     </modules>
 
     <description>Universal Digital Object</description>
