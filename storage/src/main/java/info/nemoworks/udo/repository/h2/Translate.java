@@ -143,13 +143,13 @@ public class Translate {
         String reverse = sb.reverse().toString();
         int endIndex = prefix.length() - reverse.indexOf(".");
         String objName = prefix.substring(endIndex);
-        Object obj = new JSONObject();
-        ((JSONObject) obj).put(objName, uTuple.getVal());
+        JSONObject obj = new JSONObject();
+        obj.put(objName, uTuple.getVal());
         String pPrefix = prefix.substring(0, endIndex - 1);
         Stack<String> nameStack = new Stack<>();
-        Stack<Pair<Object, String>> objectStack = new Stack<>();
+        Stack<Pair<JSONObject, String>> objectStack = new Stack<>();
         nameStack.push(objName);
-        objectStack.push(new Pair<Object, String>(obj, "Object"));
+        objectStack.push(new Pair<JSONObject, String>(obj, "Object"));
         // 考虑 Object 与 Array 互相嵌套的 5 种情况
         while (!pPrefix.equals("") && !pPrefix.equals(pPrefix.substring(0, 0))) {
             sb = new StringBuffer(pPrefix);
@@ -165,14 +165,19 @@ public class Translate {
                 jsonObject.put(ObjName, obj);
                 objectStack.push(new Pair<>(jsonObject, "Object"));
                 obj = jsonObject;
+                objName = ObjName;
             } else if (indexDot == -1) { // 根节点，形如a[x]
                 String ArrName = pPrefix.substring(0, pPrefix.indexOf("["));
                 nameStack.push(ArrName);
                 pPrefix = pPrefix.substring(0, 0);
                 JSONArray jsonArray = new JSONArray();
                 jsonArray.add(obj);
-                objectStack.push(new Pair<>(jsonArray, "Array"));
-                obj = jsonArray;
+//                objectStack.push(new Pair<>(jsonArray, "Array"));
+                obj = new JSONObject();
+                objName = ArrName;
+                obj.put(objName, jsonArray);
+//                obj = jsonArray;
+                objectStack.push(new Pair<>(obj, "Array"));
             } else if (indexArr == -1) { // 形如 a.b.c
                 endIndex = pPrefix.length() - reverse.indexOf(".");
                 String ObjName = pPrefix.substring(endIndex);
@@ -182,16 +187,22 @@ public class Translate {
                 jsonObject.put(ObjName, obj);
                 objectStack.push(new Pair<>(jsonObject, "Object"));
                 obj = jsonObject;
-            }
-            else if (indexArr < indexDot) { //形如 c.a[x]
+                objName = ObjName;
+            } else if (indexArr < indexDot) { //形如 c.a[x]
                 endIndex = pPrefix.length() - indexDot;
                 String ArrName = pPrefix.substring(endIndex, pPrefix.length() - indexLeftArr - 1);
                 pPrefix = pPrefix.substring(0, endIndex - 1);
                 nameStack.push(ArrName);
                 JSONArray jsonArray = new JSONArray();
                 jsonArray.add(obj);
-                objectStack.push(new Pair<>(jsonArray, "Array"));
-                obj = jsonArray;
+//                objectStack.push(new Pair<>(jsonArray, "Array"));
+                obj = new JSONObject();
+                objName = ArrName;
+                ((JSONObject)obj).put(objName, jsonArray);
+//                obj = jsonArray;
+                objName = ArrName;
+                objectStack.push(new Pair<>(obj, "Array"));
+                System.out.println("c.a[x]: " + ArrName + " " + obj);
             } else { //形如 a[x].c
                 endIndex = pPrefix.length() - indexArr + 1;
                 String ObjName = pPrefix.substring(endIndex);
@@ -200,10 +211,101 @@ public class Translate {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put(ObjName, obj);
                 objectStack.push(new Pair<>(jsonObject, "Object"));
+
                 obj = jsonObject;
+                objName = ObjName;
+            }
+        }
+        if (!this.jsonObject.containsKey(objName)) {
+//            if (obj instanceof JSONObject)
+                this.jsonObject.put(objName, ((JSONObject) obj).get(objName));
+//            else
+//                this.jsonObject.put(objName, obj);
+        } else {
+            Object fatherObj = this.jsonObject.get(objName);
+//            nameStack.pop();
+//            objectStack.pop();
+            JSONObject lObj = new JSONObject();
+            lObj.put(objName, fatherObj);
+            System.out.println("lObj: " + lObj);
+            System.out.println("objName: " + objName);
+            System.out.println("jsonObj: " + this.jsonObject);
+            System.out.println("father before pack: " + fatherObj);
+            JSONObject obj2put = packUpArray(lObj, nameStack, objectStack);
+            this.jsonObject.put(objName, obj2put.get(objName));
+        }
+    }
+
+    private JSONObject packUpArray(JSONObject fatherObj, Stack<String> nameStack, Stack<Pair<JSONObject, String>> objStack) {
+        String curName = nameStack.pop();
+        Pair<JSONObject, String> curPair= objStack.pop();
+        String curType = curPair.getValue();
+        if (curType.equals("Object")) { // 当前节点为JSONObject
+            if (!(fatherObj).containsKey(curName)) { // 节点中不包含此层定义，说明是新加入的内容，直接添加并返回
+                JSONObject curObj = curPair.getKey();
+//                if (curObj instanceof JSONObject)
+//                    ((JSONObject) fatherObj).put(curName, ((JSONObject) curObj).get(curName));
+//                else if (curObj instanceof JSONArray)
+//                    ((JSONObject) fatherObj).put(curName, curObj);
+                fatherObj.put(curName, curObj.get(curName));
+                return fatherObj;
+            } else { // 向下递归
+                return (JSONObject) fatherObj.put(curName, packUpArray(fatherObj.getJSONObject(curName), nameStack, objStack));
+            }
+        }
+        else { // 当前节点为JSONArray
+            JSONObject curObj = curPair.getKey();
+            boolean exist = false;
+            JSONObject switchObj = new JSONObject();
+            int index = 0;
+            String nextName;
+            System.out.println("fatherObj: " + fatherObj);
+            System.out.println("curName: " + curName);
+            for (int i = 0; i < ((JSONArray) fatherObj.get(curName)).size(); i++) { // JSONArray的数组元素只可能是JSONObject
+                // 因为就算是Array嵌套Array，也必定会经过一个a:[{b:[{}]}]的形式
+                switchObj = (JSONObject) ((JSONArray) fatherObj.get(curName)).get(i);
+                System.out.println("father: " + fatherObj);
+                nextName = nameStack.pop();
+                nameStack.push(nextName);
+                System.out.println("nextName: " + nextName);
+                if (((JSONObject) switchObj).containsKey(nextName)) {
+                    exist = true;
+                    index = i;
+                    break;
+                }
+            }
+            if (!exist) { // fatherObj代表的Array种不包含与当前处理的Obj节点同名的数组元素，则直接将当前节点加入Array
+                ((JSONArray) fatherObj.get(curName)).add(curObj.get(curName));
+//                if (curObj instanceof JSONObject) {
+//                    JSONObject obj = new JSONObject();
+//                    obj.put(curName, ((JSONObject) curObj).get(curName));
+//                    ((JSONArray) fatherObj).add(obj);
+//                } else if (curObj instanceof JSONArray) {
+//                    JSONObject obj = new JSONObject();
+//                    obj.put(curName, curObj);
+//                    ((JSONArray) fatherObj).add(obj);
+//                }
+                return fatherObj;
+            } else { // fatherObj所代表的Array中存在已有定义，向下递归
+                ((JSONArray) fatherObj.get(curName)).set(index, packUpArray(switchObj, nameStack, objStack));
+                return fatherObj;
             }
         }
     }
+
+//    private boolean arrayContainsObj(JSONArray array) {
+//        boolean exist = false;
+//        for (Object obj: array) {
+//            if (obj instanceof JSONObject) {
+//                if (((JSONObject) obj).containsKey()) {
+//                    exist = true;
+//                    break;
+//                }
+//            } else if (obj instanceof JSONArray) {
+//
+//            }
+//        }
+//    }
 
     private void translatingObj(JSONObject obj, String suffix) {
         String dot = ".";
