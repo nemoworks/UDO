@@ -18,6 +18,10 @@ public class UTuple {
     private String name;
     private String val;
 
+    public UTuple() {
+
+    }
+
     public UTuple(int uid, String name, String val) {
         this.uid = uid;
         this.name = name;

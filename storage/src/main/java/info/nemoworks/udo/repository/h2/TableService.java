@@ -47,6 +47,7 @@ public class TableService {
         if (uTableRepository.findByTableName(UTable.getTableName()) != null) {
             throw new TablePersistException("Table named: " + UTable.getTableName() + " already exists.");
         }
+        System.out.println("save Table: " + UTable);
         return uTableRepository.save(UTable);
     }
 
