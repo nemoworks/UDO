@@ -13,7 +13,6 @@ import org.dizitart.no2.internals.NitriteService;
 import org.dizitart.no2.store.NitriteMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.jvm.hotspot.opto.HaltNode;
 
 import java.util.*;
 

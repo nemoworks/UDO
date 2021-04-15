@@ -28,6 +28,11 @@
             <artifactId>udo-storage</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>info.nemoworks</groupId>
+            <artifactId>mqttClient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
