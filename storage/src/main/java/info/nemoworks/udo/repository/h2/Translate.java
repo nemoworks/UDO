@@ -4,7 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.repository.h2.UTuple;
-import javafx.util.Pair;
+//import javafx.util.Pair;
+import java.util.AbstractMap.SimpleEntry;
 
 import java.util.*;
 
@@ -147,9 +148,9 @@ public class Translate {
         obj.put(objName, uTuple.getVal());
         String pPrefix = prefix.substring(0, endIndex - 1);
         Stack<String> nameStack = new Stack<>();
-        Stack<Pair<JSONObject, String>> objectStack = new Stack<>();
+        Stack<SimpleEntry<JSONObject, String>> objectStack = new Stack<>();
         nameStack.push(objName);
-        objectStack.push(new Pair<JSONObject, String>(obj, "Object"));
+        objectStack.push(new SimpleEntry<>(obj, "Object"));
         // 考虑 Object 与 Array 互相嵌套的 5 种情况
         while (!pPrefix.equals("") && !pPrefix.equals(pPrefix.substring(0, 0))) {
             sb = new StringBuffer(pPrefix);
@@ -163,7 +164,7 @@ public class Translate {
                 pPrefix = pPrefix.substring(0, 0);
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put(ObjName, obj);
-                objectStack.push(new Pair<>(jsonObject, "Object"));
+                objectStack.push(new SimpleEntry<>(jsonObject, "Object"));
                 obj = jsonObject;
                 objName = ObjName;
             } else if (indexDot == -1) { // 根节点，形如a[x]
@@ -177,7 +178,7 @@ public class Translate {
                 objName = ArrName;
                 obj.put(objName, jsonArray);
 //                obj = jsonArray;
-                objectStack.push(new Pair<>(obj, "Array"));
+                objectStack.push(new SimpleEntry<>(obj, "Array"));
             } else if (indexArr == -1) { // 形如 a.b.c
                 endIndex = pPrefix.length() - reverse.indexOf(".");
                 String ObjName = pPrefix.substring(endIndex);
@@ -185,7 +186,7 @@ public class Translate {
                 JSONObject jsonObject = new JSONObject();
                 nameStack.push(ObjName);
                 jsonObject.put(ObjName, obj);
-                objectStack.push(new Pair<>(jsonObject, "Object"));
+                objectStack.push(new SimpleEntry<>(jsonObject, "Object"));
                 obj = jsonObject;
                 objName = ObjName;
             } else if (indexArr < indexDot) { //形如 c.a[x]
@@ -201,7 +202,7 @@ public class Translate {
                 ((JSONObject)obj).put(objName, jsonArray);
 //                obj = jsonArray;
                 objName = ArrName;
-                objectStack.push(new Pair<>(obj, "Array"));
+                objectStack.push(new SimpleEntry<>(obj, "Array"));
 //                System.out.println("c.a[x]: " + ArrName + " " + obj);
             } else { //形如 a[x].c
                 endIndex = pPrefix.length() - indexArr + 1;
@@ -210,7 +211,7 @@ public class Translate {
                 nameStack.push(ObjName);
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put(ObjName, obj);
-                objectStack.push(new Pair<>(jsonObject, "Object"));
+                objectStack.push(new SimpleEntry<>(jsonObject, "Object"));
 
                 obj = jsonObject;
                 objName = ObjName;
@@ -233,9 +234,9 @@ public class Translate {
         }
     }
 
-    private JSONObject packUpArray(JSONObject fatherObj, Stack<String> nameStack, Stack<Pair<JSONObject, String>> objStack) {
+    private JSONObject packUpArray(JSONObject fatherObj, Stack<String> nameStack, Stack<SimpleEntry<JSONObject, String>> objStack) {
         String curName = nameStack.pop();
-        Pair<JSONObject, String> curPair= objStack.pop();
+        SimpleEntry<JSONObject, String> curPair= objStack.pop();
         String curType = curPair.getValue();
         if (curType.equals("Object")) { // 当前节点为JSONObject
             if (!(fatherObj).containsKey(curName)) { // 节点中不包含此层定义，说明是新加入的内容，直接添加并返回

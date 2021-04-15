@@ -1,8 +1,10 @@
 package info.nemoworks.udo;
 
+import info.nemoworks.udo.service.UdoService;
 import org.dizitart.no2.Nitrite;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,9 @@ public class UdoApplication {
 		SpringApplication.run(UdoApplication.class, args);
 	}
 
+	@Autowired
+	UdoService udoService;
+
 	@Bean
 	public Nitrite nitriteDB() {
 		return Nitrite.builder().openOrCreate();
@@ -23,7 +28,7 @@ public class UdoApplication {
 	@Bean
 	public MqttClient mqttClient(){
 		try {
-			return new Subscriber().init("tcp://localhost:1883","udo");
+			return new Subscriber().init("tcp://localhost:1883","udo",udoService);
 		} catch (MqttException e) {
 			e.printStackTrace();
 		}

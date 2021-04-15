@@ -15,7 +15,7 @@ import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.h2.Translate;
-import javafx.util.Pair;
+//import javafx.util.Pair;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.apache.commons.io.IOUtils;
