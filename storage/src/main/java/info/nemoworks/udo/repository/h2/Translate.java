@@ -202,7 +202,7 @@ public class Translate {
 //                obj = jsonArray;
                 objName = ArrName;
                 objectStack.push(new Pair<>(obj, "Array"));
-                System.out.println("c.a[x]: " + ArrName + " " + obj);
+//                System.out.println("c.a[x]: " + ArrName + " " + obj);
             } else { //形如 a[x].c
                 endIndex = pPrefix.length() - indexArr + 1;
                 String ObjName = pPrefix.substring(endIndex);
@@ -217,20 +217,17 @@ public class Translate {
             }
         }
         if (!this.jsonObject.containsKey(objName)) {
-//            if (obj instanceof JSONObject)
-                this.jsonObject.put(objName, ((JSONObject) obj).get(objName));
-//            else
-//                this.jsonObject.put(objName, obj);
+            this.jsonObject.put(objName, ((JSONObject) obj).get(objName));
         } else {
             Object fatherObj = this.jsonObject.get(objName);
 //            nameStack.pop();
 //            objectStack.pop();
             JSONObject lObj = new JSONObject();
             lObj.put(objName, fatherObj);
-            System.out.println("lObj: " + lObj);
-            System.out.println("objName: " + objName);
-            System.out.println("jsonObj: " + this.jsonObject);
-            System.out.println("father before pack: " + fatherObj);
+//            System.out.println("lObj: " + lObj);
+//            System.out.println("objName: " + objName);
+//            System.out.println("jsonObj: " + this.jsonObject);
+//            System.out.println("father before pack: " + fatherObj);
             JSONObject obj2put = packUpArray(lObj, nameStack, objectStack);
             this.jsonObject.put(objName, obj2put.get(objName));
         }
@@ -259,15 +256,15 @@ public class Translate {
             JSONObject switchObj = new JSONObject();
             int index = 0;
             String nextName;
-            System.out.println("fatherObj: " + fatherObj);
-            System.out.println("curName: " + curName);
+//            System.out.println("fatherObj: " + fatherObj);
+//            System.out.println("curName: " + curName);
             for (int i = 0; i < ((JSONArray) fatherObj.get(curName)).size(); i++) { // JSONArray的数组元素只可能是JSONObject
                 // 因为就算是Array嵌套Array，也必定会经过一个a:[{b:[{}]}]的形式
                 switchObj = (JSONObject) ((JSONArray) fatherObj.get(curName)).get(i);
-                System.out.println("father: " + fatherObj);
+//                System.out.println("father: " + fatherObj);
                 nextName = nameStack.pop();
                 nameStack.push(nextName);
-                System.out.println("nextName: " + nextName);
+//                System.out.println("nextName: " + nextName);
                 if (((JSONObject) switchObj).containsKey(nextName)) {
                     exist = true;
                     index = i;
