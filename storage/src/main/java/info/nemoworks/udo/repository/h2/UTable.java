@@ -20,6 +20,10 @@ public class UTable {
     @OneToMany(targetEntity = UTuple.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UTuple> UTuples;
 
+    public UTable (){
+
+    }
+
     public UTable(List<UTuple> UTuples, String firstTableName, String secondTableName) {
         this.UTuples = UTuples;
         this.firstTableName = firstTableName;

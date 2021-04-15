@@ -7,12 +7,14 @@ import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.UdoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class H2UdoRepository implements UdoRepository {
     @Autowired
     private TableService tableService;
@@ -35,6 +37,7 @@ public class H2UdoRepository implements UdoRepository {
         UTable uTable = tableService.findTableByName(firstTableName + "_" + secondTableName);
 //        String jStr = JSON.toJSONString(translate.getJsonObject());
 //        return JSONObject.parseObject(jStr, udo.getClass());
+        System.out.println("uTable got: " + uTable);
         return this.fromUTable2Udo(uTable);
     }
 
