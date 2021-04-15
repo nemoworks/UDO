@@ -2,6 +2,7 @@ package info.nemoworks.udo.repository.h2;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,5 +13,7 @@ import java.util.List;
 public interface UTableRepository extends JpaRepository<UTable, String> {
     UTable findByTableName(String tableName);
     List<UTable> findAll();
+
+    @Transactional
     void deleteByTableName(String tableName);
 }
