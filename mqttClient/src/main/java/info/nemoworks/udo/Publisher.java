@@ -23,9 +23,9 @@ public class Publisher {
         client.connect();
         MqttMessage message = new MqttMessage();
         message.setPayload(messageString.getBytes());
-        client.publish("iot_data", message);
+        client.publish("udo", message);
 
-        System.out.println("\tMessage '"+ messageString +"' to 'iot_data'");
+        System.out.println("\tMessage '"+ messageString +"' to 'udo'");
 
         client.disconnect();
 
