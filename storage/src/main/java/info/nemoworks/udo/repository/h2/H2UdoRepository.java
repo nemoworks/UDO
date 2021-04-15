@@ -63,7 +63,7 @@ public class H2UdoRepository implements UdoRepository {
 
     @Override
     public Udo updateUdo(Udo udo, String udoi, String schemaId) throws TablePersistException {
-        UTable uTable = tableService.saveUdoAsTable(udo);
+        UTable uTable = tableService.updateUdoAsTable(udo);
         return this.fromUTable2Udo(uTable);
 //        return null;
     }

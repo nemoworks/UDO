@@ -61,6 +61,7 @@ public class TableService {
         if (uTableRepository.findByTableName(UTable.getTableName()) == null) {
             throw new TablePersistException("Table named: " + UTable.getTableName() + " does not exist.");
         }
+        uTableRepository.deleteByTableName(firstTableName + "_" + secondTableName);
         return uTableRepository.save(UTable);
     }
 }
