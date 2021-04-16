@@ -12,12 +12,15 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class UdoApplication {
 
+	public UdoApplication(UdoService udoService) {
+		this.udoService = udoService;
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(UdoApplication.class, args);
 	}
 
-	@Autowired
-	UdoService udoService;
+	final UdoService udoService;
 
 	@Bean
 	public Nitrite nitriteDB() {

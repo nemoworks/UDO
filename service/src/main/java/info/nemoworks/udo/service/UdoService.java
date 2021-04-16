@@ -1,11 +1,13 @@
 package info.nemoworks.udo.service;
 
 import info.nemoworks.udo.exception.TablePersistException;
+import info.nemoworks.udo.monitor.UdoEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.UdoRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,9 @@ public class UdoService {
 
     @Autowired
     private UdoRepository udoRepository;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public UdoService(UdoRepository udoRepository) {
         this.udoRepository = udoRepository;
@@ -59,6 +64,11 @@ public class UdoService {
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
+        this.pushListener(udo);
         return udoRepository.updateUdo(udo, udoi, udo.getSchemaId());
+    }
+
+    public void pushListener(Udo udo) {
+        applicationEventPublisher.publishEvent(new UdoEvent(this, udo));
     }
 }

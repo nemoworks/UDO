@@ -19,7 +19,8 @@ public class Publisher {
                 "  \"schemaId\" : \"Air_purifier\",\n" +
                 "  \"content\":{\n" +
                 "    \"Name\" : \"cba\",\n" +
-                "    \"Brand\" : \"xiaomi\"\n" +
+                "    \"Brand\" : \"xiaomi\",\n" +
+                "    \"Speed\" : 120\n" +
                 "  }\n" +
                 "}";
 

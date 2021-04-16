@@ -3,6 +3,7 @@
   "schemaId" : "Air_purifier",
   "content":{
     "Name" : "cba",
-    "Brand" : "xiaomi"
+    "Brand" : "xiaomi",
+    "Speed" : 120
   }
 }
