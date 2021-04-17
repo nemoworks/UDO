@@ -29,7 +29,6 @@ public class SimpleMqttCallBack implements MqttCallback {
         JSONObject content = jsonObject.getJSONObject("content");
         System.out.println(jsonObject.toJSONString());
         udoService.updateUdo(new Udo(udoi,collection,content),udoi);
-
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {

@@ -5,8 +5,10 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
+import info.nemoworks.udo.Publisher;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.GraphQLBuilder;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class SchemaController {
     @Autowired
     private UdoSchemaService schemaService;
 
+    @Autowired
+    private Publisher publisher;
+
     private GraphQL graphQL;
     private GraphQLBuilder graphQlBuilder;
 
@@ -40,6 +45,11 @@ public class SchemaController {
     public ResponseEntity query(@RequestBody String query){
         ExecutionResult result = graphQL.execute(query);
         logger.info("errors: "+result.getErrors());
+        try {
+            publisher.publishUdo(query);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
         if(result.getErrors().isEmpty())
             return ResponseEntity.ok(result.getData());
         else return ResponseEntity.badRequest().body(result.getErrors());

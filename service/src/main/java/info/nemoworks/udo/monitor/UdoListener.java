@@ -21,6 +21,7 @@ public class UdoListener implements ApplicationListener<UdoEvent> {
         test_motor_speed = meterRegistry.gauge("custom_motor_speed", new AtomicInteger(0));
         testCounter = meterRegistry.counter("custom_counter");
     }
+
     @Override
     public void onApplicationEvent(UdoEvent event) {
         System.out.println("事件触发：" + event.getUdo());

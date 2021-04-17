@@ -38,6 +38,18 @@ public class UdoApplication {
 		return null;
 	}
 
+	@Bean
+	public Publisher publisher(){
+		MqttClient mqttClient = null;
+		try {
+			mqttClient = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
+			mqttClient.connect();
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
+		return new Publisher(mqttClient);
+	}
+
 //	@Bean
 //	CommandLineRunner initDatabase(NitriteSchemaRepository schemaRepository) {
 //
