@@ -7,6 +7,7 @@ import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Link;
 import info.nemoworks.udo.monitor.UdoMeterRegistry;
+import info.nemoworks.udo.service.PrometheusService;
 import info.nemoworks.udo.service.UdoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,8 +59,8 @@ public class RuntimeWiringBuilder {
         runtimeWiring.getDataFetchers().put(name,dataFetcherMap);
     }
 
-    public void addNewSchemaDataFetcher(UdoService udoService, SchemaTree schemaTree){
-        schemaTree.getChildSchemas().forEach((key, value) -> addNewSchemaDataFetcher(udoService,value));
+    public void addNewSchemaDataFetcher(UdoService udoService, SchemaTree schemaTree, PrometheusService prometheusService){
+        schemaTree.getChildSchemas().forEach((key, value) -> addNewSchemaDataFetcher(udoService,value,prometheusService));
 
         GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(schemaTree.getName());
 
@@ -88,7 +89,7 @@ public class RuntimeWiringBuilder {
         deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(),deleteDocumentMutation);
 
-        DocumentMetersMutation documentMetersMutation = new DocumentMetersMutation();
+        DocumentMetersMutation documentMetersMutation = new DocumentMetersMutation(prometheusService);
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.metersXxKeyWord(),documentMetersMutation);
 
 //        //orderCommits ==> DocumentCommitsMutation
