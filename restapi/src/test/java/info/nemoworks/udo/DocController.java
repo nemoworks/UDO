@@ -1,11 +1,9 @@
-package info.nemoworks.udo.rest;
+package info.nemoworks.udo;
 
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.service.UdoSchemaService;
 import info.nemoworks.udo.service.UdoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

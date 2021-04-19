@@ -47,9 +47,6 @@ public class TypeRegistryBuilder {
         metersType.put("status",new TypeName("String"));
         metersType.put("data",new TypeName("String"));
         typeDefinitionRegistry.add(newObjectTypeDefinition("Meter",newFieldDefinitions(metersType)));
-//        metersType.put("data",new TypeName("String"));
-//        metersType.put("step",new TypeName("Int"));
-//        metersType.put("query",new TypeName("String"));
     }
 
     public void addSchema(SchemaTree schemaTree) {

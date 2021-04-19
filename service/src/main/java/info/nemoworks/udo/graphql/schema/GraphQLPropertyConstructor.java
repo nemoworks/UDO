@@ -21,8 +21,6 @@ public class GraphQLPropertyConstructor {
 
     public String metersXxKeyWord() {return schemaName+METER_XX_SUFFIX;}
 
-    public String metersTypeInGraphQL(){return upperCase(schemaName) + METER_XX_SUFFIX;}
-
     public String collectionName() {
         return COLLECTION_NAME_PRE + schemaName;
     }

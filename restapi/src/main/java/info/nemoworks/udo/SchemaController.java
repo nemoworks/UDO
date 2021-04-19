@@ -1,4 +1,4 @@
-package info.nemoworks.udo.rest;
+package info.nemoworks.udo;
 
 import java.util.List;
 
@@ -7,12 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
-import info.nemoworks.udo.Publisher;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.GraphQLBuilder;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.monitor.MeterCluster;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,7 @@ public class SchemaController {
 
     private static final Logger logger = LoggerFactory.getLogger(SchemaController.class);
 
-    @Autowired
-    private UdoSchemaService schemaService;
+    private final UdoSchemaService schemaService;
 
 //    @Autowired
 //    private Publisher publisher;
@@ -39,9 +36,10 @@ public class SchemaController {
     private GraphQLBuilder graphQlBuilder;
 
     @Autowired
-    public SchemaController(GraphQLBuilder graphQlBuilder){
+    public SchemaController(GraphQLBuilder graphQlBuilder, UdoSchemaService schemaService){
         this.graphQL = graphQlBuilder.createGraphQl();
         this.graphQlBuilder = graphQlBuilder;
+        this.schemaService = schemaService;
     }
 
     @CrossOrigin

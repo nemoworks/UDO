@@ -1,4 +1,4 @@
-package info.nemoworks.udo.rest;
+package info.nemoworks.udo;
 
 import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.exception.TablePersistException;

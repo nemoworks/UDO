@@ -6,8 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 public class Subscriber {
-    public Subscriber(){
-    }
+    public Subscriber(){}
 
     public MqttClient init(String url, String topic, UdoService udoService) throws  MqttException{
         System.out.println("== START SUBSCRIBER ==");
@@ -17,10 +16,4 @@ public class Subscriber {
         client.subscribe(topic);
         return client;
     }
-
-//    public static void main(String[] args) throws MqttException {
-//        MqttClient mqttClient = new Subscriber().init("tcp://localhost:1883","udo");
-//
-//    }
-
 }

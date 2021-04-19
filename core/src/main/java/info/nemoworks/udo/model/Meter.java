@@ -8,4 +8,5 @@ public class Meter {
     public Meter(AtomicInteger value) {
         this.value = value;
     }
+
 }

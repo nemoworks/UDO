@@ -36,7 +36,6 @@ public class DemoPublisher {
 
         System.out.println("== START PUBLISHER ==");
 
-
         MqttClient client = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
         client.connect();
         while(true){

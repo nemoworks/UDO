@@ -15,14 +15,13 @@ import java.util.List;
 @Service
 public class UdoService {
 
-    @Autowired
-    private UdoRepository udoRepository;
+    private final UdoRepository udoRepository;
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public UdoService(UdoRepository udoRepository) {
+    public UdoService(UdoRepository udoRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.udoRepository = udoRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     public UdoRepository getUdoRepository() {
@@ -31,9 +30,6 @@ public class UdoService {
 
     public Udo saveUdo(Udo doc) throws UdoPersistException, TablePersistException {
         System.out.println(doc.toJSON());
-//        if (udoRepository.findUdo(doc.getUdoi(), doc.getSchemaId()) != null) {
-//            throw new UdoPersistException("A Udo with a same id already exists.");
-//        }
         return udoRepository.saveUdo(doc, doc.getSchemaId());
     }
 

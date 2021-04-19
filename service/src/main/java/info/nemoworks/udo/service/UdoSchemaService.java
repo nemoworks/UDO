@@ -13,8 +13,7 @@ import info.nemoworks.udo.repository.UdoSchemaRepository;
 @Service
 public class UdoSchemaService {
 
-    @Autowired
-    private UdoSchemaRepository udoSchemaRepository;
+    private final UdoSchemaRepository udoSchemaRepository;
 
     public UdoSchemaService(UdoSchemaRepository udoSchemaRepository) {
         this.udoSchemaRepository = udoSchemaRepository;
@@ -22,13 +21,9 @@ public class UdoSchemaService {
 
     public UdoSchema saveSchema(UdoSchema schema) throws UdoPersistException {
 
-//        UdoSchema oldSchema = udoSchemaRepository.findSchemaById(schema.getUdoi());
         if (udoSchemaRepository.findSchemaById(schema.getUdoi()) != null) {
             throw new UdoPersistException("A schema with a same id already exists.");
         }
-//        if (udoSchemaRepository.findSchemaById(schema.getUdoi()).getSchemaName().equals(schema.getSchemaName())) {
-//            throw new UdoPersistException("A schema with a same name already exists.");
-//        }
         return udoSchemaRepository.saveSchema(schema);
     }
 

@@ -10,32 +10,31 @@ import graphql.schema.idl.SchemaGenerator;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.service.PrometheusService;
-import info.nemoworks.udo.service.UdoSchemaService;
 import info.nemoworks.udo.service.UdoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static graphql.GraphQL.newGraphQL;
 
 @Component
 public class GraphQLBuilder {
-    private TypeRegistryBuilder typeRegistryBuilder;
-    private RuntimeWiringBuilder runtimeWiringBuilder;
-    private UdoService udoService;
-    private UdoSchemaService udoSchemaService;
-    private PrometheusService prometheusService;
+    private final TypeRegistryBuilder typeRegistryBuilder;
+    private final RuntimeWiringBuilder runtimeWiringBuilder;
+    private final UdoService udoService;
+    private final PrometheusService prometheusService;
+
+    private static final Logger logger = LoggerFactory.getLogger(GraphQLBuilder.class);
+
 
     @Autowired
-    public GraphQLBuilder(TypeRegistryBuilder typeRegistryBuilder, RuntimeWiringBuilder runtimeWiringBuilder, UdoService udoService, UdoSchemaService udoSchemaService, PrometheusService prometheusService) {
+    public GraphQLBuilder(TypeRegistryBuilder typeRegistryBuilder, RuntimeWiringBuilder runtimeWiringBuilder, UdoService udoService, PrometheusService prometheusService) {
         this.typeRegistryBuilder = typeRegistryBuilder;
         this.runtimeWiringBuilder = runtimeWiringBuilder;
         this.udoService = udoService;
-        this.udoSchemaService = udoSchemaService;
         this.prometheusService = prometheusService;
     }
 
@@ -61,11 +60,6 @@ public class GraphQLBuilder {
                 "        }\n" +
                 "    }\n" +
                 "}";
-//        try {
-//            s = new String(Files.readAllBytes(Paths.get("/Users/congtang/Desktop/UDO/service/src/main/resources/light.json")));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         JSONObject jsonObject = JSON.parseObject(s);
         UdoSchema schema = new UdoSchema("udo1","purifier", jsonObject);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
@@ -77,14 +71,13 @@ public class GraphQLBuilder {
     }
 
     public GraphQL addTypeInGraphQL(SchemaTree schemaTree){
+        logger.info("add new schema definition in graphql "+schemaTree.getName()+"...");
         this.addNewTypeAndDataFetcherInGraphQL(schemaTree);
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return  newGraphQL(graphQLSchema).build();
     }
 
     private void addNewTypeAndDataFetcherInGraphQL(SchemaTree schemaTree){
-//        JSONObject json = udoSchema.getSchemaContent();
-//        System.out.println(json);
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree, prometheusService);
 

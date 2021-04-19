@@ -12,7 +12,6 @@ public class IdInputDefBuilder implements InputValueDefinitionBuilder {
     public List<InputValueDefinition> inputValueDefinitionListBuilder(GraphQLPropertyConstructor graphQLPropertyConstructor) {
         List<InputValueDefinition> inputValueDefinitions = new ArrayList<>();
         inputValueDefinitions.add(new InputValueDefinition("udoi",new TypeName("String")));
-//        inputValueDefinitions.add(new InputValueDefinition("collection",new TypeName("String")));
         return inputValueDefinitions;
     }
 }
