@@ -3,11 +3,15 @@ package info.nemoworks.udo.rest;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import info.nemoworks.udo.Publisher;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.GraphQLBuilder;
+import info.nemoworks.udo.graphql.schema.SchemaTree;
+import info.nemoworks.udo.monitor.MeterCluster;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +73,10 @@ public class SchemaController {
         JSONObject content = params.getJSONObject("schemaContent");
 //        String collection = params.getString("collection");
         UdoSchema udoSchema = new UdoSchema(name, name, content);
-        this.graphQL = graphQlBuilder.addTypeInGraphQL(udoSchema);
+        SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
+                .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
+        this.graphQL = graphQlBuilder.addTypeInGraphQL(schemaTree);
+        MeterCluster.addSchemaMeter(schemaTree);
         return schemaService.saveSchema(udoSchema);
     }
 

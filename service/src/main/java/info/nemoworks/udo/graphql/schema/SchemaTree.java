@@ -13,6 +13,7 @@ import graphql.language.ListType;
 import graphql.language.Type;
 import graphql.language.TypeName;
 import info.nemoworks.udo.model.Link;
+import info.nemoworks.udo.model.Meter;
 
 public class SchemaTree {
 
@@ -27,6 +28,8 @@ public class SchemaTree {
     private Map<String, Type> filterMap = new HashMap<>();
 
     private List<Link> linkList = new ArrayList<>();
+
+    private List<String> meterList = new ArrayList<>();
 
     public Map<String, Type> getInputMap() {
         return inputMap;
@@ -63,53 +66,59 @@ public class SchemaTree {
             hashMap.forEach((key, value1) -> {
                 SchemaPropertyType typeName = SchemaPropertyType.valueOf(value1.get("type").toString());
                 switch (typeName) {
-                case Link:
-                    String typeName1 = value1.get("linkTo").toString();
-                    schemaTree.linkList.add(new Link(key, "Link", typeName1));
-                    schemaTree.typeMap.put(key, new TypeName(typeName1));
-                    schemaTree.inputMap.put(key, new TypeName("String"));
-                    break;
-                case LinkList:
-                    String typeName2 = value1.get("linkTo").toString();
-                    schemaTree.linkList.add(new Link(key, "LinkList", typeName2));
-                    schemaTree.typeMap.put(key, new ListType(new TypeName(typeName2)));
-                    schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
-                    break;
-                case Embedded:
-                    schemaTree.typeMap.put(key, new TypeName(value1.get("typeName").toString()));
-                    schemaTree.inputMap.put(key, new TypeName(
-                            new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery()));
-                    break;
-                case EmbeddedList:
-                    schemaTree.typeMap.put(key, new ListType(new TypeName(value1.get("typeName").toString())));
-                    schemaTree.inputMap.put(key, new ListType(new TypeName(
-                            new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery())));
-                    break;
-                case number:
-                    schemaTree.typeMap.put(key, new TypeName("Int"));
-                    schemaTree.inputMap.put(key, new TypeName("Int"));
-                    schemaTree.filterMap.put(key, new TypeName("Int"));
-                    break;
-                case object:
-                    JsonObject jsonObject = new Gson().toJsonTree(value1).getAsJsonObject();
-                    schemaTree.typeMap.put(key, new TypeName(jsonObject.get("title").getAsString()));
-                    schemaTree.inputMap.put(key,
-                            new TypeName(new GraphQLPropertyConstructor(jsonObject.get("title").getAsString())
-                                    .inputKeyWordInQuery()));
-                    schemaTree.filterMap.put(key,
-                            new TypeName(new GraphQLPropertyConstructor(jsonObject.get("title").getAsString())
-                                    .filterKeyWordInQueryXxlist()));
-                    schemaTree.childSchemas.put(key, this.createSchemaTree(jsonObject));
-                    break;
-                case array:
-                    schemaTree.typeMap.put(key, new ListType(new TypeName("String")));
-                    schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
-                    schemaTree.filterMap.put(key, new ListType(new TypeName("String")));
-                    break;
-                default:
-                    schemaTree.typeMap.put(key, new TypeName("String"));
-                    schemaTree.inputMap.put(key, new TypeName("String"));
-                    schemaTree.filterMap.put(key, new TypeName("String"));
+                    case Link:
+                        String typeName1 = value1.get("linkTo").toString();
+                        schemaTree.linkList.add(new Link(key, "Link", typeName1));
+                        schemaTree.typeMap.put(key, new TypeName(typeName1));
+                        schemaTree.inputMap.put(key, new TypeName("String"));
+                        break;
+                    case LinkList:
+                        String typeName2 = value1.get("linkTo").toString();
+                        schemaTree.linkList.add(new Link(key, "LinkList", typeName2));
+                        schemaTree.typeMap.put(key, new ListType(new TypeName(typeName2)));
+                        schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
+                        break;
+                    case Embedded:
+                        schemaTree.typeMap.put(key, new TypeName(value1.get("typeName").toString()));
+                        schemaTree.inputMap.put(key, new TypeName(
+                                new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery()));
+                        break;
+                    case EmbeddedList:
+                        schemaTree.typeMap.put(key, new ListType(new TypeName(value1.get("typeName").toString())));
+                        schemaTree.inputMap.put(key, new ListType(new TypeName(
+                                new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery())));
+                        break;
+                    case number:
+                        schemaTree.typeMap.put(key, new TypeName("Int"));
+                        schemaTree.inputMap.put(key, new TypeName("Int"));
+                        schemaTree.filterMap.put(key, new TypeName("Int"));
+                        break;
+                    case object:
+                        JsonObject jsonObject = new Gson().toJsonTree(value1).getAsJsonObject();
+                        schemaTree.typeMap.put(key, new TypeName(jsonObject.get("title").getAsString()));
+                        schemaTree.inputMap.put(key,
+                                new TypeName(new GraphQLPropertyConstructor(jsonObject.get("title").getAsString())
+                                        .inputKeyWordInQuery()));
+                        schemaTree.filterMap.put(key,
+                                new TypeName(new GraphQLPropertyConstructor(jsonObject.get("title").getAsString())
+                                        .filterKeyWordInQueryXxlist()));
+                        schemaTree.childSchemas.put(key, this.createSchemaTree(jsonObject));
+                        break;
+                    case array:
+                        schemaTree.typeMap.put(key, new ListType(new TypeName("String")));
+                        schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
+                        schemaTree.filterMap.put(key, new ListType(new TypeName("String")));
+                        break;
+                    case meter:
+                        schemaTree.typeMap.put(key, new TypeName("Int"));
+                        schemaTree.inputMap.put(key, new TypeName("Int"));
+                        schemaTree.filterMap.put(key, new TypeName("Int"));
+                        schemaTree.meterList.add(key);
+                        break;
+                    default:
+                        schemaTree.typeMap.put(key, new TypeName("String"));
+                        schemaTree.inputMap.put(key, new TypeName("String"));
+                        schemaTree.filterMap.put(key, new TypeName("String"));
                 }
 
             });
@@ -157,5 +166,13 @@ public class SchemaTree {
 
     public void setTypeMap(Map<String, Type> typeMap) {
         this.typeMap = typeMap;
+    }
+
+    public List<String> getMeterList() {
+        return meterList;
+    }
+
+    public void setMeterList(List<String> meterList) {
+        this.meterList = meterList;
     }
 }

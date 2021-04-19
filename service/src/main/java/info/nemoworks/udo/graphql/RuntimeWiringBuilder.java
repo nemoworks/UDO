@@ -6,6 +6,7 @@ import info.nemoworks.udo.graphql.dataFetchers.*;
 import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Link;
+import info.nemoworks.udo.monitor.UdoMeterRegistry;
 import info.nemoworks.udo.service.UdoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,9 @@ import java.util.Map;
 @Component
 public class RuntimeWiringBuilder {
     private RuntimeWiring runtimeWiring;
+
+    @Autowired
+    private UdoMeterRegistry udoMeterRegistry;
 
     @Autowired
     public RuntimeWiringBuilder(){
@@ -70,7 +74,7 @@ public class RuntimeWiringBuilder {
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxKeyWord(), documentDataFetcher);
 
         //createNewOrder ==> createDocumentMutation
-        CreateDocumentMutation documentMutation = new CreateDocumentMutation(udoService);
+        CreateDocumentMutation documentMutation = new CreateDocumentMutation(udoService,udoMeterRegistry);
 //        documentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.createNewXxKeyWord(),documentMutation);
 

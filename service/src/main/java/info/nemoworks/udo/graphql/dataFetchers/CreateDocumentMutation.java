@@ -6,14 +6,21 @@ import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
+import info.nemoworks.udo.monitor.UdoMeterRegistry;
 import info.nemoworks.udo.service.UdoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreateDocumentMutation implements DataFetcher<JSONObject> {
 
-    private final UdoService udoService ;
+    private final UdoService udoService;
 
-    public CreateDocumentMutation(UdoService udoService) {
+    final UdoMeterRegistry udoMeterRegistry;
+
+    public CreateDocumentMutation(UdoService udoService, UdoMeterRegistry udoMeterRegistry) {
         this.udoService = udoService;
+        this.udoMeterRegistry = udoMeterRegistry;
     }
 
 
@@ -40,6 +47,7 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
         Udo udo = new Udo(schemaId, schema, content);
         try {
           //  udo = udoService.saveUdo(udo);
+            udoMeterRegistry.addUdoMeter(udo);
             return udoService.saveUdo(udo);
         } catch (UdoPersistException | TablePersistException e) {
             e.printStackTrace();
