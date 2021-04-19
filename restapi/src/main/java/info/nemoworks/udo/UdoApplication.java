@@ -4,7 +4,6 @@ import info.nemoworks.udo.service.UdoService;
 import org.dizitart.no2.Nitrite;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -38,17 +37,17 @@ public class UdoApplication {
 		return null;
 	}
 
-	@Bean
-	public Publisher publisher(){
-		MqttClient mqttClient = null;
-		try {
-			mqttClient = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
-			mqttClient.connect();
-		} catch (MqttException e) {
-			e.printStackTrace();
-		}
-		return new Publisher(mqttClient);
-	}
+//	@Bean
+//	public Publisher publisher(){
+//		MqttClient mqttClient = null;
+//		try {
+//			mqttClient = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
+//			mqttClient.connect();
+//		} catch (MqttException e) {
+//			e.printStackTrace();
+//		}
+//		return new Publisher(mqttClient);
+//	}
 
 //	@Bean
 //	CommandLineRunner initDatabase(NitriteSchemaRepository schemaRepository) {

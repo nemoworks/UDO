@@ -88,6 +88,9 @@ public class RuntimeWiringBuilder {
         deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(),deleteDocumentMutation);
 
+        DocumentMetersMutation documentMetersMutation = new DocumentMetersMutation();
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.metersXxKeyWord(),documentMetersMutation);
+
 //        //orderCommits ==> DocumentCommitsMutation
 //        DocumentCommitsMutation documentCommitsMutation = new DocumentCommitsMutation(mongoTemplate,javers);
 //        documentCommitsMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());

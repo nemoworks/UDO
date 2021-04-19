@@ -42,6 +42,14 @@ public class TypeRegistryBuilder {
         Map<String, Type> deleteTypeMap = new HashMap<>();
         deleteTypeMap.put("deleteResult", new TypeName("String"));
         typeDefinitionRegistry.add(newObjectTypeDefinition("DeleteResult", newFieldDefinitions(deleteTypeMap)));
+
+        Map<String,Type> metersType = new HashMap<>();
+        metersType.put("status",new TypeName("String"));
+        metersType.put("data",new TypeName("String"));
+        typeDefinitionRegistry.add(newObjectTypeDefinition("Meter",newFieldDefinitions(metersType)));
+//        metersType.put("data",new TypeName("String"));
+//        metersType.put("step",new TypeName("Int"));
+//        metersType.put("query",new TypeName("String"));
     }
 
     public void addSchema(SchemaTree schemaTree) {
@@ -50,12 +58,8 @@ public class TypeRegistryBuilder {
         if (!typeDefinitionsMap.keySet().contains(schemaTree.getName())) {
 
             typeDefinitionsMap.put(schemaTree.getName(), schemaTree.getTypeMap());
-
-//            System.out.println(schemaTree.getName());
             GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(
                     schemaTree.getName());
-//            System.out.println(schemaTree.getTypeMap());
-//            System.out.println(graphQLPropertyConstructor.schemaKeyWordInGraphQL());
             this.addTypeDefinition(graphQLPropertyConstructor.schemaKeyWordInGraphQL(), schemaTree.getTypeMap());
 
             this.addDocumentTypeInQuery(graphQLPropertyConstructor);
@@ -68,13 +72,13 @@ public class TypeRegistryBuilder {
 
             this.addDeleteDocumentByIdInQuery(graphQLPropertyConstructor);
 
-            this.addDocumentCommitsInQuery(graphQLPropertyConstructor);
+         //   this.addDocumentCommitsInQuery(graphQLPropertyConstructor);
+            this.addDocumentMetersInQuery(graphQLPropertyConstructor);
 
         }
     }
 
     private void addDocumentTypeInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor) {
-        // orderDocument(id:String):OrderDocument
         this.addFieldDefinitionsInQueryType(graphQLPropertyConstructor.schemaKeyWordInGraphQL(),
                 new TypeName(graphQLPropertyConstructor.schemaKeyWordInGraphQL()),
                 new IdInputDefBuilder().inputValueDefinitionListBuilder(graphQLPropertyConstructor));
@@ -99,8 +103,6 @@ public class TypeRegistryBuilder {
                 new CreateNewDocInputDefBuilder().inputValueDefinitionListBuilder(graphQLPropertyConstructor));
     }
 
-
-
     private void addUpdateDocumentByIdInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor) {
         this.addFieldDefinitionsInQueryType(graphQLPropertyConstructor.updateXxKeyWord(),
                 new TypeName(graphQLPropertyConstructor.schemaKeyWordInGraphQL()),
@@ -124,6 +126,13 @@ public class TypeRegistryBuilder {
                 new ListType(new TypeName(graphQLPropertyConstructor.commitsTypeInGraphQL())),
                 new IdInputDefBuilder().inputValueDefinitionListBuilder(graphQLPropertyConstructor));
 
+    }
+
+    private void addDocumentMetersInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor){
+
+        this.addFieldDefinitionsInQueryType(graphQLPropertyConstructor.metersXxKeyWord(),
+                new TypeName("Meter"),
+                new MeterDefBuilder().inputValueDefinitionListBuilder(graphQLPropertyConstructor));
     }
 
     void addInputObjectTypeDefinition(String name, Map<String, Type> typeMap) {

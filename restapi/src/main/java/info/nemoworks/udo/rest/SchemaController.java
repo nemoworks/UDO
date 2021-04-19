@@ -32,8 +32,8 @@ public class SchemaController {
     @Autowired
     private UdoSchemaService schemaService;
 
-    @Autowired
-    private Publisher publisher;
+//    @Autowired
+//    private Publisher publisher;
 
     private GraphQL graphQL;
     private GraphQLBuilder graphQlBuilder;
@@ -49,11 +49,11 @@ public class SchemaController {
     public ResponseEntity query(@RequestBody String query){
         ExecutionResult result = graphQL.execute(query);
         logger.info("errors: "+result.getErrors());
-        try {
-            publisher.publishUdo(query);
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            publisher.publishUdo(query);
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
         if(result.getErrors().isEmpty())
             return ResponseEntity.ok(result.getData());
         else return ResponseEntity.badRequest().body(result.getErrors());
@@ -68,13 +68,13 @@ public class SchemaController {
     @PostMapping("/schemas")
     public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException {
         logger.info("now saving a new schema...");
-        //String udoi = params.getString("udoi");
         String name = params.getString("schemaName");
         JSONObject content = params.getJSONObject("schemaContent");
-//        String collection = params.getString("collection");
+
         UdoSchema udoSchema = new UdoSchema(name, name, content);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
                 .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
+
         this.graphQL = graphQlBuilder.addTypeInGraphQL(schemaTree);
         MeterCluster.addSchemaMeter(schemaTree);
         return schemaService.saveSchema(udoSchema);

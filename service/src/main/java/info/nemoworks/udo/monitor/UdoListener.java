@@ -1,14 +1,8 @@
 package info.nemoworks.udo.monitor;
 
 import info.nemoworks.udo.model.Udo;
-import io.micrometer.core.instrument.Counter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import io.micrometer.core.instrument.MeterRegistry;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class UdoListener implements ApplicationListener<UdoEvent> {

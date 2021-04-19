@@ -2,10 +2,7 @@ package info.nemoworks.udo.monitor;
 
 import info.nemoworks.udo.model.Meter;
 import info.nemoworks.udo.model.Udo;
-import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

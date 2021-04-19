@@ -12,10 +12,16 @@ public class GraphQLPropertyConstructor {
     private static final String FILTER_XX_SUFFIX = "Filters";
     private static final String INPUT_XX_SUFFIX = "Inputs";
     private static final String COMMITS_XX_SUFFIX = "Commits";
+    private static final String METER_XX_SUFFIX = "Meters";
 
     public GraphQLPropertyConstructor(String schemaName) {
         this.schemaName = schemaName;
     }
+
+
+    public String metersXxKeyWord() {return schemaName+METER_XX_SUFFIX;}
+
+    public String metersTypeInGraphQL(){return upperCase(schemaName) + METER_XX_SUFFIX;}
 
     public String collectionName() {
         return COLLECTION_NAME_PRE + schemaName;
