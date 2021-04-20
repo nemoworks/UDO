@@ -10,7 +10,9 @@ public class Udo implements IUdo {
 
     private JSONObject content;
 
-    public Udo() { super(); }
+    public Udo() {
+        super();
+    }
 
     public Udo(String udoi, JSONObject content) {
         this.udoi = udoi;

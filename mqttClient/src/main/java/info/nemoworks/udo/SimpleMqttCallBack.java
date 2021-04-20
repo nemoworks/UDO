@@ -10,7 +10,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class SimpleMqttCallBack implements MqttCallback {
 
-    private final UdoService udoService ;
+    private final UdoService udoService;
 
     public SimpleMqttCallBack(UdoService udoService) {
         this.udoService = udoService;
@@ -22,13 +22,13 @@ public class SimpleMqttCallBack implements MqttCallback {
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         String msg = new String(mqttMessage.getPayload());
-        System.out.println("Message received:\t"+ new String(mqttMessage.getPayload()) );
+        System.out.println("Message received:\t" + new String(mqttMessage.getPayload()));
         JSONObject jsonObject = JSON.parseObject(msg);
         String udoi = jsonObject.getString("udoi");
         String collection = jsonObject.getString("schemaId");
         JSONObject content = jsonObject.getJSONObject("content");
         System.out.println(jsonObject.toJSONString());
-        udoService.updateUdo(new Udo(udoi,collection,content),udoi);
+        udoService.updateUdo(new Udo(udoi, collection, content), udoi);
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {

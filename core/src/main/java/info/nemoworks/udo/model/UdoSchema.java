@@ -2,11 +2,11 @@ package info.nemoworks.udo.model;
 
 import com.alibaba.fastjson.JSONObject;
 
-public class UdoSchema implements IUdo{
+public class UdoSchema implements IUdo {
     private String udoi;
     private String schemaName;
     private JSONObject schemaContent;
-    //private String collection;
+
     public UdoSchema() {
         super();
     }
@@ -15,9 +15,7 @@ public class UdoSchema implements IUdo{
         this.udoi = udoi;
         this.schemaName = schemaName;
         this.schemaContent = schemaContent;
-    //    this.collection = collection;
     }
-
 
     @Override
     public String toString() {

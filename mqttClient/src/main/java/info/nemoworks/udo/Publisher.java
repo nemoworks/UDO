@@ -1,7 +1,5 @@
 package info.nemoworks.udo;
 
-import com.alibaba.fastjson.JSON;
-import info.nemoworks.udo.model.Udo;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -14,9 +12,9 @@ public class Publisher {
     }
 
     public void publishUdo(String udo) throws MqttException {
-        System.out.println("udo-pub: "+udo);
+        System.out.println("udo-pub: " + udo);
         MqttMessage message = new MqttMessage();
         message.setPayload(udo.getBytes());
-        mqttClient.publish("udo-pub",message);
+        mqttClient.publish("udo-pub", message);
     }
 }

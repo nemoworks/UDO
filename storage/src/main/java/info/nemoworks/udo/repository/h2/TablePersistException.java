@@ -1,4 +1,4 @@
-package info.nemoworks.udo.exception;
+package info.nemoworks.udo.repository.h2;
 
 public class TablePersistException extends Exception {
 

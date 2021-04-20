@@ -1,11 +1,10 @@
 package info.nemoworks.udo.repository;
 
+import java.util.List;
+
 import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 /*
 collection : schemaId
