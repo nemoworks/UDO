@@ -1,7 +1,7 @@
 package info.nemoworks.udo.service;
 
-import info.nemoworks.udo.exception.TablePersistException;
 import info.nemoworks.udo.monitor.UdoEvent;
+import info.nemoworks.udo.repository.h2.TablePersistException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import info.nemoworks.udo.exception.UdoPersistException;

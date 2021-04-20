@@ -1,7 +1,7 @@
 package info.nemoworks.udo;
 
 import com.alibaba.fastjson.JSONObject;
-import info.nemoworks.udo.exception.TablePersistException;
+import info.nemoworks.udo.repository.h2.TablePersistException;
 import info.nemoworks.udo.repository.h2.UTable;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.h2.TableService;
