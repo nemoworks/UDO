@@ -1,7 +1,12 @@
-package info.nemoworks.udo.repository.h2;
+package info.nemoworks.udo.repository.h2.impl;
 
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.UdoSchemaRepository;
+import info.nemoworks.udo.repository.h2.manager.Translate;
+import info.nemoworks.udo.repository.h2.manager.UDROSchemaManager;
+import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
+import info.nemoworks.udo.repository.h2.model.UDROSchema;
+import info.nemoworks.udo.repository.h2.model.UTuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

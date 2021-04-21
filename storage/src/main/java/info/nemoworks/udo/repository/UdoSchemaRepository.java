@@ -3,7 +3,7 @@ package info.nemoworks.udo.repository;
 import java.util.List;
 
 import info.nemoworks.udo.model.UdoSchema;
-import info.nemoworks.udo.repository.h2.UDROSchemaPersistException;
+import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
 
 public interface UdoSchemaRepository {
     List<UdoSchema> findAllSchemas();

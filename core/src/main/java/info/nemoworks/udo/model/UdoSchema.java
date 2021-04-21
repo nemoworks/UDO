@@ -1,6 +1,6 @@
 package info.nemoworks.udo.model;
 
-//import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -9,13 +9,13 @@ import com.google.gson.JsonParser;
 public class UdoSchema implements IUdo {
     private String udoi;
 //    private String schemaName;
-    private JsonObject schemaContent;
+    private JSONObject schemaContent;
 
     public UdoSchema() {
         super();
     }
 
-    public UdoSchema(String udoi, JsonObject schemaContent) {
+    public UdoSchema(String udoi, JSONObject schemaContent) {
         this.udoi = udoi;
         this.schemaContent = schemaContent;
     }
@@ -25,14 +25,15 @@ public class UdoSchema implements IUdo {
         return super.toString();
     }
 
-    public JsonObject toJson() {
-//        JsonObject jsonObject = new JSONObject();
-//        jsonObject.put("udoi", this.getUdoi());
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("udoi", this.getUdoi());
 //        jsonObject.put("schemaName", this.getSchemaName());
-//        jsonObject.put("schemaContent", this.getSchemaContent());
-        Gson gson = new Gson();
-        String jStr = gson.toJson(new UdoSchema(this.udoi, this.schemaContent));
-        return JsonParser.parseString(jStr).getAsJsonObject();
+        jsonObject.put("schemaContent", this.getSchemaContent());
+        return jsonObject;
+//        Gson gson = new Gson();
+//        String jStr = gson.toJson(new UdoSchema(this.udoi, this.schemaContent));
+//        return JSONParser.parseString(jStr).getAsJsonObject();
     }
 
     @Override
@@ -52,11 +53,11 @@ public class UdoSchema implements IUdo {
 //        this.schemaName = schemaName;
 //    }
 
-    public JsonObject getSchemaContent() {
+    public JSONObject getSchemaContent() {
         return schemaContent;
     }
 
-    public void setSchemaContent(JsonObject schemaContent) {
+    public void setSchemaContent(JSONObject schemaContent) {
         this.schemaContent = schemaContent;
     }
 

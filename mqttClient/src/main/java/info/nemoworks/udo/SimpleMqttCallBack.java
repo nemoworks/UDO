@@ -25,12 +25,12 @@ public class SimpleMqttCallBack implements MqttCallback {
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         String msg = new String(mqttMessage.getPayload());
         System.out.println("Message received:\t" + new String(mqttMessage.getPayload()));
-//        JSONObject jsonObject = JSON.parseObject(msg);
-        JsonObject jsonObject = JsonParser.parseString(msg).getAsJsonObject();
-        String udoi = jsonObject.get("udoi").getAsString();
-        String collection = jsonObject.get("schemaId").getAsString();
-        JsonObject content = jsonObject.get("content").getAsJsonObject();
-        System.out.println(jsonObject.toString());
+        JSONObject jsonObject = JSON.parseObject(msg);
+//        JsonObject jsonObject = JsonParser.parseString(msg).getAsJsonObject();
+        String udoi = jsonObject.getString("udoi");
+        String collection = jsonObject.getString("schemaId");
+        JSONObject content = jsonObject.getJSONObject("content");
+//        System.out.println(jsonObject.toJSONString());
         udoService.updateUdo(new Udo(udoi, collection, content), udoi);
     }
 

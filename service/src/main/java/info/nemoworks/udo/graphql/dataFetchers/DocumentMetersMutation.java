@@ -1,21 +1,12 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.google.gson.JsonObject;
+import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 
-import info.nemoworks.udo.service.PrometheusService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
+import info.nemoworks.udo.repository.PrometheusService;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class DocumentMetersMutation implements DataFetcher<JsonObject> {
+public class DocumentMetersMutation implements DataFetcher<JSONObject> {
 
     private final PrometheusService prometheusService;
 
@@ -24,7 +15,7 @@ public class DocumentMetersMutation implements DataFetcher<JsonObject> {
     }
 
     @Override
-    public JsonObject get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String start = dataFetchingEnvironment.getArgument("start").toString();
         String end = dataFetchingEnvironment.getArgument("end").toString();
         String query = dataFetchingEnvironment.getArgument("query").toString();

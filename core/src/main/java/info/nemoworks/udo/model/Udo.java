@@ -1,6 +1,6 @@
 package info.nemoworks.udo.model;
 
-//import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,18 +12,18 @@ public class Udo implements IUdo {
 
     private String schemaId;
 
-    private JsonObject content;
+    private JSONObject content;
 
     public Udo() {
         super();
     }
 
-    public Udo(String udoi, JsonObject content) {
+    public Udo(String udoi, JSONObject content) {
         this.udoi = udoi;
         this.content = content;
     }
 
-    public Udo(String udoi, String schemaId, JsonObject content) {
+    public Udo(String udoi, String schemaId, JSONObject content) {
         this.udoi = udoi;
         this.schemaId = schemaId;
         this.content = content;
@@ -38,11 +38,11 @@ public class Udo implements IUdo {
         this.udoi = udoi;
     }
 
-    public JsonObject getContent() {
+    public JSONObject getContent() {
         return content;
     }
 
-    public void setContent(JsonObject content) {
+    public void setContent(JSONObject content) {
         this.content = content;
     }
 
@@ -54,13 +54,14 @@ public class Udo implements IUdo {
         this.schemaId = schemaId;
     }
 
-    public JsonObject toJSON() {
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("udoi", this.getUdoi());
-//        jsonObject.put("schemaId", this.getSchemaId());
-//        jsonObject.put("data", content);
-        Gson gson = new Gson();
-        String jStr = gson.toJson(new Udo(this.udoi, this.schemaId, this.content));
-        return JsonParser.parseString(jStr).getAsJsonObject();
+    public JSONObject toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("udoi", this.getUdoi());
+        jsonObject.put("schemaId", this.getSchemaId());
+        jsonObject.put("data", content);
+        return jsonObject;
+//        Gson gson = new Gson();
+//        String jStr = gson.toJson(new Udo(this.udoi, this.schemaId, this.content));
+//        return JsonParser.parseString(jStr).getAsJsonObject();
     }
 }

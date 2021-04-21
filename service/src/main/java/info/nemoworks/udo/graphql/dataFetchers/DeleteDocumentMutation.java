@@ -1,16 +1,16 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.google.gson.JsonObject;
+import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
-import info.nemoworks.udo.repository.h2.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 import info.nemoworks.udo.service.UdoService;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DeleteDocumentMutation implements DataFetcher<JsonObject> {
+public class DeleteDocumentMutation implements DataFetcher<JSONObject> {
     private final UdoService udoService ;
 
     private String documentCollectionName;
@@ -25,16 +25,16 @@ public class DeleteDocumentMutation implements DataFetcher<JsonObject> {
 
     @SneakyThrows
     @Override
-    public JsonObject get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String udoi = dataFetchingEnvironment.getArgument("udoi").toString();
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
         return  deleteDocumentById(udoi, documentCollectionName);
     }
 
-    private JsonObject deleteDocumentById(String id, String collection) throws UdoPersistException, UDROPersistException {
+    private JSONObject deleteDocumentById(String id, String collection) throws UdoPersistException, UDROPersistException {
         udoService.deleteUdoById(id, collection);
-        JsonObject res = new JsonObject();
-        res.addProperty("deleteResult","document has been deleted");
+        JSONObject res = new JSONObject();
+        res.put("deleteResult","document has been deleted");
         return res;
     }
 }

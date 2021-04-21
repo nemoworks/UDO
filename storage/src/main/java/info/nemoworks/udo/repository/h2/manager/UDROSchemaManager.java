@@ -1,6 +1,9 @@
-package info.nemoworks.udo.repository.h2;
+package info.nemoworks.udo.repository.h2.manager;
 
 import info.nemoworks.udo.model.UdoSchema;
+import info.nemoworks.udo.repository.h2.UDROSchemaRepository;
+import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
+import info.nemoworks.udo.repository.h2.model.UDROSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +12,7 @@ import java.util.List;
 @Service
 public class UDROSchemaManager {
     @Autowired
-    UDROSchemaRepository UDROSchemaRepository;
+    info.nemoworks.udo.repository.h2.UDROSchemaRepository UDROSchemaRepository;
     public UDROSchemaManager(UDROSchemaRepository UDROSchemaRepository) {
         this.UDROSchemaRepository = UDROSchemaRepository;
     }
@@ -43,7 +46,7 @@ public class UDROSchemaManager {
         if (UDROSchemaRepository.findByTableName(UDROSchema.getTableName()) != null) {
             throw new UDROSchemaPersistException("UDROSchema: " + UDROSchema.getTableName() + " already exists.");
         }
-        System.out.println("save UDROSchema: " + UDROSchema);
+        System.out.println("save UDROSchema: " + UDROSchema.getUTuples());
         return UDROSchemaRepository.save(UDROSchema);
     }
 

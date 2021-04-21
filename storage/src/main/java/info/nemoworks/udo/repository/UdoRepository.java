@@ -4,7 +4,7 @@ import java.util.List;
 
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.repository.h2.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 
 /*
 collection : schemaId

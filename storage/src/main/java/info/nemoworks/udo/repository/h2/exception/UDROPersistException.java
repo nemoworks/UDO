@@ -1,4 +1,4 @@
-package info.nemoworks.udo.repository.h2;
+package info.nemoworks.udo.repository.h2.exception;
 
 public class UDROPersistException extends Exception {
 

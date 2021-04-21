@@ -7,7 +7,7 @@ import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.Link;
 import info.nemoworks.udo.monitor.UdoMeterRegistry;
-import info.nemoworks.udo.service.PrometheusService;
+import info.nemoworks.udo.repository.PrometheusService;
 import info.nemoworks.udo.service.UdoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

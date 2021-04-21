@@ -2,8 +2,7 @@ package info.nemoworks.udo.service;
 
 import java.util.List;
 
-import info.nemoworks.udo.repository.h2.UDROSchemaPersistException;
-import org.springframework.beans.factory.annotation.Autowired;
+import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
 import org.springframework.stereotype.Service;
 
 import info.nemoworks.udo.exception.UdoPersistException;

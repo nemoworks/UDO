@@ -1,5 +1,6 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 //@Component
-public class DocumentListDataFetcher implements DataFetcher<List<JsonObject>> {
+public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
 
     private final UdoService udoService;
     private String documentCollectionName;
@@ -36,7 +37,7 @@ public class DocumentListDataFetcher implements DataFetcher<List<JsonObject>> {
     }
 
     @Override
-    public List<JsonObject> get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public List<JSONObject> get(DataFetchingEnvironment dataFetchingEnvironment) {
 //        if(keyNameInParent != null){
 //            JsonObject JsonObject = dataFetchingEnvironment.getSource();
 //            List<String> ids = (List<String>) JsonObject.get(keyNameInParent);
@@ -44,10 +45,10 @@ public class DocumentListDataFetcher implements DataFetcher<List<JsonObject>> {
 //        }
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
         List<Udo> udos = this.getDocuments(documentCollectionName);
-        List<JsonObject> udoContents = new ArrayList<>();
+        List<JSONObject> udoContents = new ArrayList<>();
         udos.forEach(udo -> {
-            JsonObject json = udo.getContent();
-            json.addProperty("udoi", udo.getUdoi());
+            JSONObject json = udo.getContent();
+            json.put("udoi", udo.getUdoi());
             udoContents.add(json);
         });
         LinkedHashMap<String, Object> filters = dataFetchingEnvironment.getArgument("filter");
@@ -62,7 +63,7 @@ public class DocumentListDataFetcher implements DataFetcher<List<JsonObject>> {
         return udoService.findAllUdos(collection);
    }
 
-   private List<JsonObject> getFilterCuts(LinkedHashMap<String, Object> filters, List<Udo> udos) {
+   private List<JSONObject> getFilterCuts(LinkedHashMap<String, Object> filters, List<Udo> udos) {
         LinkedHashMap<String, String> filterCuts = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry: filters.entrySet()) {
             String key = entry.getKey();

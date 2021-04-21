@@ -1,4 +1,4 @@
-package info.nemoworks.udo.repository.h2;
+package info.nemoworks.udo.repository.h2.model;
 
 import javax.persistence.*;
 import java.util.List;

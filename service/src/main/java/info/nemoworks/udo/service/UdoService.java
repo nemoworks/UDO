@@ -1,7 +1,7 @@
 package info.nemoworks.udo.service;
 
 import info.nemoworks.udo.monitor.UdoEvent;
-import info.nemoworks.udo.repository.h2.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;

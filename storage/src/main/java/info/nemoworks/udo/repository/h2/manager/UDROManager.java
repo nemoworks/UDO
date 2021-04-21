@@ -1,7 +1,10 @@
-package info.nemoworks.udo.repository.h2;
+package info.nemoworks.udo.repository.h2.manager;
 
 import java.util.List;
 
+import info.nemoworks.udo.repository.h2.UDRORepository;
+import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
+import info.nemoworks.udo.repository.h2.model.UDRO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
