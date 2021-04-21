@@ -1,6 +1,10 @@
 package info.nemoworks.udo.model;
 
-import com.alibaba.fastjson.JSONObject;
+//import com.alibaba.fastjson.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class Udo implements IUdo {
 
@@ -8,18 +12,18 @@ public class Udo implements IUdo {
 
     private String schemaId;
 
-    private JSONObject content;
+    private JsonObject content;
 
     public Udo() {
         super();
     }
 
-    public Udo(String udoi, JSONObject content) {
+    public Udo(String udoi, JsonObject content) {
         this.udoi = udoi;
         this.content = content;
     }
 
-    public Udo(String udoi, String schemaId, JSONObject content) {
+    public Udo(String udoi, String schemaId, JsonObject content) {
         this.udoi = udoi;
         this.schemaId = schemaId;
         this.content = content;
@@ -34,11 +38,11 @@ public class Udo implements IUdo {
         this.udoi = udoi;
     }
 
-    public JSONObject getContent() {
+    public JsonObject getContent() {
         return content;
     }
 
-    public void setContent(JSONObject content) {
+    public void setContent(JsonObject content) {
         this.content = content;
     }
 
@@ -50,11 +54,13 @@ public class Udo implements IUdo {
         this.schemaId = schemaId;
     }
 
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("udoi", this.getUdoi());
-        jsonObject.put("schemaId", this.getSchemaId());
-        jsonObject.put("data", content);
-        return jsonObject;
+    public JsonObject toJSON() {
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("udoi", this.getUdoi());
+//        jsonObject.put("schemaId", this.getSchemaId());
+//        jsonObject.put("data", content);
+        Gson gson = new Gson();
+        String jStr = gson.toJson(new Udo(this.udoi, this.schemaId, this.content));
+        return JsonParser.parseString(jStr).getAsJsonObject();
     }
 }

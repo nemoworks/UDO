@@ -8,7 +8,7 @@ Table描述Tuples组合构成的一张表
  */
 
 @javax.persistence.Entity
-public class UTable {
+public class UDRO {
     @Id
     @GeneratedValue
     private int pkey;
@@ -20,11 +20,11 @@ public class UTable {
     @OneToMany(targetEntity = UTuple.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UTuple> UTuples;
 
-    public UTable (){
+    public UDRO(){
 
     }
 
-    public UTable(List<UTuple> UTuples, String firstTableName, String secondTableName) {
+    public UDRO(List<UTuple> UTuples, String firstTableName, String secondTableName) {
         this.UTuples = UTuples;
         this.firstTableName = firstTableName;
         this.secondTableName = secondTableName;

@@ -5,63 +5,61 @@ import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.UdoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class H2UdoRepository implements UdoRepository {
     @Autowired
-    private TableService tableService;
+    private UDROManager udroManager;
 
-    private Udo fromUTable2Udo(UTable uTable) {
-        List<UTuple> uTuples = uTable.getUTuples();
+    private Udo fromUdro2Udo(UDRO udro) {
+        List<UTuple> uTuples = udro.getUTuples();
         Translate translate = new Translate(uTuples);
         translate.startBackTrans();
-        return new Udo(uTable.getFirstTableName(), uTable.getSecondTableName(), translate.getJsonObject());
+        return new Udo(udro.getFirstTableName(), udro.getSecondTableName(), translate.getJsonObject());
     }
 
     @Override
-    public Udo saveUdo(Udo udo, String schemaId) throws UdoPersistException, TablePersistException {
-        UTable table = tableService.saveUdoAsTable(udo);
+    public Udo saveUdo(Udo udo, String schemaId) throws UdoPersistException, UDROPersistException {
+        UDRO table = udroManager.saveUdo(udo);
 //        List<UTuple> uTuples = table.getUTuples();
 //        Translate translate = new Translate(uTuples);
 //        translate.startBackTrans();
         String firstTableName = udo.getUdoi();
         String secondTableName = udo.getSchemaId();
-        UTable uTable = tableService.findTableByName(firstTableName + "_" + secondTableName);
+        UDRO udro = udroManager.findByName(firstTableName + "_" + secondTableName);
 //        String jStr = JSON.toJSONString(translate.getJsonObject());
 //        return JSONObject.parseObject(jStr, udo.getClass());
-        System.out.println("uTable got: " + uTable);
-        return this.fromUTable2Udo(uTable);
+//        System.out.println("uTable got: " + udro);
+        return this.fromUdro2Udo(udro);
     }
 
     @Override
-    public Udo findUdo(String udoi, String schemaId) throws TablePersistException {
-        return this.fromUTable2Udo(tableService.findTableByName(udoi + "_" + schemaId));
+    public Udo findUdo(String udoi, String schemaId) throws UDROPersistException {
+        return this.fromUdro2Udo(udroManager.findByName(udoi + "_" + schemaId));
     }
 
     @Override
     public List<Udo> findAllUdos(String schemaId) {
-        List<UTable> uTables = tableService.findAllTables();
+        List<UDRO> udros = udroManager.findAll();
         List<Udo> udos = new ArrayList<>();
-        for(UTable uTable: uTables) {
-            udos.add(this.fromUTable2Udo(uTable));
+        for(UDRO udro : udros) {
+            udos.add(this.fromUdro2Udo(udro));
         }
         return udos;
     }
 
     @Override
-    public void deleteUdo(String udoi, String schemaId) throws TablePersistException {
-        tableService.deleteTableByName(udoi + "_" + schemaId);
+    public void deleteUdo(String udoi, String schemaId) throws UDROPersistException {
+        udroManager.deleteByName(udoi + "_" + schemaId);
     }
 
     @Override
-    public Udo updateUdo(Udo udo, String udoi, String schemaId) throws TablePersistException {
-        UTable uTable = tableService.updateUdoAsTable(udo);
-        return this.fromUTable2Udo(uTable);
+    public Udo updateUdo(Udo udo, String udoi, String schemaId) throws UDROPersistException {
+        UDRO UDRO = udroManager.updateUdo(udo);
+        return this.fromUdro2Udo(UDRO);
 //        return null;
     }
 }

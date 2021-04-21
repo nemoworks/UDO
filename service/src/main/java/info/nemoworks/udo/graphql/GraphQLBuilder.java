@@ -1,9 +1,9 @@
 package info.nemoworks.udo.graphql;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.SchemaGenerator;
@@ -60,8 +60,8 @@ public class GraphQLBuilder {
                 "        }\n" +
                 "    }\n" +
                 "}";
-        JSONObject jsonObject = JSON.parseObject(s);
-        UdoSchema schema = new UdoSchema("udo1","purifier", jsonObject);
+        JsonObject JsonObject = JsonParser.parseString(s).getAsJsonObject();
+        UdoSchema schema = new UdoSchema("purifier", JsonObject);
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree, prometheusService);

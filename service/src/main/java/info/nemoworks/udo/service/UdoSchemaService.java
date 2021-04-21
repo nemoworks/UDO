@@ -2,6 +2,7 @@ package info.nemoworks.udo.service;
 
 import java.util.List;
 
+import info.nemoworks.udo.repository.h2.UDROSchemaPersistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +20,15 @@ public class UdoSchemaService {
         this.udoSchemaRepository = udoSchemaRepository;
     }
 
-    public UdoSchema saveSchema(UdoSchema schema) throws UdoPersistException {
+    public UdoSchema saveSchema(UdoSchema schema) throws UdoPersistException, UDROSchemaPersistException {
 
-        if (udoSchemaRepository.findSchemaById(schema.getUdoi()) != null) {
-            throw new UdoPersistException("A schema with a same id already exists.");
-        }
+//        if (udoSchemaRepository.findSchemaById(schema.getUdoi()) != null) {
+//            throw new UdoPersistException("A schema with a same id already exists.");
+//        }
         return udoSchemaRepository.saveSchema(schema);
     }
 
-    public UdoSchema findSchemaById(String udoi) throws UdoPersistException {
+    public UdoSchema findSchemaById(String udoi) throws UdoPersistException, UDROSchemaPersistException {
         UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {
             throw new UdoPersistException("Schema " + udoi + " does not exist.");
@@ -39,11 +40,11 @@ public class UdoSchemaService {
         return udoSchemaRepository.findAllSchemas();
     }
 
-    public UdoSchema findSchemaByUdo(Udo udo) {
+    public UdoSchema findSchemaByUdo(Udo udo) throws UDROSchemaPersistException {
         return udoSchemaRepository.findSchemaById(udo.getSchemaId());
     }
 
-    public List<UdoSchema> deleteSchemaById(String udoi) throws UdoPersistException {
+    public List<UdoSchema> deleteSchemaById(String udoi) throws UdoPersistException, UDROSchemaPersistException {
         UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {
             throw new UdoPersistException("Udo " + udoi + " does not exist.");
@@ -52,7 +53,7 @@ public class UdoSchemaService {
         return udoSchemaRepository.findAllSchemas();
     }
 
-    public UdoSchema updateSchema(UdoSchema udoSchema, String udoi) throws UdoPersistException {
+    public UdoSchema updateSchema(UdoSchema udoSchema, String udoi) throws UdoPersistException, UDROSchemaPersistException {
 
         UdoSchema schema = udoSchemaRepository.findSchemaById(udoi);
         if (schema == null) {

@@ -1,6 +1,6 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.model.Udo;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 //@Component
-public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
+public class DocumentListDataFetcher implements DataFetcher<List<JsonObject>> {
 
     private final UdoService udoService;
     private String documentCollectionName;
@@ -36,18 +36,18 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
     }
 
     @Override
-    public List<JSONObject> get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public List<JsonObject> get(DataFetchingEnvironment dataFetchingEnvironment) {
 //        if(keyNameInParent != null){
-//            JSONObject jsonObject = dataFetchingEnvironment.getSource();
-//            List<String> ids = (List<String>) jsonObject.get(keyNameInParent);
+//            JsonObject JsonObject = dataFetchingEnvironment.getSource();
+//            List<String> ids = (List<String>) JsonObject.get(keyNameInParent);
 //            return this.getDocumentsByLinkList(ids);
 //        }
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
         List<Udo> udos = this.getDocuments(documentCollectionName);
-        List<JSONObject> udoContents = new ArrayList<>();
+        List<JsonObject> udoContents = new ArrayList<>();
         udos.forEach(udo -> {
-            JSONObject json = udo.getContent();
-            json.put("udoi",udo.getUdoi());
+            JsonObject json = udo.getContent();
+            json.addProperty("udoi", udo.getUdoi());
             udoContents.add(json);
         });
         LinkedHashMap<String, Object> filters = dataFetchingEnvironment.getArgument("filter");
@@ -62,7 +62,7 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
         return udoService.findAllUdos(collection);
    }
 
-   private List<JSONObject> getFilterCuts(LinkedHashMap<String, Object> filters, List<Udo> udos) {
+   private List<JsonObject> getFilterCuts(LinkedHashMap<String, Object> filters, List<Udo> udos) {
         LinkedHashMap<String, String> filterCuts = new LinkedHashMap<>();
         for (Map.Entry<String, Object> entry: filters.entrySet()) {
             String key = entry.getKey();

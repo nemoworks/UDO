@@ -4,6 +4,9 @@
   "content":{
     "Name" : "cba",
     "Brand" : "xiaomi",
-    "Speed" : 120
+    "Speed" : 120,
+    "Temperature" : 28,
+    "Humidity" : 51,
+    "Aqi" : 50
   }
 }

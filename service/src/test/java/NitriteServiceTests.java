@@ -8,9 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
@@ -47,19 +48,19 @@ public class NitriteServiceTests {
 
     @Test
     public void udoServiceTest() throws IOException, UdoPersistException {
-        JSONObject content = new JSONObject();
-        content.put("exam", "test data");
+        JsonObject content = new JsonObject();
+        content.addProperty("exam", "test data");
     }
 
     @Test
     public void translatingTest() throws IOException {
-        JSONObject obj = JSON.parseObject(this.loadFromFile());
+        JsonObject obj = JsonParser.parseString(this.loadFromFile()).getAsJsonObject();
 //        obj.put("arr", "{[{val: 1}, {val: 2}]}");
 //        obj.put("obj", "{a: {b: c}}");
 //        for (Map.Entry entry: obj.entrySet()) {
 //            System.out.println(entry.getValue().getClass());
 //            System.out.println(entry.getValue() instanceof JSONArray);
-//            System.out.println(entry.getValue() instanceof JSONObject);
+//            System.out.println(entry.getValue() instanceof JsonObject);
 //        }
         Translate translate = new Translate(obj);
         translate.startTrans();
@@ -67,6 +68,12 @@ public class NitriteServiceTests {
         translate.printTuples();
         translate.startBackTrans();
         System.out.println(translate.getJsonObject());
+    }
+
+    @Test
+    public void gsonTest() throws IOException{
+        JsonObject obj = JsonParser.parseString(this.loadFromFile()).getAsJsonObject();
+        System.out.println(obj.get("h").toString());
     }
 
     @Test
@@ -78,10 +85,10 @@ public class NitriteServiceTests {
         String objName = prefix.substring(prefix.length() - reverse.indexOf("."));
         System.out.println(objName);
         System.out.println(prefix.substring(0, prefix.length() - reverse.indexOf(".") - 1));
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("1", 1);
-        jsonObject.put("1", 2);
-        System.out.println(jsonObject);
+        JsonObject JsonObject = new JsonObject();
+        JsonObject.addProperty("1", 1);
+        JsonObject.addProperty("1", 2);
+        System.out.println(JsonObject);
     }
 
     @Test
@@ -110,8 +117,8 @@ public class NitriteServiceTests {
     public void graphqlTest() throws IOException {
         String light = new String(Files.readAllBytes(Paths.get("src/test/resources/light.json")));
         System.out.println(light);
-        JSONObject jsonObject = JSON.parseObject(light);
-        UdoSchema schema = new UdoSchema("udo1","purifier", jsonObject);
+        JsonObject JsonObject = JsonParser.parseString(light).getAsJsonObject();
+        UdoSchema schema = new UdoSchema("purifier", JsonObject);
         System.out.println(schema.toJson());
     }
 

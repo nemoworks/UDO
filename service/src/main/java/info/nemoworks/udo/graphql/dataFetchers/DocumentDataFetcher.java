@@ -1,17 +1,15 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
-import info.nemoworks.udo.repository.h2.TablePersistException;
+import info.nemoworks.udo.repository.h2.UDROPersistException;
 import info.nemoworks.udo.service.UdoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 
 //@Component
-public class DocumentDataFetcher implements DataFetcher<JSONObject> {
+public class DocumentDataFetcher implements DataFetcher<JsonObject> {
 
     private String documentCollectionName;
     private String keyNameInParent;
@@ -33,17 +31,17 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
 
     @lombok.SneakyThrows
     @Override
-    public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
+    public JsonObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = String.valueOf(dataFetchingEnvironment.getArguments().get("udoi"));
         if(id.equals("null")){
-            JSONObject jsonObject = dataFetchingEnvironment.getSource();
-            id = jsonObject.getString(keyNameInParent);
+            JsonObject JsonObject = dataFetchingEnvironment.getSource();
+            id = JsonObject.get(keyNameInParent).getAsString();
         }
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
         return this.getDocumentByAggregation(id, documentCollectionName);
     }
 
-    private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, TablePersistException {
+    private JsonObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, UDROPersistException {
         return udoService.findUdoById(id, collection).getContent();
        //return udoService.findDocument(id).getContent();
     }

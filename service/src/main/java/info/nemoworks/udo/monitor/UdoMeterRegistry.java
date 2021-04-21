@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
@@ -40,7 +41,9 @@ public class UdoMeterRegistry {
     public void updateUdoMeter(Udo udo){
         logger.info("update meter of "+udo.getSchemaId()+"_"+udo.getUdoi()+" in prometheus...");
         meterMap.get(udo.getUdoi()).forEach((key,value)->{
-            meterMap.get(udo.getUdoi()).get(key).value.set(udo.getContent().getIntValue(key));
+            int random = (int) ((Math.random() * (100 - 50)) + 30);
+            meterMap.get(udo.getUdoi()).get(key).value.set(random);
+            //meterMap.get(udo.getUdoi()).get(key).value.set(udo.getContent().getIntValue(key));
         });
     }
 

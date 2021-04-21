@@ -10,9 +10,9 @@ import java.util.List;
 计划实现一个以Entity为实例的关系型数据库持久化层
  */
 @Component
-public interface UTableRepository extends JpaRepository<UTable, String> {
-    UTable findByTableName(String tableName);
-    List<UTable> findAll();
+public interface UDRORepository extends JpaRepository<UDRO, String> {
+    UDRO findByTableName(String tableName);
+    List<UDRO> findAll();
 
     @Transactional
     void deleteByTableName(String tableName);

@@ -5,12 +5,14 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.GraphQLBuilder;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.monitor.MeterCluster;
+import info.nemoworks.udo.repository.h2.UDROSchemaPersistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,44 +60,52 @@ public class SchemaController {
     }
 
     @GetMapping("/schemas")
-    public List<UdoSchema> allSchemas() {
+    public String allSchemas() {
         logger.info("find all schemas...");
-        return schemaService.findAllSchemas();
+        Gson gson = new Gson();
+        return gson.toJson(schemaService.findAllSchemas());
     }
 
     @PostMapping("/schemas")
-    public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException {
+    public String createSchema(@RequestBody String params) throws UdoPersistException, UDROSchemaPersistException {
         logger.info("now saving a new schema...");
-        String name = params.getString("schemaName");
-        JSONObject content = params.getJSONObject("schemaContent");
+//        System.out.println(params);
+        Gson gson = new Gson();
+        JsonObject param = JsonParser.parseString(params).getAsJsonObject();
+        String name = param.get("schemaName").getAsString();
+        JsonObject content = param.get("schemaContent").getAsJsonObject();
 
-        UdoSchema udoSchema = new UdoSchema(name, name, content);
+        UdoSchema udoSchema = new UdoSchema(name, content);
+        System.out.println(udoSchema.toJson());
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
                 .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
 
         this.graphQL = graphQlBuilder.addTypeInGraphQL(schemaTree);
         MeterCluster.addSchemaMeter(schemaTree);
-        return schemaService.saveSchema(udoSchema);
+        return gson.toJson(schemaService.saveSchema(udoSchema));
     }
 
     @DeleteMapping("/schemas/{udoi}")
-    public List<UdoSchema> deleteSchema(@PathVariable String udoi) throws UdoPersistException {
+    public String deleteSchema(@PathVariable String udoi) throws UdoPersistException, UDROSchemaPersistException {
         logger.info("now deleting schema " + udoi + "...");
-        return schemaService.deleteSchemaById(udoi);
+        Gson gson = new Gson();
+        return gson.toJson(schemaService.deleteSchemaById(udoi));
     }
 
     @GetMapping("/schemas/{udoi}")
-    public UdoSchema getSchemaById(@PathVariable String udoi) throws UdoPersistException {
+    public String getSchemaById(@PathVariable String udoi) throws UdoPersistException, UDROSchemaPersistException {
         logger.info("now finding schema by udoi...");
-        return schemaService.findSchemaById(udoi);
+        Gson gson = new Gson();
+        return gson.toJson(schemaService.findSchemaById(udoi));
     }
 
     @PutMapping("/schemas/{udoi}")
-    public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException {
+    public String updateSchema(@RequestBody JsonObject params, @PathVariable String udoi) throws UdoPersistException, UDROSchemaPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating schema " + udoi + "...");
-        String name = params.getString("schemaName");
-        JSONObject content = params.getJSONObject("schemaContent");
-        return schemaService.updateSchema(new UdoSchema(udoi, name, content), udoi);
+//        String name = params.get("schemaName").getAsString();
+        JsonObject content = params.get("schemaContent").getAsJsonObject();
+        Gson gson = new Gson();
+        return gson.toJson(schemaService.updateSchema(new UdoSchema(udoi, content), udoi));
     }
 }

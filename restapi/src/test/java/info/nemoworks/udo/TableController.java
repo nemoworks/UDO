@@ -1,10 +1,9 @@
 package info.nemoworks.udo;
-
-import com.alibaba.fastjson.JSONObject;
-import info.nemoworks.udo.repository.h2.TablePersistException;
-import info.nemoworks.udo.repository.h2.UTable;
+import com.google.gson.JsonObject;
+import info.nemoworks.udo.repository.h2.UDROPersistException;
+import info.nemoworks.udo.repository.h2.UDRO;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.repository.h2.TableService;
+import info.nemoworks.udo.repository.h2.UDROManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,33 +16,33 @@ import java.util.List;
 public class TableController {
     private static final Logger logger = LoggerFactory.getLogger(TableController.class);
     @Autowired
-    private TableService tableService;
+    private UDROManager UDROManager;
 
     @PostMapping("/tables")
-    public UTable createTableWithUdo(@RequestBody JSONObject params) throws TablePersistException {
+    public UDRO createTableWithUdo(@RequestBody JsonObject params) throws UDROPersistException {
         logger.info("now saving a new table...");
-        String udoi = params.getString("udoi");
+        String udoi = params.get("udoi").getAsString();
 //        String name = params.getString("name");
-        String schemaId = params.getString("schemaId");
-        JSONObject data = params.getJSONObject("content");
-        return tableService.saveUdoAsTable(new Udo(udoi, schemaId, data));
+        String schemaId = params.get("schemaId").getAsString();
+        JsonObject data = params.get("content").getAsJsonObject();
+        return UDROManager.saveUdo(new Udo(udoi, schemaId, data));
     }
 
     @GetMapping("/tables")
-    public List<UTable> getTables() {
+    public List<UDRO> getTables() {
         logger.info("now finding all tables...");
-        return tableService.findAllTables();
+        return UDROManager.findAll();
     }
 
     @DeleteMapping("/tables/{name}")
-    public void deleteTable(@PathVariable String name) throws TablePersistException {
+    public void deleteTable(@PathVariable String name) throws UDROPersistException {
         logger.info("now deleting table: " + name + " ...");
-        tableService.deleteTableByName(name);
+        UDROManager.deleteByName(name);
     }
 
     @GetMapping("/tables/{name}")
-    public UTable getTableByName(@PathVariable String name) throws TablePersistException {
+    public UDRO getTableByName(@PathVariable String name) throws UDROPersistException {
         logger.info("now finding table named: " + name + " ...");
-        return tableService.findTableByName(name);
+        return UDROManager.findByName(name);
     }
 }

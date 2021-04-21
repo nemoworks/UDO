@@ -1,6 +1,7 @@
 package info.nemoworks.udo.service;
 
-import com.alibaba.fastjson.JSONObject;
+//import com.alibaba.fastjson.JsonObject;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -14,7 +15,7 @@ public class PrometheusService {
     @Value("http://localhost:9090/api/v1/query_range")
     private String uri;
 
-    public JSONObject fetchPrometheusMetrics(String start, String end, String query, String step) {
+    public JsonObject fetchPrometheusMetrics(String start, String end, String query, String step) {
 //        String uri = "http://localhost:9090/api/v1/query_range";
         UriComponents builder = UriComponentsBuilder.fromHttpUrl(uri)
                 .queryParam("start",start)
@@ -23,8 +24,8 @@ public class PrometheusService {
                 .queryParam("step",step).build();
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity entity = new HttpEntity(builder);
-        HttpEntity<JSONObject> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
-                JSONObject.class);
+        HttpEntity<JsonObject> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity,
+                JsonObject.class);
         return response.getBody();
     }
 }
