@@ -1,11 +1,11 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.service.UdoService;
+import net.sf.json.JSONObject;
 import org.dizitart.no2.Document;
 import org.dizitart.no2.Filter;
 import org.dizitart.no2.*;

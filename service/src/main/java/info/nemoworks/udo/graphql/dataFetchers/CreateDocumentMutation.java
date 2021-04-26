@@ -1,6 +1,5 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
@@ -8,6 +7,7 @@ import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.monitor.UdoMeterRegistry;
 import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 import info.nemoworks.udo.service.UdoService;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,7 +26,7 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String udoi = dataFetchingEnvironment.getArgument("udoi").toString();
-        JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
+        JSONObject content = JSONObject.fromObject(dataFetchingEnvironment.getArgument("content"));
 //        Gson gson = new Gson();
 //        JsonObject content = JsonParser.parseString(cont.toJSONString()).getAsJsonObject();
 //        String name = dataFetchingEnvironment.getArgument("name").toString();
@@ -37,8 +37,9 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
         Udo udo =  this.createNewUdo(udoi, schemaId, content);
         assert udo != null;
         JSONObject json = udo.getContent();
+//        System.out.println("get json: " + json);
         json.put("udoi", udo.getUdoi());
-//        json.put("name",udo.getName());
+////        json.put("name",udo.getName());
         json.put("schemaId",udo.getSchemaId());
 //        json.put("collection",udo.getCollection());
 //        Gson gson = new Gson();

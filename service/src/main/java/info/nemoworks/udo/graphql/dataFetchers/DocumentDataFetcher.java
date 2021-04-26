@@ -1,11 +1,11 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 import info.nemoworks.udo.service.UdoService;
+import net.sf.json.JSONObject;
 
 
 //@Component
@@ -34,7 +34,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = String.valueOf(dataFetchingEnvironment.getArguments().get("udoi"));
         if(id.equals("null")){
-            JSONObject JsonObject = dataFetchingEnvironment.getSource();
+            JSONObject JsonObject = JSONObject.fromObject(dataFetchingEnvironment.getSource());
             id = JsonObject.getString(keyNameInParent);
         }
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
@@ -42,6 +42,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     }
 
     private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, UDROPersistException {
+//        System.out.println("get doc: " + udoService.findUdoById(id, collection));
         return udoService.findUdoById(id, collection).getContent();
        //return udoService.findDocument(id).getContent();
     }

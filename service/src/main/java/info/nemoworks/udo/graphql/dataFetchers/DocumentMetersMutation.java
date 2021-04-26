@@ -1,10 +1,10 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 
 import info.nemoworks.udo.repository.PrometheusService;
+import net.sf.json.JSONObject;
 
 public class DocumentMetersMutation implements DataFetcher<JSONObject> {
 

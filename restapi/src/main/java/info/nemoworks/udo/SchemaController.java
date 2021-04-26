@@ -2,7 +2,6 @@ package info.nemoworks.udo;
 
 import java.util.List;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import graphql.ExecutionResult;
@@ -12,6 +11,7 @@ import info.nemoworks.udo.graphql.GraphQLBuilder;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.monitor.MeterCluster;
 import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

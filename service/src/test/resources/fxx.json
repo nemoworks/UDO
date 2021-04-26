@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "title": "Air_purifier",
+  "properties": {
+    "Name": {
+      "type": "string",
+      "description": "产品名称"
+    },
+    "Brand": {
+      "type": "string",
+      "description": "品牌"
+    },
+    "Speed":{
+      "type": "meter",
+      "description": "转速"
+    },
+    "Humidity":{
+      "type": "meter",
+      "description": "湿度"
+    },
+    "Temperature":{
+      "type": "meter",
+      "description": "温度"
+    },
+    "Aqi":{
+      "type": "meter",
+      "description": "空气质量"
+    }
+  }}

@@ -7,9 +7,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.alibaba.fastjson.JSON;
-
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -18,6 +15,8 @@ import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.h2.manager.Translate;
 //import javafx.util.Pair;
+import net.sf.json.JSONObject;
+import net.sf.json.JSON;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.apache.commons.io.IOUtils;
@@ -55,7 +54,7 @@ public class NitriteServiceTests {
 
     @Test
     public void translatingTest() throws IOException {
-        JSONObject obj = JSON.parseObject(this.loadFromFile());
+        JSONObject obj =   JSONObject.fromObject(this.loadFromFile());
 //        obj.put("arr", "{[{val: 1}, {val: 2}]}");
 //        obj.put("obj", "{a: {b: c}}");
 //        for (Map.Entry entry: obj.entrySet()) {
@@ -118,7 +117,7 @@ public class NitriteServiceTests {
     public void graphqlTest() throws IOException {
         String light = new String(Files.readAllBytes(Paths.get("src/test/resources/light.json")));
         System.out.println(light);
-        JSONObject JsonObject = JSON.parseObject(this.loadFromFile());
+        JSONObject JsonObject = JSONObject.fromObject(this.loadFromFile());
         UdoSchema schema = new UdoSchema("purifier", JsonObject);
         System.out.println(schema.toJson());
     }

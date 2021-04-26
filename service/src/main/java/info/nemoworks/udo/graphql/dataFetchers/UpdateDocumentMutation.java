@@ -1,6 +1,5 @@
 package info.nemoworks.udo.graphql.dataFetchers;
 
-import com.alibaba.fastjson.JSONObject;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
@@ -8,6 +7,7 @@ import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 import info.nemoworks.udo.service.UdoService;
 import lombok.SneakyThrows;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -31,7 +31,7 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String udoi = dataFetchingEnvironment.getArgument("udoi").toString();
-        JSONObject content = new JSONObject(dataFetchingEnvironment.getArgument("content"));
+        JSONObject content = JSONObject.fromObject(dataFetchingEnvironment.getArgument("content"));
 //        Gson gson = new Gson();
 //        JsonObject content = JsonParser.parseString(cont.toJSONString()).getAsJsonObject();
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();

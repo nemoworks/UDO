@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 
+import net.sf.json.JSONObject;
 import org.dizitart.no2.Nitrite;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +27,7 @@ public class NitriteRepositoryTests {
     public void udoSaveTest() throws IOException, UdoPersistException {
         String f = loadFromFile();
         assertNotNull(f);
-        JSONObject jsonObject = JSON.parseObject(f);
+        JSONObject jsonObject = JSONObject.fromObject(f);
 //        UdoSchema room = new UdoSchema("3-15-1", "room", jsonObject);
 //        UdoSchemaRepository udoSchemaRepository = new NitriteSchemaRepository(Nitrite.builder().openOrCreate());
 //        UdoSchema savedRoom = udoSchemaRepository.saveSchema(room);

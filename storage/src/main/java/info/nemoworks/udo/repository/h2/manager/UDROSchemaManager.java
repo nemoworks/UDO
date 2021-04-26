@@ -4,6 +4,7 @@ import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.h2.UDROSchemaRepository;
 import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
 import info.nemoworks.udo.repository.h2.model.UDROSchema;
+import info.nemoworks.udo.repository.h2.model.UTuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,8 @@ public class UDROSchemaManager {
         if (UDROSchemaRepository.findByTableName(UDROSchema.getTableName()) != null) {
             throw new UDROSchemaPersistException("UDROSchema: " + UDROSchema.getTableName() + " already exists.");
         }
-        System.out.println("save UDROSchema: " + UDROSchema.getUTuples());
+        System.out.println("save UDROSchema: " + UDROSchema.getTableName());
+//        for (UTuple uTuple: UDROSchema.getUTuples()) uTuple.printTuple();
         return UDROSchemaRepository.save(UDROSchema);
     }
 

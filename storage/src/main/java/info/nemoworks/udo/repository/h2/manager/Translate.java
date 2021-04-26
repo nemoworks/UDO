@@ -1,11 +1,10 @@
 package info.nemoworks.udo.repository.h2.manager;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import info.nemoworks.udo.repository.h2.model.UTuple;
 //import javafx.util.Pair;
 import java.util.AbstractMap.SimpleEntry;
-
+//import org.json.JSONObject;
+import net.sf.json.*;
 import java.util.*;
 
 /*
@@ -96,12 +95,14 @@ public class Translate {
         }
         else {
             JSONObject fatherObj = this.JsonObject.getJSONObject(objName); //获取JsonObject中已经存在的obj
-            nameStack.pop(); // 去掉栈顶，即尾部名称
-            objectStack.pop();
+//            nameStack.pop(); // 去掉栈顶，即尾部名称
+//            objectStack.pop();
+            JSONObject lObj = new JSONObject();
+            lObj.put(objName, fatherObj);
 //            System.out.println("pushing: " + objName + "into" + packUpObj(fatherObj, nameStack, objectStack));
 //            System.out.println("before: " + this.JsonObject);
 //            System.out.println("father: " + fatherObj);
-            JSONObject obj2put = packUpObj(fatherObj, nameStack, objectStack);
+            JSONObject obj2put = packUpObj(lObj, nameStack, objectStack);
 //            System.out.println("obj2" + obj2put);
             this.JsonObject.put(objName, obj2put);
 //            System.out.println(objName);
@@ -236,7 +237,7 @@ public class Translate {
 
     private JSONObject packUpArray(JSONObject fatherObj, Stack<String> nameStack, Stack<SimpleEntry<JSONObject, String>> objStack) {
         String curName = nameStack.pop();
-        SimpleEntry<JSONObject, String> curPair= objStack.pop();
+        SimpleEntry<JSONObject, String> curPair = objStack.pop();
         String curType = curPair.getValue();
         if (curType.equals("Object")) { // 当前节点为JsonObject
             if (!(fatherObj).containsKey(curName)) { // 节点中不包含此层定义，说明是新加入的内容，直接添加并返回
@@ -309,7 +310,8 @@ public class Translate {
     private void translatingObj(JSONObject obj, String suffix) {
         String dot = ".";
         if (suffix.equals("")) dot = "";
-        for (Map.Entry entry: obj.entrySet()) {
+        for (Object attr: obj.entrySet()) {
+            Map.Entry entry = (Map.Entry) attr;
             if (entry.getValue() instanceof JSONObject) {
                 translatingObj((JSONObject) entry.getValue(), suffix + dot + entry.getKey().toString());
             } else if (entry.getValue() instanceof JSONArray){

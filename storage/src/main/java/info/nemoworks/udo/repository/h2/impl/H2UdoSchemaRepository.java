@@ -20,8 +20,11 @@ public class H2UdoSchemaRepository implements UdoSchemaRepository {
 
     private UdoSchema fromUdro2Udo(UDROSchema udroSchema) {
         List<UTuple> uTuples = udroSchema.getUTuples();
+//        System.out.println("translating tuples: ");
+//        for(UTuple uTuple: udroSchema.getUTuples()) uTuple.printTuple();
         Translate translate = new Translate(uTuples);
         translate.startBackTrans();
+//        System.out.println("2Udo: " + translate.getJsonObject().toString());
         return new UdoSchema(udroSchema.getTableName(), translate.getJsonObject());
     }
 
@@ -45,6 +48,8 @@ public class H2UdoSchemaRepository implements UdoSchemaRepository {
         UDROSchema sav = udroSchemaManager.saveUdoSchema(udoSchema);
         String tableName = udoSchema.getUdoi();
         UDROSchema udroSchema = udroSchemaManager.findByName(tableName);
+//        System.out.println("find udroschema: ");
+//        for (UTuple uTuple: udroSchema.getUTuples()) uTuple.printTuple();
         return fromUdro2Udo(udroSchema);
     }
 
