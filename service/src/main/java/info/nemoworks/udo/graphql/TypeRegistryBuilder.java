@@ -19,6 +19,8 @@ public class TypeRegistryBuilder {
     private TypeDefinitionRegistry typeDefinitionRegistry;
     public static Map<String, Map<String, Type>> typeDefinitionsMap = new HashMap<>();
 
+    private final List<FieldDefinition> fieldDefinitionListInQuery = new ArrayList<>();
+
     @Autowired
     TypeRegistryBuilder() {
         this.typeDefinitionRegistry = new TypeDefinitionRegistry();
@@ -29,15 +31,13 @@ public class TypeRegistryBuilder {
     }
 
     void initSchemaDefinition() {
-        SchemaDefinition schemaDefinition = new SchemaDefinition();
+        SchemaDefinition.Builder builder = SchemaDefinition.newSchemaDefinition();
         OperationTypeDefinition operationTypeDefinition = new OperationTypeDefinition("query", new TypeName("Query"));
-        schemaDefinition.getOperationTypeDefinitions().add(operationTypeDefinition);
+        SchemaDefinition schemaDefinition = builder.operationTypeDefinition(operationTypeDefinition).build();
         typeDefinitionRegistry.add(schemaDefinition);
     }
 
     void initTypeDefinition() {
-        Map<String, Type> typeMap = new HashMap<>();
-        typeDefinitionRegistry.add(newObjectTypeDefinition("Query", newFieldDefinitions(typeMap)));
 
         Map<String, Type> deleteTypeMap = new HashMap<>();
         deleteTypeMap.put("deleteResult", new TypeName("String"));
@@ -48,6 +48,16 @@ public class TypeRegistryBuilder {
         metersType.put("data",new TypeName("String"));
         typeDefinitionRegistry.add(newObjectTypeDefinition("Meter",newFieldDefinitions(metersType)));
     }
+
+    void buildTypeRegistry(){
+        typeDefinitionRegistry.getType("Query").ifPresent(typeDefinition -> {
+            if(typeDefinition instanceof ObjectTypeDefinition)
+                typeDefinitionRegistry.remove(typeDefinition);
+        });
+        ObjectTypeDefinition query = ObjectTypeDefinition.newObjectTypeDefinition().name("Query").fieldDefinitions(fieldDefinitionListInQuery).build();
+        typeDefinitionRegistry.add(query);
+    }
+
 
     public void addSchema(SchemaTree schemaTree) {
         schemaTree.getChildSchemas().forEach((key, value) -> addSchema(value));
@@ -69,12 +79,15 @@ public class TypeRegistryBuilder {
 
             this.addDeleteDocumentByIdInQuery(graphQLPropertyConstructor);
 
+            this.addDocumentCommitsInQuery(graphQLPropertyConstructor);
+
          //   this.addDocumentCommitsInQuery(graphQLPropertyConstructor);
             this.addDocumentMetersInQuery(graphQLPropertyConstructor);
 
         }
     }
 
+    //在GraphQL的Schema中的Query类中增加一个访问定义的对象的字段
     private void addDocumentTypeInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor) {
         this.addFieldDefinitionsInQueryType(graphQLPropertyConstructor.schemaKeyWordInGraphQL(),
                 new TypeName(graphQLPropertyConstructor.schemaKeyWordInGraphQL()),
@@ -133,13 +146,10 @@ public class TypeRegistryBuilder {
     }
 
     void addInputObjectTypeDefinition(String name, Map<String, Type> typeMap) {
-        InputObjectTypeDefinition inputObjectTypeDefinition = new InputObjectTypeDefinition(name);
-        // inputObjectTypeDefinition.getInputValueDefinitions().add(new
-        // InputValueDefinition("OR",new ListType(new TypeName(name))));
-        // inputObjectTypeDefinition.getInputValueDefinitions().add(new
-        // InputValueDefinition("AND",new ListType(new TypeName(name))));
-        typeMap.forEach((key, value) -> inputObjectTypeDefinition.getInputValueDefinitions()
-                .add(new InputValueDefinition(key, value)));
+        List<InputValueDefinition> inputValueDefinitions = new ArrayList<>();
+        typeMap.forEach((key, value) -> inputValueDefinitions.add(new InputValueDefinition(key, value)));
+        InputObjectTypeDefinition inputObjectTypeDefinition = InputObjectTypeDefinition.newInputObjectDefinition().name(name)
+                .inputValueDefinitions(inputValueDefinitions).build();
         typeDefinitionRegistry.add(inputObjectTypeDefinition);
     }
 
@@ -212,15 +222,8 @@ public class TypeRegistryBuilder {
     }
 
     void addFieldDefinitionsInQueryType(String name, Type type, List<InputValueDefinition> inputValueDefinitions) {
-        FieldDefinition fieldDefinition = new FieldDefinition(name, type);
-        inputValueDefinitions.forEach(inputValueDefinition -> {
-            fieldDefinition.getInputValueDefinitions().add(inputValueDefinition);
-        });
-        typeDefinitionRegistry.getType("Query").ifPresent(queryType -> {
-            if (queryType instanceof ObjectTypeDefinition) {
-                ((ObjectTypeDefinition) queryType).getFieldDefinitions().add(fieldDefinition);
-            }
-        });
+        FieldDefinition definition = FieldDefinition.newFieldDefinition().inputValueDefinitions(inputValueDefinitions).name(name).type(type).build();
+        fieldDefinitionListInQuery.add(definition);
     }
 
     private List<FieldDefinition> newFieldDefinitions(Map<String, Type> typeMap) {
@@ -230,8 +233,7 @@ public class TypeRegistryBuilder {
     }
 
     private ObjectTypeDefinition newObjectTypeDefinition(String name, List<FieldDefinition> fieldDefinitions) {
-        ObjectTypeDefinition objectTypeDefinition = new ObjectTypeDefinition(name);
-        fieldDefinitions.forEach(fieldDefinition -> objectTypeDefinition.getFieldDefinitions().add(fieldDefinition));
-        return objectTypeDefinition;
+        ObjectTypeDefinition.Builder builder = ObjectTypeDefinition.newObjectTypeDefinition();
+        return builder.name(name).fieldDefinitions(fieldDefinitions).build();
     }
 }

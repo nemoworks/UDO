@@ -65,7 +65,7 @@ public class GraphQLBuilder {
         SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree, prometheusService);
-
+        typeRegistryBuilder.buildTypeRegistry();
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return  newGraphQL(graphQLSchema).build();
     }
@@ -80,9 +80,8 @@ public class GraphQLBuilder {
     private void addNewTypeAndDataFetcherInGraphQL(SchemaTree schemaTree){
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree, prometheusService);
-
+        typeRegistryBuilder.buildTypeRegistry();
     }
-
 
 }
 
