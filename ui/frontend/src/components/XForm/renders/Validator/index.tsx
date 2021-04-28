@@ -1,7 +1,7 @@
-import { RenderProps } from '../types'
+import {RenderProps} from '../types'
 import parser from './parser'
 
-function Validator({ schema, configuration, children }: RenderProps) {
+function Validator({schema, configuration, children}: RenderProps) {
   let result: any = []
 
   if (schema.data !== undefined) {

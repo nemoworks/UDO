@@ -68,7 +68,7 @@ export default {
 
   'GET /api/schema/device': (req, res) => res.send(schema),
 
-  'GET /api/object/*': ({ originalUrl }, res) => {
+  'GET /api/object/*': ({originalUrl}, res) => {
     res.send(
       objects.find(o => o.id === originalUrl.replace(/\/api\/object\//, '')),
     )

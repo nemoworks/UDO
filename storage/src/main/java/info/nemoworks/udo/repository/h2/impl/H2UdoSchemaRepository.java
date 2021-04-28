@@ -32,7 +32,7 @@ public class H2UdoSchemaRepository implements UdoSchemaRepository {
     public List<UdoSchema> findAllSchemas() {
         List<UDROSchema> schemas = udroSchemaManager.findAll();
         List<UdoSchema> udoSchemas = new ArrayList<>();
-        for(UDROSchema udroSchema : schemas) {
+        for (UDROSchema udroSchema : schemas) {
             udoSchemas.add(this.fromUdro2Udo(udroSchema));
         }
         return udoSchemas;

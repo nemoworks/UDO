@@ -21,9 +21,10 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     }
 
 
-    public void setDocumentCollectionName(String documentCollectionName){
+    public void setDocumentCollectionName(String documentCollectionName) {
         this.documentCollectionName = documentCollectionName;
     }
+
     public void setKeyNameInParent(String keyNameInParent) {
         this.keyNameInParent = keyNameInParent;
     }
@@ -33,7 +34,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     @Override
     public JSONObject get(DataFetchingEnvironment dataFetchingEnvironment) {
         String id = String.valueOf(dataFetchingEnvironment.getArguments().get("udoi"));
-        if(id.equals("null")){
+        if (id.equals("null")) {
             JSONObject JsonObject = JSONObject.fromObject(dataFetchingEnvironment.getSource());
             id = JsonObject.getString(keyNameInParent);
         }
@@ -44,6 +45,6 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
     private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, UDROPersistException {
 //        System.out.println("get doc: " + udoService.findUdoById(id, collection));
         return udoService.findUdoById(id, collection).getContent();
-       //return udoService.findDocument(id).getContent();
+        //return udoService.findDocument(id).getContent();
     }
 }

@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { Layout, Menu } from 'antd'
-import { history } from 'umi'
-import { Icon } from '@/components'
+import {useState} from 'react'
+import {Layout, Menu} from 'antd'
+import {history} from 'umi'
+import {Icon} from '@/components'
 import './index.sass'
 
-const { Sider, Content } = Layout
+const {Sider, Content} = Layout
 
-export default function DefaultLayout({ children }: any) {
+export default function DefaultLayout({children}: any) {
   const [collapse, setCollapse] = useState(true)
 
   return (
@@ -19,14 +19,14 @@ export default function DefaultLayout({ children }: any) {
         collapsedWidth="40px"
       >
         <div className="logo" onClick={() => setCollapse(!collapse)}>
-          <Icon type="iconIoT" />
+          <Icon type="iconIoT"/>
           <span className="text">UDO</span>
         </div>
 
         <Menu theme="dark" mode="inline">
           <Menu.Item
             key="Schema"
-            icon={<Icon type="iconschema" />}
+            icon={<Icon type="iconschema"/>}
             onClick={() => history.push('/schema')}
           >
             Schema

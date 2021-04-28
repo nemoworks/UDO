@@ -37,7 +37,7 @@ public class SchemaController {
     private GraphQLBuilder graphQlBuilder;
 
     @Autowired
-    public SchemaController(GraphQLBuilder graphQlBuilder, UdoSchemaService schemaService){
+    public SchemaController(GraphQLBuilder graphQlBuilder, UdoSchemaService schemaService) {
         this.graphQL = graphQlBuilder.createGraphQl();
         this.graphQlBuilder = graphQlBuilder;
         this.schemaService = schemaService;
@@ -45,15 +45,15 @@ public class SchemaController {
 
     @CrossOrigin
     @PostMapping(value = "/documents/query")
-    public ResponseEntity query(@RequestBody String query){
+    public ResponseEntity query(@RequestBody String query) {
         ExecutionResult result = graphQL.execute(query);
-        logger.info("errors: "+result.getErrors());
+        logger.info("errors: " + result.getErrors());
 //        try {
 //            publisher.publishUdo(query);
 //        } catch (MqttException e) {
 //            e.printStackTrace();
 //        }
-        if(result.getErrors().isEmpty())
+        if (result.getErrors().isEmpty())
             return ResponseEntity.ok(result.getData());
         else return ResponseEntity.badRequest().body(result.getErrors());
     }
@@ -78,7 +78,7 @@ public class SchemaController {
 
         UdoSchema udoSchema = new UdoSchema(name, content);
 //        System.out.println(udoSchema.toJson());
-        SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson()
+        SchemaTree schemaTree = new SchemaTree().createSchemaTree(new Gson()
                 .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
 
         this.graphQL = graphQlBuilder.addTypeInGraphQL(schemaTree);

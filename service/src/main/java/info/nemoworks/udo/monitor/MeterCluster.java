@@ -14,9 +14,9 @@ public class MeterCluster {
 
     private static final Map<String, List<String>> meterMap = new HashMap<>();
 
-    public static void addSchemaMeter(SchemaTree schemaTree){
-        logger.info("register meters in udoSchema "+schemaTree.getName()+"...");
-        meterMap.put(schemaTree.getName(),schemaTree.getMeterList());
+    public static void addSchemaMeter(SchemaTree schemaTree) {
+        logger.info("register meters in udoSchema " + schemaTree.getName() + "...");
+        meterMap.put(schemaTree.getName(), schemaTree.getMeterList());
     }
 
     public static Map<String, List<String>> getMeterMap() {

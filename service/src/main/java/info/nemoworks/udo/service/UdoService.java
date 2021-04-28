@@ -1,11 +1,14 @@
 package info.nemoworks.udo.service;
 
-import info.nemoworks.udo.monitor.UdoEvent;
+import info.nemoworks.udo.Publisher;
+import info.nemoworks.udo.monitor.UdoSubscribeEvent;
 import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
 
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.UdoRepository;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +17,17 @@ import java.util.List;
 @Service
 public class UdoService {
 
+
     private final UdoRepository udoRepository;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public UdoService(UdoRepository udoRepository, ApplicationEventPublisher applicationEventPublisher) {
+    private final Publisher publisher;
+
+    public UdoService(UdoRepository udoRepository, ApplicationEventPublisher applicationEventPublisher, Publisher publisher) {
         this.udoRepository = udoRepository;
         this.applicationEventPublisher = applicationEventPublisher;
+        this.publisher = publisher;
     }
 
     public UdoRepository getUdoRepository() {
@@ -54,16 +61,31 @@ public class UdoService {
         return udoRepository.findAllUdos(schemaId);
     }
 
-    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException, UDROPersistException {
+    public void updateUdoFromGateway(Udo udo, String udoi) throws UdoPersistException, UDROPersistException {
         Udo doc = udoRepository.findUdo(udoi, udo.getSchemaId());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
         }
         this.pushListener(udo);
+        udoRepository.updateUdo(udo, udoi, udo.getSchemaId());
+    }
+
+    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException, UDROPersistException {
+        Udo doc = udoRepository.findUdo(udoi, udo.getSchemaId());
+        if (doc == null) {
+            throw new UdoPersistException("Doc " + udoi + " does not exist.");
+        }
+        //publish update message to mqtt
+        try {
+            publisher.publishUdo(udo);
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
         return udoRepository.updateUdo(udo, udoi, udo.getSchemaId());
     }
 
+
     public void pushListener(Udo udo) {
-        applicationEventPublisher.publishEvent(new UdoEvent(this, udo));
+        applicationEventPublisher.publishEvent(new UdoSubscribeEvent(this, udo));
     }
 }

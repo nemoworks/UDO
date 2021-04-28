@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UDROSchemaRepository extends JpaRepository<UDROSchema, String> {
     UDROSchema findByTableName(String tableName);
+
     List<UDROSchema> findAll();
 
     @Transactional

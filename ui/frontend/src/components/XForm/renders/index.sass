@@ -1,131 +1,134 @@
 // 根节点
 .xform-root
 
-    // 单个组件样式规则
-    .container
-        position: relative
+  // 单个组件样式规则
+  .container
+    position: relative
 
-        &.Label
-            width: 100%
-            display: inline-flex
-            padding: 5px
+    &.Label
+      width: 100%
+      display: inline-flex
+      padding: 5px
 
-            &>.title
-                flex: 0 0 70px
-                font-size: 15px
-                font-weight: 600
-
-            &>.content
-                flex: 1 1 auto
-
-        &.Card
-            width: 100%
-
-            &>.content
-                position: relative
-
-            &[data-depth="0"]
-                background-color: white
-                box-shadow: 0px 0px 10px 1px #77777777
-                box-sizing: border-box
-                padding: 15px
-
-                &>.title
-                    font-weight: 800
-                    font-size: 20px
-                    margin-bottom: 10px
-                    padding-bottom: 5px
-                    border-bottom: 1px solid #000000
-
-            &[data-depth="1"]
-                &>.title
-                    font-weight: 700
-                    font-size: 19px
-                    padding-bottom: 5px
-                    border-bottom: 1px solid #000000
-
-            &[data-depth="2"]
-                &>.title
-                    font-weight: 600
-                    font-size: 18px
-
-            &[data-depth="3"]
-                &>.title
-                    font-weight: 600
-                    font-size: 15px
-                    font-weight: 600
-                    border-bottom: 1px dashed #000000
-        &.Link
-            padding: 0
-
-            &>.clear
-                position: absolute
-                top: 50%
-                right: 0px
-                font-size: 18px
-                transform: translateY(-50%)
-                display: none
-
-            &:hover>.clear
-                display: block
-
-        &.List
-            &>.item
-                position: relative
-
-            &[data-depth="1"]
-                &>.item
-                    margin-top: 8px
-                    border-left: 2px solid #6666662f
-                    &:hover
-                        border-left-color: #666666
-
-            &[data-depth="3"]
-                &>.item
-                    display: flex
-                    &::before
-                        content: "·"
-                        margin-right: 2px
-
-    .Options.operators
-        font-size: 18px
-
-    button.Options.create
-        width: calc(100% - 10px)
-        border: none
-        padding: 5px
-        background-color: #08768a31
-        border-radius: 5px
+      & > .title
+        flex: 0 0 70px
+        font-size: 15px
         font-weight: 600
-        margin: 5px
 
-        &:hover
-            font-weight: 800
-            background-color: #08768a98
-            transition-property: background-color
-            transition-duration: 0.2s
-            transition-timing-function: linear
+      & > .content
+        flex: 1 1 auto
 
-    select.Link.selector
+    &.Card
+      width: 100%
+
+      & > .content
         position: relative
-        min-width: 100px
-        height: 100%
 
-    // 关联组件特殊规则
-    .Card.container + .Options.operators
+      &[data-depth="0"]
+        background-color: white
+        box-shadow: 0px 0px 10px 1px #77777777
+        box-sizing: border-box
+        padding: 15px
+
+        & > .title
+          font-weight: 800
+          font-size: 20px
+          margin-bottom: 10px
+          padding-bottom: 5px
+          border-bottom: 1px solid #000000
+
+      &[data-depth="1"]
+        & > .title
+          font-weight: 700
+          font-size: 19px
+          padding-bottom: 5px
+          border-bottom: 1px solid #000000
+
+      &[data-depth="2"]
+        & > .title
+          font-weight: 600
+          font-size: 18px
+
+      &[data-depth="3"]
+        & > .title
+          font-weight: 600
+          font-size: 15px
+          font-weight: 600
+          border-bottom: 1px dashed #000000
+
+    &.Link
+      padding: 0
+
+      & > .clear
         position: absolute
-        top: 0px
+        top: 50%
         right: 0px
+        font-size: 18px
+        transform: translateY(-50%)
+        display: none
 
-    .Label.container + .Options.operators
-        position: absolute
-        top: 0px
-        right: 0px
+      &:hover > .clear
+        display: block
 
-    .Link.container + .Options.operators
-        position: absolute
-        top: 0px
-        right: 0px
+    &.List
+      & > .item
+        position: relative
 
-    .Link.container .Label.container
-        padding: 0
+      &[data-depth="1"]
+        & > .item
+          margin-top: 8px
+          border-left: 2px solid #6666662f
+
+          &:hover
+            border-left-color: #666666
+
+      &[data-depth="3"]
+        & > .item
+          display: flex
+
+          &::before
+            content: "·"
+            margin-right: 2px
+
+  .Options.operators
+    font-size: 18px
+
+  button.Options.create
+    width: calc(100% - 10px)
+    border: none
+    padding: 5px
+    background-color: #08768a31
+    border-radius: 5px
+    font-weight: 600
+    margin: 5px
+
+    &:hover
+      font-weight: 800
+      background-color: #08768a98
+      transition-property: background-color
+      transition-duration: 0.2s
+      transition-timing-function: linear
+
+  select.Link.selector
+    position: relative
+    min-width: 100px
+    height: 100%
+
+  // 关联组件特殊规则
+  .Card.container + .Options.operators
+    position: absolute
+    top: 0px
+    right: 0px
+
+  .Label.container + .Options.operators
+    position: absolute
+    top: 0px
+    right: 0px
+
+  .Link.container + .Options.operators
+    position: absolute
+    top: 0px
+    right: 0px
+
+  .Link.container .Label.container
+    padding: 0

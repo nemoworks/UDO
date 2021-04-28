@@ -14,6 +14,7 @@ import java.util.List;
 public class UDROSchemaManager {
     @Autowired
     info.nemoworks.udo.repository.h2.UDROSchemaRepository UDROSchemaRepository;
+
     public UDROSchemaManager(UDROSchemaRepository UDROSchemaRepository) {
         this.UDROSchemaRepository = UDROSchemaRepository;
     }

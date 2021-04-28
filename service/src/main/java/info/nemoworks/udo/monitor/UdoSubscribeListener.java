@@ -7,19 +7,19 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UdoListener implements ApplicationListener<UdoEvent> {
+public class UdoSubscribeListener implements ApplicationListener<UdoSubscribeEvent> {
 
     final UdoMeterRegistry udoMeterRegistry;
 
-    private static final Logger logger = LoggerFactory.getLogger(UdoListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(UdoSubscribeListener.class);
 
 
-    public UdoListener(UdoMeterRegistry udoMeterRegistry){
+    public UdoSubscribeListener(UdoMeterRegistry udoMeterRegistry) {
         this.udoMeterRegistry = udoMeterRegistry;
     }
 
     @Override
-    public void onApplicationEvent(UdoEvent event) {
+    public void onApplicationEvent(UdoSubscribeEvent event) {
         logger.info("trigger updateUdoEvent：" + event.getUdo());
         Udo udo = event.getUdo();
         udoMeterRegistry.updateUdoMeter(udo);

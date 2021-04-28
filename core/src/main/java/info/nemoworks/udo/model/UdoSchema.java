@@ -5,7 +5,7 @@ import net.sf.json.JSONObject;
 
 public class UdoSchema implements IUdo {
     private String udoi;
-//    private String schemaName;
+    //    private String schemaName;
     private JSONObject schemaContent;
 
     public UdoSchema() {

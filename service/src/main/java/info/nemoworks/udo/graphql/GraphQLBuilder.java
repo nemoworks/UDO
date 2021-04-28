@@ -39,7 +39,7 @@ public class GraphQLBuilder {
     }
 
     @PostConstruct
-    public GraphQL createGraphQl(){
+    public GraphQL createGraphQl() {
 
         typeRegistryBuilder.initSchemaDefinition();
         typeRegistryBuilder.initTypeDefinition();
@@ -62,24 +62,24 @@ public class GraphQLBuilder {
                 "}";
         JSONObject JsonObject = JSONObject.fromObject(s);
         UdoSchema schema = new UdoSchema("purifier", JsonObject);
-        SchemaTree schemaTree = new SchemaTree().createSchemaTree( new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
+        SchemaTree schemaTree = new SchemaTree().createSchemaTree(new Gson().fromJson(schema.getSchemaContent().toString(), JsonObject.class));
         typeRegistryBuilder.addSchema(schemaTree);
-        runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree, prometheusService);
+        runtimeWiringBuilder.addNewSchemaDataFetcher(udoService, schemaTree, prometheusService);
         typeRegistryBuilder.buildTypeRegistry();
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
-        return  newGraphQL(graphQLSchema).build();
+        return newGraphQL(graphQLSchema).build();
     }
 
-    public GraphQL addTypeInGraphQL(SchemaTree schemaTree){
-        logger.info("add new schema definition in graphql "+schemaTree.getName()+"...");
+    public GraphQL addTypeInGraphQL(SchemaTree schemaTree) {
+        logger.info("add new schema definition in graphql " + schemaTree.getName() + "...");
         this.addNewTypeAndDataFetcherInGraphQL(schemaTree);
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
-        return  newGraphQL(graphQLSchema).build();
+        return newGraphQL(graphQLSchema).build();
     }
 
-    private void addNewTypeAndDataFetcherInGraphQL(SchemaTree schemaTree){
+    private void addNewTypeAndDataFetcherInGraphQL(SchemaTree schemaTree) {
         typeRegistryBuilder.addSchema(schemaTree);
-        runtimeWiringBuilder.addNewSchemaDataFetcher(udoService,schemaTree, prometheusService);
+        runtimeWiringBuilder.addNewSchemaDataFetcher(udoService, schemaTree, prometheusService);
         typeRegistryBuilder.buildTypeRegistry();
     }
 

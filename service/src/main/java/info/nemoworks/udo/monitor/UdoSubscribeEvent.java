@@ -3,11 +3,11 @@ package info.nemoworks.udo.monitor;
 import info.nemoworks.udo.model.Udo;
 import org.springframework.context.ApplicationEvent;
 
-public class UdoEvent extends ApplicationEvent {
+public class UdoSubscribeEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 1L;
 
-    private Udo udo ;
+    private Udo udo;
 
     /**
      * Create a new {@code ApplicationEvent}.
@@ -15,7 +15,7 @@ public class UdoEvent extends ApplicationEvent {
      * @param source the object on which the event initially occurred or with
      *               which the event is associated (never {@code null})
      */
-    public UdoEvent(Object source,Udo udo) {
+    public UdoSubscribeEvent(Object source, Udo udo) {
         super(source);
         this.udo = udo;
     }

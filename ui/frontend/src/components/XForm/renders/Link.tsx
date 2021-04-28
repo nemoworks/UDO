@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import {useEffect, useState} from 'react'
 import axios from 'axios'
 import {
   aggregatedOperation as O,
   Factory,
   __render__,
 } from '@perish/react-xform'
-import { Icon } from '@/components'
-import { transformer, composer } from '@/components/XForm'
-import { __depth__ } from '../utils'
+import {Icon} from '@/components'
+import {transformer, composer} from '@/components/XForm'
+import {__depth__} from '../utils'
 import HOC from './HOC'
 
-function Link({ schema }) {
+function Link({schema}) {
   const [options, setOptions] = useState([])
-  const [subSchema, setSubSchema] = useState({ [__render__]: [] } as any)
-  const { url, uid, [__depth__]: depth } = schema
+  const [subSchema, setSubSchema] = useState({[__render__]: []} as any)
+  const {url, uid, [__depth__]: depth} = schema
 
   useEffect(() => {
     fetch(url)
@@ -23,15 +23,15 @@ function Link({ schema }) {
 
   useEffect(() => {
     uid &&
-      axios
-        .get(url + '/' + uid)
-        .then(({ data: { schema: schemaUrl, content } }) =>
-          axios.get(schemaUrl).then(({ data: initialSchema }) =>
-            transformer(initialSchema, depth, true)
-              .then(s => composer(s, content))
-              .then(setSubSchema),
-          ),
-        )
+    axios
+      .get(url + '/' + uid)
+      .then(({data: {schema: schemaUrl, content}}) =>
+        axios.get(schemaUrl).then(({data: initialSchema}) =>
+          transformer(initialSchema, depth, true)
+            .then(s => composer(s, content))
+            .then(setSubSchema),
+        ),
+      )
   }, [url, uid])
 
   return schema.uid === undefined ? (
@@ -52,7 +52,7 @@ function Link({ schema }) {
     </select>
   ) : (
     <div className="Link container">
-      <Factory schema={subSchema} />
+      <Factory schema={subSchema}/>
       <Icon
         type="iconclear"
         className="clear"

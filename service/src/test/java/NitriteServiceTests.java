@@ -37,7 +37,7 @@ public class NitriteServiceTests {
         InputStream is = new FileInputStream("/Users/tangcong/Desktop/UDO/service/src/test/resources/light.json");
         String jsonTxt = IOUtils.toString(is, "UTF-8");
         // System.out.println(jsonTxt);
-        JsonObject json = new Gson().fromJson(jsonTxt,JsonObject.class);
+        JsonObject json = new Gson().fromJson(jsonTxt, JsonObject.class);
         SchemaTree schemaTree = new SchemaTree();
         schemaTree.traceSchemaTree(schemaTree.createSchemaTree(json));
 //        myTypeRegistry.addSchema(schemaTree.createSchemaTree(json));
@@ -54,7 +54,7 @@ public class NitriteServiceTests {
 
     @Test
     public void translatingTest() throws IOException {
-        JSONObject obj =   JSONObject.fromObject(this.loadFromFile());
+        JSONObject obj = JSONObject.fromObject(this.loadFromFile());
 //        obj.put("arr", "{[{val: 1}, {val: 2}]}");
 //        obj.put("obj", "{a: {b: c}}");
 //        for (Map.Entry entry: obj.entrySet()) {
@@ -71,7 +71,7 @@ public class NitriteServiceTests {
     }
 
     @Test
-    public void gsonTest() throws IOException{
+    public void gsonTest() throws IOException {
         JsonObject obj = JsonParser.parseString(this.loadFromFile()).getAsJsonObject();
         System.out.println(obj.get("h").toString());
     }

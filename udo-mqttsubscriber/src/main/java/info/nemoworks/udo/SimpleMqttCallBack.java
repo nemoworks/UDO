@@ -30,7 +30,7 @@ public class SimpleMqttCallBack implements MqttCallback {
         String collection = jsonObject.getString("schemaId");
         JSONObject content = jsonObject.getJSONObject("content");
 //        System.out.println(jsonObject.toJSONString());
-        udoService.updateUdo(new Udo(udoi, collection, content), udoi);
+        udoService.updateUdoFromGateway(new Udo(udoi, collection, content), udoi);
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {

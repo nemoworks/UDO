@@ -8,11 +8,11 @@ interface Props {
 }
 
 export default function Card({
-  title = null,
-  children,
-  className = '',
-  options = null,
-}: Props) {
+                               title = null,
+                               children,
+                               className = '',
+                               options = null,
+                             }: Props) {
   return (
     <div className={'card ' + className}>
       {title && <div className="title">{title}</div>}

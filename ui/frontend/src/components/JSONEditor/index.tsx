@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import JE, { JSONEditorOptions } from 'jsoneditor'
+import {useEffect, useRef} from 'react'
+import JE, {JSONEditorOptions} from 'jsoneditor'
 import 'jsoneditor/dist/jsoneditor.css'
 import './index.sass'
 
@@ -22,7 +22,8 @@ export default function JSONEditor(props: Props) {
       try {
         const json = editor.current.get()
         props.onChange && props.onChange(json)
-      } catch (err) {}
+      } catch (err) {
+      }
     },
   } as JSONEditorOptions
 
@@ -39,5 +40,5 @@ export default function JSONEditor(props: Props) {
       editor.current.set(props.json)
   }, [props.json])
 
-  return <div ref={containerRef} className="component JSONEditor container" />
+  return <div ref={containerRef} className="component JSONEditor container"/>
 }

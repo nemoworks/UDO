@@ -25,7 +25,7 @@ public class RuntimeWiringBuilder {
     private UdoMeterRegistry udoMeterRegistry;
 
     @Autowired
-    public RuntimeWiringBuilder(){
+    public RuntimeWiringBuilder() {
         runtimeWiring = RuntimeWiring.newRuntimeWiring().build();
     }
 
@@ -33,34 +33,34 @@ public class RuntimeWiringBuilder {
         return runtimeWiring;
     }
 
-    void initRuntimeWiring(){
+    void initRuntimeWiring() {
         Map<String, DataFetcher> map = new LinkedHashMap<>();
-        runtimeWiring.getDataFetchers().put("Query",map);
+        runtimeWiring.getDataFetchers().put("Query", map);
 
     }
 
-    void addDataFetchers(String name, Map<String, DataFetcher> dataFetcherMap){
-        runtimeWiring.getDataFetchers().put(name,dataFetcherMap);
+    void addDataFetchers(String name, Map<String, DataFetcher> dataFetcherMap) {
+        runtimeWiring.getDataFetchers().put(name, dataFetcherMap);
     }
 
-    void addNewEntryInQueryDataFetcher(String name, DataFetcher dataFetcher){
-        runtimeWiring.getDataFetchers().get("Query").put(name,dataFetcher);
+    void addNewEntryInQueryDataFetcher(String name, DataFetcher dataFetcher) {
+        runtimeWiring.getDataFetchers().get("Query").put(name, dataFetcher);
     }
 
-    void deleteEntryInQueryDataFetcher(String name){
+    void deleteEntryInQueryDataFetcher(String name) {
         runtimeWiring.getDataFetchers().get("Query").remove(name);
     }
 
-    void deleteDataFetcherByName(String name){
+    void deleteDataFetcherByName(String name) {
         runtimeWiring.getDataFetchers().remove(name);
     }
 
-    void updateDataFetcherByName(String name,Map<String, DataFetcher> dataFetcherMap){
-        runtimeWiring.getDataFetchers().put(name,dataFetcherMap);
+    void updateDataFetcherByName(String name, Map<String, DataFetcher> dataFetcherMap) {
+        runtimeWiring.getDataFetchers().put(name, dataFetcherMap);
     }
 
-    public void addNewSchemaDataFetcher(UdoService udoService, SchemaTree schemaTree, PrometheusService prometheusService){
-        schemaTree.getChildSchemas().forEach((key, value) -> addNewSchemaDataFetcher(udoService,value,prometheusService));
+    public void addNewSchemaDataFetcher(UdoService udoService, SchemaTree schemaTree, PrometheusService prometheusService) {
+        schemaTree.getChildSchemas().forEach((key, value) -> addNewSchemaDataFetcher(udoService, value, prometheusService));
 
         GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(schemaTree.getName());
 
@@ -75,46 +75,46 @@ public class RuntimeWiringBuilder {
         this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxKeyWord(), documentDataFetcher);
 
         //createNewOrder ==> createDocumentMutation
-        CreateDocumentMutation documentMutation = new CreateDocumentMutation(udoService,udoMeterRegistry);
+        CreateDocumentMutation documentMutation = new CreateDocumentMutation(udoService, udoMeterRegistry);
 //        documentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
-        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.createNewXxKeyWord(),documentMutation);
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.createNewXxKeyWord(), documentMutation);
 
         //updateOrder ==> updateDocumentMutation
         UpdateDocumentMutation updateDocumentMutation = new UpdateDocumentMutation(udoService);
         updateDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
-        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.updateXxKeyWord(),updateDocumentMutation);
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.updateXxKeyWord(), updateDocumentMutation);
 
         //deleteOrder ==> deleteDocumentMutation
         DeleteDocumentMutation deleteDocumentMutation = new DeleteDocumentMutation(udoService);
         deleteDocumentMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
-        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(),deleteDocumentMutation);
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord(), deleteDocumentMutation);
 
         DocumentMetersMutation documentMetersMutation = new DocumentMetersMutation(prometheusService);
-        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.metersXxKeyWord(),documentMetersMutation);
+        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.metersXxKeyWord(), documentMetersMutation);
 
 //        //orderCommits ==> DocumentCommitsMutation
 //        DocumentCommitsMutation documentCommitsMutation = new DocumentCommitsMutation(mongoTemplate,javers);
 //        documentCommitsMutation.setDocumentCollectionName(graphQLPropertyConstructor.collectionName());
 //        this.addNewEntryInQueryDataFetcher(graphQLPropertyConstructor.commitsXxKeyWord(),documentCommitsMutation);
 //
-        if(!schemaTree.getLinkList().isEmpty()){
-            this.addDataFetchers(graphQLPropertyConstructor.schemaKeyWordInGraphQL(),linkTypeDataFetcher(schemaTree.getLinkList(),udoService));
+        if (!schemaTree.getLinkList().isEmpty()) {
+            this.addDataFetchers(graphQLPropertyConstructor.schemaKeyWordInGraphQL(), linkTypeDataFetcher(schemaTree.getLinkList(), udoService));
         }
     }
 
-    private Map<String,DataFetcher> linkTypeDataFetcher(List<Link> linkList, UdoService udoService){
-        Map<String,DataFetcher> dataFetcherMap = new HashMap<>();
+    private Map<String, DataFetcher> linkTypeDataFetcher(List<Link> linkList, UdoService udoService) {
+        Map<String, DataFetcher> dataFetcherMap = new HashMap<>();
         linkList.forEach(link -> {
-            if(link.getLinkType().equals("Link")){
+            if (link.getLinkType().equals("Link")) {
                 DocumentDataFetcher documentDataFetcher1 = new DocumentDataFetcher(udoService);
                 documentDataFetcher1.setDocumentCollectionName(link.getCollection());
                 documentDataFetcher1.setKeyNameInParent(link.getName());
-                dataFetcherMap.put(link.getName(),documentDataFetcher1);
-            }else if(link.getLinkType().equals("LinkList")){
+                dataFetcherMap.put(link.getName(), documentDataFetcher1);
+            } else if (link.getLinkType().equals("LinkList")) {
                 DocumentListDataFetcher documentListDataFetcher1 = new DocumentListDataFetcher(udoService);
                 documentListDataFetcher1.setDocumentCollectionName(link.getCollection());
                 documentListDataFetcher1.setKeyNameInParent(link.getName());
-                dataFetcherMap.put(link.getName(),documentListDataFetcher1);
+                dataFetcherMap.put(link.getName(), documentListDataFetcher1);
             }
         });
         return dataFetcherMap;

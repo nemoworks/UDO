@@ -5,6 +5,7 @@ import info.nemoworks.udo.repository.h2.model.UTuple;
 import java.util.AbstractMap.SimpleEntry;
 //import org.json.JSONObject;
 import net.sf.json.*;
+
 import java.util.*;
 
 /*
@@ -39,7 +40,7 @@ public class Translate {
     }
 
     private void backTranslatingTuple(List<UTuple> uTuples) {
-        for (UTuple uTuple: uTuples) {
+        for (UTuple uTuple : uTuples) {
             if (uTuple.getName().contains("[")) { // 当前Tuple为JsonArray
 //                StringBuffer sb = new StringBuffer(uTuple.getName());
 //                String reverse = sb.reverse().toString();
@@ -47,7 +48,7 @@ public class Translate {
             }
             // 当前Tuple为纯Obj
             else if (uTuple.getName().contains(".")) backTranslatingObj(uTuple, uTuple.getName());
-            // 当前Tuple为简单Element
+                // 当前Tuple为简单Element
             else {
                 backTranslatingEle(uTuple);
             }
@@ -92,8 +93,7 @@ public class Translate {
 //            System.out.println("add obj" + objName);
 //            System.out.println("obj" + obj.getJsonObject(objName));
             this.JsonObject.put(objName, obj.getJSONObject(objName));
-        }
-        else {
+        } else {
             JSONObject fatherObj = this.JsonObject.getJSONObject(objName); //获取JsonObject中已经存在的obj
 //            nameStack.pop(); // 去掉栈顶，即尾部名称
 //            objectStack.pop();
@@ -121,9 +121,10 @@ public class Translate {
 
     /**
      * 递归，自下而上搭建新的JSONObj
+     *
      * @param fatherObj 上层节点
      * @param nameStack 存储节点name
-     * @param objStack 存储下层节点内容
+     * @param objStack  存储下层节点内容
      * @return 填充完成的Obj
      */
     private JSONObject packUpObj(JSONObject fatherObj, Stack<String> nameStack, Stack<JSONObject> objStack) {
@@ -139,6 +140,7 @@ public class Translate {
 //            return fatherObj;
         }
     }
+
     private void backTranslatingArr(UTuple uTuple, String prefix) {
         if (prefix.equals("")) return;
         StringBuffer sb = new StringBuffer(prefix);
@@ -200,7 +202,7 @@ public class Translate {
 //                objectStack.push(new Pair<>(JsonArray, "Array"));
                 obj = new JSONObject();
                 objName = ArrName;
-                ((JSONObject)obj).put(objName, JsonArray);
+                ((JSONObject) obj).put(objName, JsonArray);
 //                obj = JsonArray;
                 objName = ArrName;
                 objectStack.push(new SimpleEntry<>(obj, "Array"));
@@ -252,8 +254,7 @@ public class Translate {
                 fatherObj.put(curName, packUpArray(fatherObj.getJSONObject(curName), nameStack, objStack));
                 return fatherObj;
             }
-        }
-        else { // 当前节点为JsonArray
+        } else { // 当前节点为JsonArray
             JSONObject curObj = curPair.getKey();
             boolean exist = false;
             JSONObject switchObj = new JSONObject();
@@ -310,11 +311,11 @@ public class Translate {
     private void translatingObj(JSONObject obj, String suffix) {
         String dot = ".";
         if (suffix.equals("")) dot = "";
-        for (Object attr: obj.entrySet()) {
+        for (Object attr : obj.entrySet()) {
             Map.Entry entry = (Map.Entry) attr;
             if (entry.getValue() instanceof JSONObject) {
                 translatingObj((JSONObject) entry.getValue(), suffix + dot + entry.getKey().toString());
-            } else if (entry.getValue() instanceof JSONArray){
+            } else if (entry.getValue() instanceof JSONArray) {
                 translatingArr((JSONArray) entry.getValue(), suffix + dot + entry.getKey().toString());
             } else {
                 UTuples.add(new UTuple(this.uid, suffix + dot + entry.getKey().toString(), entry.getValue().toString()));

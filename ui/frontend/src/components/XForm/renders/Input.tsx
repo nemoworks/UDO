@@ -1,7 +1,7 @@
-import { aggregatedOperation } from '@perish/react-xform'
+import {aggregatedOperation} from '@perish/react-xform'
 import HOC from './HOC'
 
-function Input({ schema }) {
+function Input({schema}) {
   return (
     <input
       className="Input"

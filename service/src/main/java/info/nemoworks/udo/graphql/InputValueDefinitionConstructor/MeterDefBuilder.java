@@ -11,10 +11,10 @@ public class MeterDefBuilder implements InputValueDefinitionBuilder {
     @Override
     public List<InputValueDefinition> inputValueDefinitionListBuilder(GraphQLPropertyConstructor graphQLPropertyConstructor) {
         List<InputValueDefinition> inputValueDefinitions = new ArrayList<>();
-        inputValueDefinitions.add(new InputValueDefinition("start",new TypeName("String")));
-        inputValueDefinitions.add(new InputValueDefinition("end",new TypeName("String")));
-        inputValueDefinitions.add(new InputValueDefinition("step",new TypeName("String")));
-        inputValueDefinitions.add(new InputValueDefinition("query",new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("start", new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("end", new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("step", new TypeName("String")));
+        inputValueDefinitions.add(new InputValueDefinition("query", new TypeName("String")));
         return inputValueDefinitions;
     }
 }

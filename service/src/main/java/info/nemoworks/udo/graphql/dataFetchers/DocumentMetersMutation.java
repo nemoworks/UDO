@@ -19,7 +19,7 @@ public class DocumentMetersMutation implements DataFetcher<JSONObject> {
         String start = dataFetchingEnvironment.getArgument("start").toString();
         String end = dataFetchingEnvironment.getArgument("end").toString();
         String query = dataFetchingEnvironment.getArgument("query").toString();
-        String step =  dataFetchingEnvironment.getArgument("step").toString();
+        String step = dataFetchingEnvironment.getArgument("step").toString();
 
         return prometheusService.fetchPrometheusMetrics(start, end, query, step);
     }

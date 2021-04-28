@@ -20,7 +20,7 @@ public class UDRO {
     @OneToMany(targetEntity = UTuple.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UTuple> UTuples;
 
-    public UDRO(){
+    public UDRO() {
 
     }
 

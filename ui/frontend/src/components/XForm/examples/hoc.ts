@@ -4,4 +4,4 @@ const initialSchema = {
   type: 'string',
 }
 
-export { initialFormData, initialSchema }
+export {initialFormData, initialSchema}

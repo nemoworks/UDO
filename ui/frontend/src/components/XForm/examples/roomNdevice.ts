@@ -1,4 +1,4 @@
-import { wrapAsDependency as $ } from '@perish/react-xform'
+import {wrapAsDependency as $} from '@perish/react-xform'
 
 const initialFormData = {
   Name: '一个房间',
@@ -24,7 +24,7 @@ const initialSchema = {
       title: '房间容积',
       description: '房间面积(平方米)',
       data: $(node => {
-        const { length, width } = node.$.Size.properties
+        const {length, width} = node.$.Size.properties
         return length.data * width.data
       }),
     },
@@ -54,4 +54,4 @@ const initialSchema = {
   },
 }
 
-export { initialFormData, initialSchema }
+export {initialFormData, initialSchema}

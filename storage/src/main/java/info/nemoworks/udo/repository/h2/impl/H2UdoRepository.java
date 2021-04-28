@@ -50,7 +50,7 @@ public class H2UdoRepository implements UdoRepository {
     public List<Udo> findAllUdos(String schemaId) {
         List<UDRO> udros = udroManager.findAll();
         List<Udo> udos = new ArrayList<>();
-        for(UDRO udro : udros) {
+        for (UDRO udro : udros) {
             udos.add(this.fromUdro2Udo(udro));
         }
         return udos;

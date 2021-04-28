@@ -34,13 +34,13 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
         String schemaId = dataFetchingEnvironment.getArgument("schemaId").toString();
 //        System.out.println("schemaId");
 //        String collection = dataFetchingEnvironment.getArgument("collection").toString();
-        Udo udo =  this.createNewUdo(udoi, schemaId, content);
+        Udo udo = this.createNewUdo(udoi, schemaId, content);
         assert udo != null;
         JSONObject json = udo.getContent();
 //        System.out.println("get json: " + json);
         json.put("udoi", udo.getUdoi());
 ////        json.put("name",udo.getName());
-        json.put("schemaId",udo.getSchemaId());
+        json.put("schemaId", udo.getSchemaId());
 //        json.put("collection",udo.getCollection());
 //        Gson gson = new Gson();
 //        JSONObject json = JsonParser.parseString(gson.toJson(udo)).getAsJsonObject();
@@ -48,10 +48,10 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
         return json;
     }
 
-    private Udo createNewUdo(String schemaId, String schema, JSONObject content){
+    private Udo createNewUdo(String schemaId, String schema, JSONObject content) {
         Udo udo = new Udo(schemaId, schema, content);
         try {
-          //  udo = udoService.saveUdo(udo);
+            //  udo = udoService.saveUdo(udo);
             udoMeterRegistry.addUdoMeter(udo);
             return udoService.saveUdo(udo);
         } catch (UdoPersistException | UDROPersistException e) {

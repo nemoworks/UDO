@@ -3,11 +3,11 @@ import {
   __fragment__,
   __render__,
 } from '@perish/react-xform'
-import { Icon } from '@/components'
-import { __depth__ } from '../utils'
+import {Icon} from '@/components'
+import {__depth__} from '../utils'
 
-function Options({ schema, children, index }) {
-  const { items, [__depth__]: depth } = schema
+function Options({schema, children, index}) {
+  const {items, [__depth__]: depth} = schema
 
   if (children.length === 0)
     return (

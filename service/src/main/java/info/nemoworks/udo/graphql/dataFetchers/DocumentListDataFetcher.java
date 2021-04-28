@@ -29,9 +29,10 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
         this.udoService = udoService;
     }
 
-    public void setDocumentCollectionName(String documentCollectionName){
+    public void setDocumentCollectionName(String documentCollectionName) {
         this.documentCollectionName = documentCollectionName;
     }
+
     public void setKeyNameInParent(String keyNameInParent) {
         this.keyNameInParent = keyNameInParent;
     }
@@ -59,24 +60,25 @@ public class DocumentListDataFetcher implements DataFetcher<List<JSONObject>> {
         }
     }
 
-   private List<Udo> getDocuments(String collection){
+    private List<Udo> getDocuments(String collection) {
         return udoService.findAllUdos(collection);
-   }
+    }
 
-   private List<JSONObject> getFilterCuts(LinkedHashMap<String, Object> filters, List<Udo> udos) {
+    private List<JSONObject> getFilterCuts(LinkedHashMap<String, Object> filters, List<Udo> udos) {
         LinkedHashMap<String, String> filterCuts = new LinkedHashMap<>();
-        for (Map.Entry<String, Object> entry: filters.entrySet()) {
+        for (Map.Entry<String, Object> entry : filters.entrySet()) {
             String key = entry.getKey();
             switch (key) {
                 case "AND":
 
 
                 case "OR":
-                default: break;
+                default:
+                    break;
             }
         }
         return new ArrayList<>();
-   }
+    }
 
 //   private List<Udo> getDocumentsByLinkList()
 }

@@ -23,7 +23,7 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
         this.udoService = udoService;
     }
 
-    public void setDocumentCollectionName(String documentCollectionName){
+    public void setDocumentCollectionName(String documentCollectionName) {
         this.documentCollectionName = documentCollectionName;
     }
 
@@ -40,10 +40,10 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
 
     private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException, UDROPersistException {
         Udo udo = udoService.findUdoById(id, collection);
-        assert udo!=null;
+        assert udo != null;
         udo.setContent(content);
         try {
-            return udoService.updateUdo(udo,id);
+            return udoService.updateUdo(udo, id);
         } catch (UdoPersistException e) {
             e.printStackTrace();
         }

@@ -1,8 +1,8 @@
-import { combine } from '../utils'
+import {combine} from '../utils'
 
 const parser = {
   object: schema => {
-    const { properties = {} } = schema
+    const {properties = {}} = schema
     let result = {}
     Object.keys(properties).forEach(k => (result[k] = extractor(properties[k])))
     return result
@@ -15,7 +15,7 @@ const parser = {
 }
 
 export default function extractor(schema) {
-  const { type } = schema
+  const {type} = schema
   return type === undefined
     ? schema
     : (parser[type] || parser['default'])(schema)

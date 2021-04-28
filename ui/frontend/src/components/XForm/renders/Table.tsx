@@ -1,4 +1,4 @@
-function Table({ schema, children }) {
+function Table({schema, children}) {
   return <table></table>
 }
 

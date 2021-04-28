@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import XForm from '@perish/react-xform'
-import { JSONEditor, Card } from '@/components'
+import {JSONEditor, Card} from '@/components'
 import {
   initialSchema,
   initialFormData,
 } from '@/components/XForm/examples/link'
-import { composer, extractor, transformer } from '@/components/XForm'
+import {composer, extractor, transformer} from '@/components/XForm'
 import './index.sass'
 
 export default function Page() {
@@ -25,7 +25,7 @@ export default function Page() {
         />
       </Card>
       <Card title="表单数据预览" className="preview-formdata">
-        <JSONEditor mode="view" json={formData} />
+        <JSONEditor mode="view" json={formData}/>
       </Card>
       <div className="preview-form">
         <XForm

@@ -29,7 +29,7 @@ public class NitriteRepositoryTests {
     }
 
     @Test
-    public void gsonTest() throws IOException{
+    public void gsonTest() throws IOException {
         JsonObject obj = JsonParser.parseString(this.loadFromFile()).getAsJsonObject();
         System.out.println(obj.get("h").getAsString());
         System.out.println(obj.get("a").getAsJsonArray());

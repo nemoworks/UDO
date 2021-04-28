@@ -13,6 +13,7 @@ import java.util.List;
 @Component
 public interface UDRORepository extends JpaRepository<UDRO, String> {
     UDRO findByTableName(String tableName);
+
     List<UDRO> findAll();
 
     @Transactional

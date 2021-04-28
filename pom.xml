@@ -20,7 +20,8 @@
         <module>restapi</module>
         <module>storage</module>
         <module>ui</module>
-        <module>mqttClient</module>
+        <module>udo-mqttsubscriber</module>
+        <module>udo-mqttpublisher</module>
     </modules>
 
     <description>Universal Digital Object</description>
@@ -56,5 +57,5 @@
         </dependency>
     </dependencies>
 
-   
+
 </project>

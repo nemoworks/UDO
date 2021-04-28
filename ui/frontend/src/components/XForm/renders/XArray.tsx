@@ -1,9 +1,9 @@
-import { Factory, __fragment__ } from '@perish/react-xform'
-import { combine } from '../utils'
+import {Factory, __fragment__} from '@perish/react-xform'
+import {combine} from '../utils'
 
-function XArray({ schema }) {
+function XArray({schema}) {
   return (schema.items || []).map((item, index) =>
-    Factory({ schema: combine(schema.template, item), index })
+    Factory({schema: combine(schema.template, item), index})
   )
 }
 

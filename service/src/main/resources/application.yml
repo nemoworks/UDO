@@ -19,5 +19,8 @@ spring:
     console:
       enabled: true
 
-
 prometheus_uri: http://localhost:9090/api/v1/query_range
+
+mqtt_publish_topic : udo-publish
+
+mqtt_url : tcp://localhost:1883

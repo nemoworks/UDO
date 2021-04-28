@@ -11,44 +11,31 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class UdoApplication {
 
-	public UdoApplication(UdoService udoService) {
-		this.udoService = udoService;
-	}
+    public UdoApplication(UdoService udoService) {
+        this.udoService = udoService;
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(UdoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UdoApplication.class, args);
+    }
 
-	final UdoService udoService;
+    final UdoService udoService;
+
+    @Bean
+    public Nitrite nitriteDB() {
+        return Nitrite.builder().openOrCreate();
+
+    }
 
 	@Bean
-	public Nitrite nitriteDB() {
-		return Nitrite.builder().openOrCreate();
-
+	public MqttClient mqttClient(){
+		try {
+			return new Subscriber().init("tcp://localhost:1883","udo",udoService);
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-
-//	@Bean
-//	public MqttClient mqttClient(){
-//		try {
-//			return new Subscriber().init("tcp://localhost:1883","udo",udoService);
-//		} catch (MqttException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
-//	@Bean
-//	public Publisher publisher(){
-//		MqttClient mqttClient = null;
-//		try {
-//			mqttClient = new MqttClient("tcp://localhost:1883", MqttClient.generateClientId());
-//			mqttClient.connect();
-//		} catch (MqttException e) {
-//			e.printStackTrace();
-//		}
-//		return new Publisher(mqttClient);
-//	}
-
 //	@Bean
 //	CommandLineRunner initDatabase(NitriteSchemaRepository schemaRepository) {
 //

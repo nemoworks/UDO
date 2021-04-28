@@ -14,4 +14,4 @@ const initialSchema = {
   },
 }
 
-export { initialFormData, initialSchema }
+export {initialFormData, initialSchema}

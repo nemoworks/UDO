@@ -10,20 +10,21 @@
       "type": "string",
       "description": "品牌"
     },
-    "Speed":{
+    "Speed": {
       "type": "meter",
       "description": "转速"
     },
-    "Humidity":{
+    "Humidity": {
       "type": "meter",
       "description": "湿度"
     },
-    "Temperature":{
+    "Temperature": {
       "type": "meter",
       "description": "温度"
     },
-    "Aqi":{
+    "Aqi": {
       "type": "meter",
       "description": "空气质量"
     }
-  }}
+  }
+}

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { __render__ } from '@perish/react-xform'
+import {__render__} from '@perish/react-xform'
 import validatorRules from '../renders/Validator/parser'
 import {
   Info,
@@ -13,7 +13,7 @@ import {
   Link,
   List,
 } from '../renders'
-import { __depth__ } from '../utils'
+import {__depth__} from '../utils'
 
 const defaultRender = {
   object: () => [XObject],
@@ -27,7 +27,7 @@ const defaultRender = {
 
 const parser = {
   object: async (schema, depth = 0, readOnly = false) => {
-    const { properties } = schema
+    const {properties} = schema
     for (const key in properties)
       properties[key] = await transformer(properties[key], depth + 1, readOnly)
     return schema
@@ -52,7 +52,7 @@ const parser = {
 async function transformer(schema, depth = 0, readOnly = false) {
   // deal with $ref type
   if (schema['$ref']) {
-    const { data } = await axios.get(schema['$ref'])
+    const {data} = await axios.get(schema['$ref'])
     const result = Object.assign(data, schema)
     delete result['$ref']
     return transformer(result, depth, readOnly)

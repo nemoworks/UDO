@@ -26,21 +26,21 @@ public class UdoMeterRegistry {
         this.meterRegistry = meterRegistry;
     }
 
-    public void addUdoMeter(Udo udo){
+    public void addUdoMeter(Udo udo) {
         String schema = udo.getSchemaId();
-        logger.info("register meter of "+udo.getSchemaId()+"_"+udo.getUdoi()+" in prometheus...");
+        logger.info("register meter of " + udo.getSchemaId() + "_" + udo.getUdoi() + " in prometheus...");
         List<String> meterList = MeterCluster.getMeterMap().get(schema);
-        meterMap.put(udo.getUdoi(),new HashMap<>());
+        meterMap.put(udo.getUdoi(), new HashMap<>());
         meterList.forEach(s -> {
-            meterMap.get(udo.getUdoi()).put(s,new Meter(new AtomicInteger(0)));
-            String name = schema+"_"+udo.getUdoi()+"_"+s;
-            meterMap.get(udo.getUdoi()).get(s).value = meterRegistry.gauge(name,new AtomicInteger(0));
+            meterMap.get(udo.getUdoi()).put(s, new Meter(new AtomicInteger(0)));
+            String name = schema + "_" + udo.getUdoi() + "_" + s;
+            meterMap.get(udo.getUdoi()).get(s).value = meterRegistry.gauge(name, new AtomicInteger(0));
         });
     }
 
-    public void updateUdoMeter(Udo udo){
-        logger.info("update meter of "+udo.getSchemaId()+"_"+udo.getUdoi()+" in prometheus...");
-        meterMap.get(udo.getUdoi()).forEach((key,value)->{
+    public void updateUdoMeter(Udo udo) {
+        logger.info("update meter of " + udo.getSchemaId() + "_" + udo.getUdoi() + " in prometheus...");
+        meterMap.get(udo.getUdoi()).forEach((key, value) -> {
             int random = (int) ((Math.random() * (100 - 50)) + 30);
             meterMap.get(udo.getUdoi()).get(key).value.set(random);
             //meterMap.get(udo.getUdoi()).get(key).value.set(udo.getContent().getIntValue(key));
