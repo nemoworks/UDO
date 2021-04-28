@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.SchemaGenerator;
+import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
 import info.nemoworks.udo.repository.PrometheusService;
@@ -83,5 +84,72 @@ public class GraphQLBuilder {
         typeRegistryBuilder.buildTypeRegistry();
     }
 
+    public GraphQL updateTypeInGraphQl(SchemaTree schemaTree){
+        this.updateTypeAndDataFetcherInGraphQl(schemaTree);
+        GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry()
+                , runtimeWiringBuilder.getRuntimeWiring());
+        return  newGraphQL(graphQLSchema).build();
+    }
+
+    public GraphQL deleteTypeInGraphQl(SchemaTree schemaTree){
+        // todo fix this
+        this.deleteTypeAndDataFetcherInGraphQl(schemaTree);
+        GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
+        return  newGraphQL(graphQLSchema).build();
+    }
+
+
+
+    private void updateTypeAndDataFetcherInGraphQl(SchemaTree schemaTree){
+    }
+
+    //todo fix delete
+    private void deleteTypeAndDataFetcherInGraphQl(SchemaTree schemaTree){
+        //String schemaName = schema.getSchemaTypeName();
+        //String schemaName = schema.getSchemaContent().getString("name");
+
+        schemaTree.getChildSchemas().forEach((key, value) -> deleteTypeAndDataFetcherInGraphQl(value));
+        String schemaName = schemaTree.getName();
+        GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(schemaName);
+        //delete orderDocumentList in Query
+        typeRegistryBuilder.deleteFieldDefinitionsInQueryType(graphQLPropertyConstructor.queryXxlistKeyWord());
+        typeRegistryBuilder.deleteTypeDefinition(graphQLPropertyConstructor.filterKeyWordInQueryXxlist());
+        //delete orderDocument in Query
+        //typeRegistryBuilder.deleteFieldDefinitionsInQueryType(schema.getSchemaTypeName());
+        typeRegistryBuilder.deleteFieldDefinitionsInQueryType(schemaName);
+        //delete createNewOrder in Query
+        typeRegistryBuilder.deleteFieldDefinitionsInQueryType(graphQLPropertyConstructor.createNewXxKeyWord());
+        typeRegistryBuilder.deleteTypeDefinition(graphQLPropertyConstructor.deleteXxKeyWord());
+        //delete deleteOrder in Query
+        typeRegistryBuilder.deleteFieldDefinitionsInQueryType(graphQLPropertyConstructor.deleteXxKeyWord());
+        //delete orderCommits in Query
+        typeRegistryBuilder.deleteFieldDefinitionsInQueryType(graphQLPropertyConstructor.commitsTypeInGraphQL());
+        typeRegistryBuilder.deleteTypeDefinition(graphQLPropertyConstructor.commitsXxKeyWord());
+        //delete update in Query
+        typeRegistryBuilder.deleteFieldDefinitionsInQueryType(graphQLPropertyConstructor.updateXxKeyWord());
+        //delete orderDocument
+        //typeRegistryBuilder.deleteTypeDefinition(schema.getDocumentTypeName());
+        typeRegistryBuilder.deleteTypeDefinition(graphQLPropertyConstructor.collectionName());
+
+
+
+        runtimeWiringBuilder.deleteEntryInQueryDataFetcher(schemaName);
+
+        runtimeWiringBuilder.deleteEntryInQueryDataFetcher(schemaName);
+
+        runtimeWiringBuilder.deleteEntryInQueryDataFetcher(schemaName);
+
+        runtimeWiringBuilder.deleteEntryInQueryDataFetcher(schemaName);
+
+        runtimeWiringBuilder.deleteEntryInQueryDataFetcher(schemaName);
+
+        runtimeWiringBuilder.deleteEntryInQueryDataFetcher(schemaName);
+
+        runtimeWiringBuilder.deleteDataFetcherByName(schemaName);
+
+        runtimeWiringBuilder.deleteDataFetcherByName(schemaName);
+    }
+
+    
 }
 

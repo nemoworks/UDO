@@ -78,12 +78,12 @@ public class SchemaTree {
                         schemaTree.typeMap.put(key, new ListType(new TypeName(typeName2)));
                         schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
                         break;
-                    case Embedded:
+                    case embedded:
                         schemaTree.typeMap.put(key, new TypeName(value1.get("typeName").toString()));
                         schemaTree.inputMap.put(key, new TypeName(
                                 new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery()));
                         break;
-                    case EmbeddedList:
+                    case embeddedList:
                         schemaTree.typeMap.put(key, new ListType(new TypeName(value1.get("typeName").toString())));
                         schemaTree.inputMap.put(key, new ListType(new TypeName(
                                 new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery())));
