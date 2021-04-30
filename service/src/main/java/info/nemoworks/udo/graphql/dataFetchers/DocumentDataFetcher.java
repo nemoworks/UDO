@@ -3,7 +3,7 @@ package info.nemoworks.udo.graphql.dataFetchers;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
-import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UdroPersistException;
 import info.nemoworks.udo.service.UdoService;
 import net.sf.json.JSONObject;
 
@@ -42,7 +42,7 @@ public class DocumentDataFetcher implements DataFetcher<JSONObject> {
         return this.getDocumentByAggregation(id, documentCollectionName);
     }
 
-    private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, UDROPersistException {
+    private JSONObject getDocumentByAggregation(String id, String collection) throws UdoPersistException, UdroPersistException {
 //        System.out.println("get doc: " + udoService.findUdoById(id, collection));
         return udoService.findUdoById(id, collection).getContent();
         //return udoService.findDocument(id).getContent();

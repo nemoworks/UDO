@@ -2,13 +2,12 @@ package info.nemoworks.udo.service;
 
 import info.nemoworks.udo.Publisher;
 import info.nemoworks.udo.monitor.UdoSubscribeEvent;
-import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UdroPersistException;
 
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.repository.UdoRepository;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +33,12 @@ public class UdoService {
         return udoRepository;
     }
 
-    public Udo saveUdo(Udo doc) throws UdoPersistException, UDROPersistException {
+    public Udo saveUdo(Udo doc) throws UdoPersistException, UdroPersistException {
         System.out.println(doc.toJSON());
         return udoRepository.saveUdo(doc, doc.getSchemaId());
     }
 
-    public Udo findUdoById(String udoi, String schemaId) throws UdoPersistException, UDROPersistException {
+    public Udo findUdoById(String udoi, String schemaId) throws UdoPersistException, UdroPersistException {
 //        schemaId = schemaId.substring(0, 1).toLowerCase() + schemaId.substring(1);
         Udo doc = udoRepository.findUdo(udoi, schemaId);
         if (doc == null) {
@@ -52,7 +51,7 @@ public class UdoService {
         return udoRepository.findAllUdos(schemaId);
     }
 
-    public List<Udo> deleteUdoById(String udoi, String schemaId) throws UdoPersistException, UDROPersistException {
+    public List<Udo> deleteUdoById(String udoi, String schemaId) throws UdoPersistException, UdroPersistException {
         Udo doc = udoRepository.findUdo(udoi, schemaId);
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
@@ -61,7 +60,7 @@ public class UdoService {
         return udoRepository.findAllUdos(schemaId);
     }
 
-    public void updateUdoFromGateway(Udo udo, String udoi) throws UdoPersistException, UDROPersistException {
+    public void updateUdoFromGateway(Udo udo, String udoi) throws UdoPersistException, UdroPersistException {
         Udo doc = udoRepository.findUdo(udoi, udo.getSchemaId());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");
@@ -70,7 +69,7 @@ public class UdoService {
         udoRepository.updateUdo(udo, udoi, udo.getSchemaId());
     }
 
-    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException, UDROPersistException {
+    public Udo updateUdo(Udo udo, String udoi) throws UdoPersistException, UdroPersistException {
         Udo doc = udoRepository.findUdo(udoi, udo.getSchemaId());
         if (doc == null) {
             throw new UdoPersistException("Doc " + udoi + " does not exist.");

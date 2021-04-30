@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.List;
 
 /*
-Table描述Tuples组合构成的一张表
+Udro: Universal Digital Relational Object
  */
 
 @javax.persistence.Entity
-public class UDRO {
+public class Udro {
     @Id
     @GeneratedValue
     private int pkey;
@@ -20,11 +20,11 @@ public class UDRO {
     @OneToMany(targetEntity = UTuple.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UTuple> UTuples;
 
-    public UDRO() {
+    public Udro() {
 
     }
 
-    public UDRO(List<UTuple> UTuples, String firstTableName, String secondTableName) {
+    public Udro(List<UTuple> UTuples, String firstTableName, String secondTableName) {
         this.UTuples = UTuples;
         this.firstTableName = firstTableName;
         this.secondTableName = secondTableName;
