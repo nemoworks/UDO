@@ -16,6 +16,7 @@ public class MeterCluster {
 
     public static void addSchemaMeter(SchemaTree schemaTree) {
         logger.info("register meters in udoSchema " + schemaTree.getName() + "...");
+        schemaTree.getChildSchemas().forEach((key, value) -> addSchemaMeter(value));
         meterMap.put(schemaTree.getName(), schemaTree.getMeterList());
     }
 

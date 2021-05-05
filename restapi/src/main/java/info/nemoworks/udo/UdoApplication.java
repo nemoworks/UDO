@@ -27,15 +27,15 @@ public class UdoApplication {
 
     }
 
-	@Bean
-	public MqttClient mqttClient(){
-		try {
-			return new Subscriber().init("tcp://localhost:1883","udo",udoService);
-		} catch (MqttException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+//	@Bean
+//	public MqttClient mqttClient(){
+//		try {
+//			return new Subscriber().init("tcp://localhost:1883","udo",udoService);
+//		} catch (MqttException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 //	@Bean
 //	CommandLineRunner initDatabase(NitriteSchemaRepository schemaRepository) {
 //

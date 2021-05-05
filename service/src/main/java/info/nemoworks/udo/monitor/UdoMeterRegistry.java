@@ -30,12 +30,14 @@ public class UdoMeterRegistry {
         String schema = udo.getSchemaId();
         logger.info("register meter of " + udo.getSchemaId() + "_" + udo.getUdoi() + " in prometheus...");
         List<String> meterList = MeterCluster.getMeterMap().get(schema);
-        meterMap.put(udo.getUdoi(), new HashMap<>());
-        meterList.forEach(s -> {
-            meterMap.get(udo.getUdoi()).put(s, new Meter(new AtomicInteger(0)));
-            String name = schema + "_" + udo.getUdoi() + "_" + s;
-            meterMap.get(udo.getUdoi()).get(s).value = meterRegistry.gauge(name, new AtomicInteger(0));
-        });
+        if(meterList != null){
+            meterMap.put(udo.getUdoi(), new HashMap<>());
+            meterList.forEach(s -> {
+                meterMap.get(udo.getUdoi()).put(s, new Meter(new AtomicInteger(0)));
+                String name = schema + "_" + udo.getUdoi() + "_" + s;
+                meterMap.get(udo.getUdoi()).get(s).value = meterRegistry.gauge(name, new AtomicInteger(0));
+            });
+        }
     }
 
     public void updateUdoMeter(Udo udo) {

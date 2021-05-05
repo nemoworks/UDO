@@ -1,14 +1,48 @@
 {
   "type": "object",
-  "title": "light",
+  "title": "VirtualMachineInstance",
   "properties": {
-    "Name": {
-      "type": "string",
-      "title": "产品名称"
+    "CPU": {
+      "properties": {
+        "cores": {
+          "type": "meter"
+        },
+        "sockets": {
+          "type": "integer"
+        },
+        "threads": {
+          "type": "integer"
+        },
+        "model": {
+          "type": "string"
+        },
+        "features": {
+          "items": {
+            "type": "embedded",
+            "typeName": "CPUFeature"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "title": "CPU",
+      "type": "object"
     },
-    "Brand": {
-      "type": "string",
-      "title": "品牌"
+    "CPUFeature": {
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "title": "CPUFeature",
+      "type": "object"
     }
   }
 }

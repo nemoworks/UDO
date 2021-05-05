@@ -9,6 +9,7 @@ import graphql.schema.idl.SchemaGenerator;
 import info.nemoworks.udo.graphql.schema.GraphQLPropertyConstructor;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.model.UdoSchema;
+import info.nemoworks.udo.monitor.MeterCluster;
 import info.nemoworks.udo.repository.PrometheusService;
 import info.nemoworks.udo.service.UdoService;
 import net.sf.json.JSONObject;
@@ -46,20 +47,52 @@ public class GraphQLBuilder {
         typeRegistryBuilder.initTypeDefinition();
         runtimeWiringBuilder.initRuntimeWiring();
         String s = "{\n" +
-                "    \"type\": \"object\",\n" +
-                "    \"title\": \"light\",\n" +
-                "    \"properties\": {\n" +
-                "        \"Name\": {\n" +
-                "            \"type\": \"string\",\n" +
-                "            \"title\": \"产品名称\",\n" +
-                "            \"filter\": true\n" +
+                "  \"type\": \"object\",\n" +
+                "  \"title\": \"VirtualMachineInstance\",\n" +
+                "  \"properties\": {\n" +
+                "    \"CPU\": {\n" +
+                "      \"properties\": {\n" +
+                "        \"cores\": {\n" +
+                "          \"type\": \"meter\"\n" +
                 "        },\n" +
-                "        \"Brand\": {\n" +
-                "            \"type\": \"string\",\n" +
-                "            \"title\": \"品牌\",\n" +
-                "            \"filter\": false\n" +
+                "        \"sockets\": {\n" +
+                "          \"type\": \"integer\"\n" +
+                "        },\n" +
+                "        \"threads\": {\n" +
+                "          \"type\": \"integer\"\n" +
+                "        },\n" +
+                "        \"model\": {\n" +
+                "          \"type\": \"string\"\n" +
+                "        },\n" +
+                "        \"features\": {\n" +
+                "          \"items\": {\n" +
+                "            \"type\": \"embedded\",\n" +
+                "            \"typeName\": \"CPUFeature\"\n" +
+                "          },\n" +
+                "          \"type\": \"array\"\n" +
                 "        }\n" +
+                "      },\n" +
+                "      \"additionalProperties\": false,\n" +
+                "      \"title\": \"CPU\",\n" +
+                "      \"type\": \"object\"\n" +
+                "    },\n" +
+                "    \"CPUFeature\": {\n" +
+                "      \"required\": [\n" +
+                "        \"name\"\n" +
+                "      ],\n" +
+                "      \"properties\": {\n" +
+                "        \"name\": {\n" +
+                "          \"type\": \"string\"\n" +
+                "        },\n" +
+                "        \"policy\": {\n" +
+                "          \"type\": \"string\"\n" +
+                "        }\n" +
+                "      },\n" +
+                "      \"additionalProperties\": false,\n" +
+                "      \"title\": \"CPUFeature\",\n" +
+                "      \"type\": \"object\"\n" +
                 "    }\n" +
+                "  }\n" +
                 "}";
         JSONObject JsonObject = JSONObject.fromObject(s);
         UdoSchema schema = new UdoSchema("purifier", JsonObject);
@@ -67,6 +100,8 @@ public class GraphQLBuilder {
         typeRegistryBuilder.addSchema(schemaTree);
         runtimeWiringBuilder.addNewSchemaDataFetcher(udoService, schemaTree, prometheusService);
         typeRegistryBuilder.buildTypeRegistry();
+
+        MeterCluster.addSchemaMeter(schemaTree);
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeRegistryBuilder.getTypeDefinitionRegistry(), runtimeWiringBuilder.getRuntimeWiring());
         return newGraphQL(graphQLSchema).build();
     }

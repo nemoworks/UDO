@@ -88,7 +88,7 @@ public class SchemaTree {
                         schemaTree.inputMap.put(key, new ListType(new TypeName(
                                 new GraphQLPropertyConstructor(value1.get("typeName").toString()).inputKeyWordInQuery())));
                         break;
-                    case number:
+                    case integer:
                         schemaTree.typeMap.put(key, new TypeName("Int"));
                         schemaTree.inputMap.put(key, new TypeName("Int"));
                         schemaTree.filterMap.put(key, new TypeName("Int"));
@@ -105,9 +105,12 @@ public class SchemaTree {
                         schemaTree.childSchemas.put(key, this.createSchemaTree(jsonObject));
                         break;
                     case array:
-                        schemaTree.typeMap.put(key, new ListType(new TypeName("String")));
-                        schemaTree.inputMap.put(key, new ListType(new TypeName("String")));
-                        schemaTree.filterMap.put(key, new ListType(new TypeName("String")));
+                        jsonObject = new Gson().toJsonTree(value1).getAsJsonObject();
+                        String s = jsonObject.get("items").getAsJsonObject().get("typeName").getAsString();
+                        System.out.println(s);
+                        schemaTree.typeMap.put(key, new ListType(new TypeName(s)));
+                        schemaTree.inputMap.put(key, new ListType(new TypeName(
+                                new GraphQLPropertyConstructor(s).inputKeyWordInQuery())));
                         break;
                     case meter:
                         schemaTree.typeMap.put(key, new TypeName("Int"));
