@@ -5,7 +5,7 @@ import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
 import info.nemoworks.udo.monitor.UdoMeterRegistry;
-import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UdroPersistException;
 import info.nemoworks.udo.service.UdoService;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -54,7 +54,7 @@ public class CreateDocumentMutation implements DataFetcher<JSONObject> {
             //  udo = udoService.saveUdo(udo);
             udoMeterRegistry.addUdoMeter(udo);
             return udoService.saveUdo(udo);
-        } catch (UdoPersistException | UDROPersistException e) {
+        } catch (UdoPersistException | UdroPersistException e) {
             e.printStackTrace();
         }
         return null;

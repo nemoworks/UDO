@@ -4,7 +4,7 @@ import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
 import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.model.Udo;
-import info.nemoworks.udo.repository.h2.exception.UDROPersistException;
+import info.nemoworks.udo.repository.h2.exception.UdroPersistException;
 import info.nemoworks.udo.service.UdoService;
 import lombok.SneakyThrows;
 import net.sf.json.JSONObject;
@@ -38,7 +38,7 @@ public class UpdateDocumentMutation implements DataFetcher<JSONObject> {
         return Objects.requireNonNull(this.updateDocumentById(udoi, content, documentCollectionName)).getContent();
     }
 
-    private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException, UDROPersistException {
+    private Udo updateDocumentById(String id, JSONObject content, String collection) throws UdoPersistException, UdroPersistException {
         Udo udo = udoService.findUdoById(id, collection);
         assert udo != null;
         udo.setContent(content);

@@ -10,7 +10,7 @@ import info.nemoworks.udo.exception.UdoPersistException;
 import info.nemoworks.udo.graphql.GraphQLBuilder;
 import info.nemoworks.udo.graphql.schema.SchemaTree;
 import info.nemoworks.udo.monitor.MeterCluster;
-import info.nemoworks.udo.repository.h2.exception.UDROSchemaPersistException;
+import info.nemoworks.udo.repository.h2.exception.UdroSchemaPersistException;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +66,7 @@ public class SchemaController {
     }
 
     @PostMapping("/schemas")
-    public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException, UDROSchemaPersistException {
+    public UdoSchema createSchema(@RequestBody JSONObject params) throws UdoPersistException, UdroSchemaPersistException {
         logger.info("now saving a new schema...");
 //        System.out.println(params);
         String name = params.getString("schemaName");
@@ -87,21 +87,21 @@ public class SchemaController {
     }
 
     @DeleteMapping("/schemas/{udoi}")
-    public List<UdoSchema> deleteSchema(@PathVariable String udoi) throws UdoPersistException, UDROSchemaPersistException {
+    public List<UdoSchema> deleteSchema(@PathVariable String udoi) throws UdoPersistException, UdroSchemaPersistException {
         logger.info("now deleting schema " + udoi + "...");
 //        Gson gson = new Gson();
         return schemaService.deleteSchemaById(udoi);
     }
 
     @GetMapping("/schemas/{udoi}")
-    public UdoSchema getSchemaById(@PathVariable String udoi) throws UdoPersistException, UDROSchemaPersistException {
+    public UdoSchema getSchemaById(@PathVariable String udoi) throws UdoPersistException, UdroSchemaPersistException {
         logger.info("now finding schema by udoi...");
 //        Gson gson = new Gson();
         return schemaService.findSchemaById(udoi);
     }
 
     @PutMapping("/schemas/{udoi}")
-    public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException, UDROSchemaPersistException {
+    public UdoSchema updateSchema(@RequestBody JSONObject params, @PathVariable String udoi) throws UdoPersistException, UdroSchemaPersistException {
 //        String udoi = params.getString("udoi");
         logger.info("now updating schema " + udoi + "...");
 //        String name = params.get("schemaName").getAsString();

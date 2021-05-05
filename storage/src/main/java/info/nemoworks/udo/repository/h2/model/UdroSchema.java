@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class UDROSchema {
+public class UdroSchema {
     @Id
     @GeneratedValue
     private int pkey;
@@ -14,11 +14,11 @@ public class UDROSchema {
     @OneToMany(targetEntity = UTuple.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<UTuple> UTuples;
 
-    public UDROSchema() {
+    public UdroSchema() {
 
     }
 
-    public UDROSchema(String tableName, List<UTuple> UTuples) {
+    public UdroSchema(String tableName, List<UTuple> UTuples) {
         this.tableName = tableName;
         this.UTuples = UTuples;
     }

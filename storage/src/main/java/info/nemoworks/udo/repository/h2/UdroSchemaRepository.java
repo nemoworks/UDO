@@ -1,15 +1,15 @@
 package info.nemoworks.udo.repository.h2;
 
-import info.nemoworks.udo.repository.h2.model.UDROSchema;
+import info.nemoworks.udo.repository.h2.model.UdroSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface UDROSchemaRepository extends JpaRepository<UDROSchema, String> {
-    UDROSchema findByTableName(String tableName);
+public interface UdroSchemaRepository extends JpaRepository<UdroSchema, String> {
+    UdroSchema findByTableName(String tableName);
 
-    List<UDROSchema> findAll();
+    List<UdroSchema> findAll();
 
     @Transactional
     void deleteByTableName(String tableName);
