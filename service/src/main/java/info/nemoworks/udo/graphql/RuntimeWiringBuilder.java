@@ -36,7 +36,6 @@ public class RuntimeWiringBuilder {
     void initRuntimeWiring() {
         Map<String, DataFetcher> map = new LinkedHashMap<>();
         runtimeWiring.getDataFetchers().put("Query", map);
-
     }
 
     void addDataFetchers(String name, Map<String, DataFetcher> dataFetcherMap) {
@@ -57,6 +56,22 @@ public class RuntimeWiringBuilder {
 
     void updateDataFetcherByName(String name, Map<String, DataFetcher> dataFetcherMap) {
         runtimeWiring.getDataFetchers().put(name, dataFetcherMap);
+    }
+
+    public void deleteSchemaDataFetcher(SchemaTree schemaTree){
+        schemaTree.getChildSchemas().forEach((key, value) -> deleteSchemaDataFetcher(value));
+
+        GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(schemaTree.getName());
+
+        this.deleteEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxlistKeyWord());
+        this.deleteEntryInQueryDataFetcher(graphQLPropertyConstructor.queryXxKeyWord());
+        this.deleteEntryInQueryDataFetcher(graphQLPropertyConstructor.createNewXxKeyWord());
+        this.deleteEntryInQueryDataFetcher(graphQLPropertyConstructor.updateXxKeyWord());
+        this.deleteEntryInQueryDataFetcher(graphQLPropertyConstructor.deleteXxKeyWord());
+        this.deleteEntryInQueryDataFetcher(graphQLPropertyConstructor.metersXxKeyWord());
+        this.deleteDataFetcherByName(graphQLPropertyConstructor.commitsTypeInGraphQL());
+        this.deleteDataFetcherByName(graphQLPropertyConstructor.queryXxKeyWord());
+        System.out.println("abc");
     }
 
     public void addNewSchemaDataFetcher(UdoService udoService, SchemaTree schemaTree, PrometheusService prometheusService) {

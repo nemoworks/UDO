@@ -129,6 +129,7 @@ public class GraphQLBuilder {
     private void deleteTypeAndDataFetcherInGraphQl(SchemaTree schemaTree) {
         typeRegistryBuilder.deleteSchema(schemaTree);
         typeRegistryBuilder.buildTypeRegistry();
+        runtimeWiringBuilder.deleteSchemaDataFetcher(schemaTree);
     }
 
     //todo finish update

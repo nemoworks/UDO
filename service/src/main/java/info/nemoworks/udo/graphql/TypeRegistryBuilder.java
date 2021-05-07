@@ -98,7 +98,6 @@ public class TypeRegistryBuilder {
             this.deleteTypeFilterDefinition(graphQLPropertyConstructor);
             this.deleteTypeInputDefinition(graphQLPropertyConstructor);
             this.deleteTypeCommitsDefinition(graphQLPropertyConstructor);
-            System.out.println("abc");
         }
         typeDefinitionsMap.remove(schemaTree.getName());
     }
