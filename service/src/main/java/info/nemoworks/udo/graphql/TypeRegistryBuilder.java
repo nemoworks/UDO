@@ -8,10 +8,7 @@ import info.nemoworks.udo.graphql.schema.SchemaTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Component
@@ -54,7 +51,8 @@ public class TypeRegistryBuilder {
             if (typeDefinition instanceof ObjectTypeDefinition)
                 typeDefinitionRegistry.remove(typeDefinition);
         });
-        ObjectTypeDefinition query = ObjectTypeDefinition.newObjectTypeDefinition().name("Query").fieldDefinitions(fieldDefinitionListInQuery).build();
+        ObjectTypeDefinition query = ObjectTypeDefinition.newObjectTypeDefinition().name("Query")
+                .fieldDefinitions(fieldDefinitionListInQuery).build();
         typeDefinitionRegistry.add(query);
     }
 
@@ -85,6 +83,57 @@ public class TypeRegistryBuilder {
             this.addDocumentMetersInQuery(graphQLPropertyConstructor);
 
         }
+    }
+
+    public void deleteSchema(SchemaTree schemaTree) {
+        schemaTree.getChildSchemas().forEach((key, value) -> {
+            deleteSchema(value);
+        });
+        if (typeDefinitionsMap.containsKey(schemaTree.getName())) {
+            GraphQLPropertyConstructor graphQLPropertyConstructor = new GraphQLPropertyConstructor(
+                    schemaTree.getName());
+
+            this.deleteTypeDefinitionInQuery(graphQLPropertyConstructor);
+            this.deleteTypeDefinition(graphQLPropertyConstructor);
+            this.deleteTypeFilterDefinition(graphQLPropertyConstructor);
+            this.deleteTypeInputDefinition(graphQLPropertyConstructor);
+            this.deleteTypeCommitsDefinition(graphQLPropertyConstructor);
+            System.out.println("abc");
+        }
+        typeDefinitionsMap.remove(schemaTree.getName());
+    }
+
+    private void deleteTypeDefinitionInQuery(GraphQLPropertyConstructor graphQLPropertyConstructor) {
+        List<String> keyWordsInQuery = Arrays.asList(graphQLPropertyConstructor.createNewXxKeyWord(), graphQLPropertyConstructor.updateXxKeyWord()
+                , graphQLPropertyConstructor.deleteXxKeyWord(), graphQLPropertyConstructor.queryXxKeyWord()
+                , graphQLPropertyConstructor.queryXxlistKeyWord(), graphQLPropertyConstructor.commitsXxKeyWord()
+                , graphQLPropertyConstructor.metersXxKeyWord());
+        typeDefinitionRegistry.getType("Query").ifPresent(typeDefinition -> {
+            if (typeDefinition instanceof ObjectTypeDefinition) {
+                ((ObjectTypeDefinition) typeDefinition).getFieldDefinitions().forEach(fieldDefinition -> {
+                    if (keyWordsInQuery.contains(fieldDefinition.getName()))
+                        fieldDefinitionListInQuery.remove(fieldDefinition);
+                });
+            }
+        });
+    }
+
+    private void deleteTypeDefinition(GraphQLPropertyConstructor graphQLPropertyConstructor) {
+        typeDefinitionRegistry.remove(new ObjectTypeDefinition(graphQLPropertyConstructor.schemaKeyWordInGraphQL()));
+    }
+
+    private void deleteTypeFilterDefinition(GraphQLPropertyConstructor graphQLPropertyConstructor) {
+        typeDefinitionRegistry.remove(InputObjectTypeDefinition.newInputObjectDefinition()
+                .name(graphQLPropertyConstructor.filterKeyWordInQueryXxlist()).build());
+    }
+
+    private void deleteTypeInputDefinition(GraphQLPropertyConstructor graphQLPropertyConstructor) {
+        typeDefinitionRegistry.remove(InputObjectTypeDefinition.newInputObjectDefinition()
+                .name(graphQLPropertyConstructor.inputKeyWordInQuery()).build());
+    }
+
+    private void deleteTypeCommitsDefinition(GraphQLPropertyConstructor graphQLPropertyConstructor) {
+        typeDefinitionRegistry.remove(new ObjectTypeDefinition(graphQLPropertyConstructor.commitsTypeInGraphQL()));
     }
 
     //在GraphQL的Schema中的Query类中增加一个访问定义的对象的字段
@@ -157,14 +206,6 @@ public class TypeRegistryBuilder {
         typeDefinitionRegistry.add(newObjectTypeDefinition(name, newFieldDefinitions(typeMap)));
     }
 
-    // todo: typeDefinitionRegistry.types()不能获取
-    void deleteTypeDefinition(String name) {
-        // typeDefinitionRegistry.getType(name).ifPresent(typeDefinition -> {
-        // if(typeDefinition instanceof ObjectTypeDefinition)
-        // ((ObjectTypeDefinition) typeDefinition).getFieldDefinitions().clear();
-        // });
-        typeDefinitionRegistry.types().remove(name);
-    }
 
     void addFieldDefinitionsInQueryType(String name, Type type) {
         typeDefinitionRegistry.getType("Query").ifPresent(queryType -> {

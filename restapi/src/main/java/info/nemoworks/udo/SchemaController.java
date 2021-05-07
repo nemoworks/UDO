@@ -81,7 +81,7 @@ public class SchemaController {
         SchemaTree schemaTree = new SchemaTree().createSchemaTree(new Gson()
                 .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
 
-        this.graphQL = graphQlBuilder.addTypeInGraphQL(schemaTree);
+        this.graphQL = graphQlBuilder.addSchemaInGraphQL(schemaTree);
         MeterCluster.addSchemaMeter(schemaTree);
         return schemaService.saveSchema(udoSchema);
     }
@@ -89,7 +89,10 @@ public class SchemaController {
     @DeleteMapping("/schemas/{udoi}")
     public List<UdoSchema> deleteSchema(@PathVariable String udoi) throws UdoPersistException, UdroSchemaPersistException {
         logger.info("now deleting schema " + udoi + "...");
-//        Gson gson = new Gson();
+        UdoSchema udoSchema = schemaService.findSchemaById(udoi);
+        SchemaTree schemaTree = new SchemaTree().createSchemaTree(new Gson()
+                .fromJson(udoSchema.getSchemaContent().toString(), JsonObject.class));
+        this.graphQL = graphQlBuilder.deleteSchemaInGraphQl(schemaTree);
         return schemaService.deleteSchemaById(udoi);
     }
 
